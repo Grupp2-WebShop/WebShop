@@ -28,6 +28,15 @@ namespace WebShop.Models
                 .HasOne(po => po.Product)
                 .WithMany(p => p.Orders)
                 .HasForeignKey(po => po.ProductId);
+
+            modelBuilder.Entity<ProductModel>().HasData(
+                new ProductModel { ProductId = 1, ProductName = "Super Mario Galaxy", Price = 150, ImageName = "SuperMarioGalaxy.png", Description = "Mario defies gravity."});
+            modelBuilder.Entity<ProductModel>().HasData(
+                new ProductModel { ProductId = 2, ProductName = "Dark Souls Remastered", Price = 150, ImageName = "DarkSoulsRemastered.png", Description = "Prepare to die." });
+            modelBuilder.Entity<ProductModel>().HasData(
+                new ProductModel { ProductId = 3, ProductName = "Pokémon Brilliant Diamond", Price = 300, ImageName = "PokémonBrilliantDiamond.png", Description = "Remake of Pokémon Diamond." });
+            modelBuilder.Entity<ProductModel>().HasData(
+                new ProductModel { ProductId = 4, ProductName = "The Elder Scrolls V: Skyrim", Price = 300, ImageName = "Skyrim.png", Description = "An open world, Action RPG from Bethesda." });
         }
     }
 }
