@@ -47,6 +47,7 @@
 
   <ItemGroup>
     <Folder Include="Data\" />
+    <Folder Include="Images\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
