@@ -5,11 +5,59 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20220106230216_FirstMigration.cs" />
+    <Compile Remove="Migrations\20220106230216_FirstMigration.Designer.cs" />
+    <Compile Remove="Migrations\20220106230408_FirstMigration.cs" />
+    <Compile Remove="Migrations\20220106230408_FirstMigration.Designer.cs" />
+    <Compile Remove="Migrations\20220107072030_FirstMigration.cs" />
+    <Compile Remove="Migrations\20220107072030_FirstMigration.Designer.cs" />
+    <Compile Remove="Migrations\20220107072716_FirstMigration.cs" />
+    <Compile Remove="Migrations\20220107072716_FirstMigration.Designer.cs" />
+    <Compile Remove="Migrations\20220107072801_FirstMigration.cs" />
+    <Compile Remove="Migrations\20220107072801_FirstMigration.Designer.cs" />
+    <Compile Remove="Migrations\20220107072841_FirstMigration.cs" />
+    <Compile Remove="Migrations\20220107072841_FirstMigration.Designer.cs" />
+    <Compile Remove="Migrations\20220107072917_FirstMigration.cs" />
+    <Compile Remove="Migrations\20220107072917_FirstMigration.Designer.cs" />
+    <Compile Remove="Migrations\20220107072947_FirstMigration.cs" />
+    <Compile Remove="Migrations\20220107072947_FirstMigration.Designer.cs" />
+    <Compile Remove="Migrations\20220107073032_FirstMigration.cs" />
+    <Compile Remove="Migrations\20220107073032_FirstMigration.Designer.cs" />
+    <Compile Remove="Migrations\20220107073108_FirstMigration.cs" />
+    <Compile Remove="Migrations\20220107073108_FirstMigration.Designer.cs" />
+    <Compile Remove="Migrations\20220107073140_FirstMigration.cs" />
+    <Compile Remove="Migrations\20220107073140_FirstMigration.Designer.cs" />
+    <Compile Remove="Migrations\20220107073216_FirstMigration.cs" />
+    <Compile Remove="Migrations\20220107073216_FirstMigration.Designer.cs" />
+    <Compile Remove="Migrations\20220107073258_FirstMigration.cs" />
+    <Compile Remove="Migrations\20220107073258_FirstMigration.Designer.cs" />
+    <Compile Remove="Migrations\20220107073350_FirstMigration.cs" />
+    <Compile Remove="Migrations\20220107073350_FirstMigration.Designer.cs" />
+    <Compile Remove="Migrations\20220107081931_FirstMigration.cs" />
+    <Compile Remove="Migrations\20220107081931_FirstMigration.Designer.cs" />
+    <Compile Remove="Migrations\20220107085744_FirstMigration.cs" />
+    <Compile Remove="Migrations\20220107085744_FirstMigration.Designer.cs" />
+    <Compile Remove="Migrations\20220107091442_FirstMigration.cs" />
+    <Compile Remove="Migrations\20220107091442_FirstMigration.Designer.cs" />
+    <Compile Remove="Migrations\20220107092649_FirstMigration.cs" />
+    <Compile Remove="Migrations\20220107092649_FirstMigration.Designer.cs" />
+    <Compile Remove="Migrations\20220107094848_FirstMigration.cs" />
+    <Compile Remove="Migrations\20220107094848_FirstMigration.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Data\" />
+    <Folder Include="Migrations\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.22" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.22" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.22">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
   </ItemGroup>
 
