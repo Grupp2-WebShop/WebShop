@@ -16,7 +16,7 @@ namespace WebShop.Models
 
         [Required]
         [Column("Price")]
-        [MaxLength(50)]
+        
         public int Price { get; set; }
 
         [Required]
