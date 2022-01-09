@@ -47,8 +47,13 @@
 
   <ItemGroup>
     <Folder Include="Data\" />
-    <Folder Include="Images\" />
-    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Images\DarkSoulsRemastered.png" />
+    <None Include="wwwroot\Images\PokémonBrilliantDiamond.png" />
+    <None Include="wwwroot\Images\Skyrim.png" />
+    <None Include="wwwroot\Images\SuperMarioGalaxy.png" />
   </ItemGroup>
 
   <ItemGroup>
