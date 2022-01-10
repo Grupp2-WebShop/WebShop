@@ -12,25 +12,27 @@
 <body>
 
     <header>
-        <h1>
-         
-        </h1>
-        <nav>
-           
+        <h1 class="text-center">Web Shop</h1>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                <partial name="_LoginPartial" />
+            </div>
         </nav>
     </header>
 
     <div>
         @RenderBody()
+
     </div>
 
 
     <footer>
-        <span>
-            &#9400; @DateTime.Now.ToShortDateString() Webshop Group 2
-        </span>
+        <p class="text-center">
+            &#9400; @DateTime.Now.ToShortDateString() Group 2
+        </p>
     </footer>
-
+    @RenderSection("Scripts", required: false)
 </body>
 
 </html>
