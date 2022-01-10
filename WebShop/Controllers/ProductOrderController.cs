@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebShop.Controllers
 {
-    public class OrderController : Controller
+    public class ProductOrderController : Controller
     {
         [Authorize]
         public IActionResult Index()
