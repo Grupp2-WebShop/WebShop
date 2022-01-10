@@ -1,13 +1,37 @@
 ﻿<!DOCTYPE html>
 
 <html>
+
 <head>
-    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="@Url.Content("~/css/site.css")" />
     <title>@ViewBag.Title</title>
 </head>
 <body>
+
+    <header>
+        <h1>
+         
+        </h1>
+        <nav>
+           <partial name="_LoginPartial"/>
+        </nav>
+    </header>
+
     <div>
         @RenderBody()
+
     </div>
+
+
+    <footer>
+        <span>
+            &#9400; @DateTime.Now.ToShortDateString() Webshop Group 2
+        </span>
+    </footer>
+    @RenderSection("Scripts", required: false)
 </body>
+
 </html>

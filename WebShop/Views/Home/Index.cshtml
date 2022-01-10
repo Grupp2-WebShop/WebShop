@@ -1,4 +1,25 @@
-﻿@{
+﻿@model ProductViewModel
+@{
     ViewData["Title"] = "Index";
-    <h1>Index</h1>
 }
+<div class="container">
+    <h2 class="uppercase">
+        Games
+    </h2>
+    <div>
+            <form asp-action="Index" method="post" role="form">
+                @Html.AntiForgeryToken()
+                <label asp-for="Filter"></label>
+                <input asp-for="Filter" />
+                <input type="submit" class="btn btn-primary" name="btnFilter" value="Go" />
+            </form>
+
+     </div>
+       
+
+    <div class="container">
+        <partial name="_partialListProduct" model="Model.ListProductView" />
+    </div>
+
+
+</div>
