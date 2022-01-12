@@ -15,7 +15,7 @@
                 SEK @item.Price
             </div>
             <div class="product-cards__buy">
-                <input type="submit" onclick="location.href=@Url.Action('BuyClicked','Home', new { productId='item.ProductId'})" class="btn btn-primary" name="btnBuy" value="Buy" />
+                <input type="submit" onclick="location.href=@Url.Action("BuyClicked","Home", new { productId="item.ProductId"})" class="btn btn-primary" name="btnBuy" value="Buy" />
             </div>
         </div>
     </div>
