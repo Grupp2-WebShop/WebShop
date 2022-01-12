@@ -44,6 +44,7 @@ namespace WebShop.Controllers
         
         public IActionResult BuyClicked(int productId)
         {
+
             cartProducts.Add(productId);
             TempData["shortMessage"]=$"Added to shopping cart";
             return RedirectToAction("Index");
