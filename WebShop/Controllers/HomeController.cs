@@ -42,7 +42,6 @@ namespace WebShop.Controllers
             }
             return View(productModel);
         }
-<<<<<<< HEAD
 
         [HttpGet]
         public IActionResult GetProductInfo(ProductModel productChoosen)
@@ -50,23 +49,21 @@ namespace WebShop.Controllers
             ProductModel product = new ProductModel();
             List<ProductModel> ListOfProducts = _context.Product.ToList();
             string productInfo = "";
-            foreach(ProductModel p in ListOfProducts)
+            foreach (ProductModel p in ListOfProducts)
             {
                 if (p.ProductId == productChoosen.ProductId)
                 {
                     productInfo = p.Description;
                 }
-            }            
+            }
             return PartialView("_partialProductInfo", productInfo);
-=======
+        }
         
         public IActionResult BuyClicked(int productId)
         {
             cartProducts.Add(productId);
             TempData["shortMessage"]=$"Added to shopping cart";
             return RedirectToAction("Index");
->>>>>>> b223881aeabdfa3423e2e55565c826b270f7b0d0
         }
-
     }
 }
