@@ -1,7 +1,9 @@
 ﻿@model List<ProductModel>
+
 <div class="product-cards">
     @foreach (var item in Model)
     {
+<<<<<<< HEAD
         <div class="product-card">
             <div class="product-cards__wrapper ">
                 <div>
@@ -25,3 +27,27 @@
         </div>
     }
 </div>
+=======
+        
+            <div class="product-card">
+                <div class="product-cards__wrapper ">
+                    <div>
+                        <img class="product-cards__thumbnail" src="~/Images/@item.ImageName" alt="Img">
+                    </div>
+                    <div class="product-cards__name">
+                        @item.ProductName
+
+                    </div>
+                    <div class="product-cards__prices">
+                        SEK @item.Price
+                    </div>
+                    <div class="product-cards__buy">
+                        <input type="submit" onclick="location.href = '@Url.Action("BuyClicked","Home", new { productId=item.ProductId})'" class="btn btn-primary" name="btnBuy" value="Buy" />
+
+                    </div>
+                </div>
+            </div>
+            
+            }
+    </div>
+>>>>>>> b223881aeabdfa3423e2e55565c826b270f7b0d0

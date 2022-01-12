@@ -1,11 +1,17 @@
 ﻿@model ProductViewModel
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Home";
 }
 <div class="container">
     <h2 class="uppercase">
         Games
     </h2>
+    <h5>
+        <span>
+            @if (ViewBag.Message != null)
+            {@ViewBag.Message}
+        </span>
+    </h5>
     <div>
         <form asp-action="Index" method="post" role="form">
             @Html.AntiForgeryToken()
@@ -13,7 +19,14 @@
             <input asp-for="Filter" />
             <input type="submit" class="btn btn-primary" name="btnFilter" value="Go" />
         </form>
+<<<<<<< HEAD
      </div>
+=======
+
+    </div>
+
+
+>>>>>>> b223881aeabdfa3423e2e55565c826b270f7b0d0
     <div class="container">
         <partial name="_partialListProduct" model="Model.ListProductView" />
     </div>
