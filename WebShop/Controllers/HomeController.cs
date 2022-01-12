@@ -49,13 +49,13 @@ namespace WebShop.Controllers
             ProductModel product = new ProductModel();
             List<ProductModel> ListOfProducts = _context.Product.ToList();
             string productInfo = "";
-            foreach (ProductModel p in ListOfProducts)
+            foreach(ProductModel p in ListOfProducts)
             {
                 if (p.ProductId == productChoosen.ProductId)
                 {
                     productInfo = p.Description;
                 }
-            }
+            }            
             return PartialView("_partialProductInfo", productInfo);
         }
         
@@ -65,5 +65,6 @@ namespace WebShop.Controllers
             TempData["shortMessage"]=$"Added to shopping cart";
             return RedirectToAction("Index");
         }
+
     }
 }
