@@ -42,5 +42,21 @@ namespace WebShop.Controllers
         }
             return View(productModel);
         }
+
+        [HttpGet]
+        public IActionResult GetProductInfo(ProductModel productChoosen)
+        {
+            ProductModel product = new ProductModel();
+            List<ProductModel> ListOfProducts = _context.Product.ToList();
+            string productInfo = "";
+            foreach (ProductModel p in ListOfProducts)
+            {
+                if (p.ProductId == productChoosen.ProductId)
+                {
+                    productInfo = p.Description;
+                }
+            }
+            return PartialView("_partialProductInfo", productInfo);
+        }
     }
 }
