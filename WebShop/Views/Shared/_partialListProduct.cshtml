@@ -4,19 +4,24 @@
     {
         <div class="product-card">
             <div class="product-cards__wrapper ">
-                <div >
+                <div>
                     <img class="product-cards__thumbnail" src="~/Images/@item.ImageName" alt="Img">
                 </div>
-                <div class="product-cards__name" >
+                <div class="product-cards__name">
                     @item.ProductName
-
                 </div>
-                <div class="product-cards__prices" >
+                <div class="product-cards__prices">
                     SEK @item.Price
                 </div>
 
+                <!-- Button trigger modal -->
+                @*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+            Product info
+        </button>*@
+
+                <input type="button" class="btn btn-primary" onclick="GetProductInfo()" value="Delete" />
+
             </div>
         </div>
-
-     }
+    }
 </div>

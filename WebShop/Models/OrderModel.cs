@@ -13,7 +13,7 @@ namespace WebShop.Models
         public int OrderId { get; set; }
 
         public int CustomerId { get; set; }
-        public CustomerModel Customer { get; set; }
+        public UserModel Customer { get; set; }
 
         [Required]
         [Column("OrderDate")]
