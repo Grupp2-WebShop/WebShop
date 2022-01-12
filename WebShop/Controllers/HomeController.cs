@@ -9,16 +9,15 @@ namespace WebShop.Controllers
     public class HomeController : Controller
     {
         private readonly AppDbContext _context;
+        private static List<int> cartProducts=new List<int>();
         public HomeController(AppDbContext context)
         { _context = context; }
         public IActionResult Index()
         {
             ProductViewModel listProductViewModel = new ProductViewModel { ListProductView = _context.Product.ToList()};
-            //Error message ?
-            //if (listProductViewModel.ListProductView.Count == 0 || listProductViewModel.ListProductView == null)
-            //{
-                
-            //}
+            if (TempData["shortMessage"] != null)
+                ViewBag.Message = TempData["shortMessage"].ToString();
+
             return View(listProductViewModel);
         }
         [HttpPost]
@@ -42,5 +41,13 @@ namespace WebShop.Controllers
         }
             return View(productModel);
         }
+        
+        public IActionResult BuyClicked(int productId)
+        {
+            cartProducts.Add(productId);
+            TempData["shortMessage"]=$"Added to shopping cart";
+            return RedirectToAction("Index");
+        }
+
     }
 }
