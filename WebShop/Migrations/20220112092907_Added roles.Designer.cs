@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebShop.Models;
 
 namespace WebShop.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220112092907_Added roles")]
+    partial class Addedroles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,15 +50,15 @@ namespace WebShop.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "0ec1fc05-bac5-4f62-a533-86294d89d3da",
-                            ConcurrencyStamp = "ea942395-0e16-4f12-8c8b-aca967a2aff5",
+                            Id = "2c611e0a-394e-4e33-b81e-15b23f7c0d28",
+                            ConcurrencyStamp = "8dbecec6-d931-413c-ad90-618c26aecb8f",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "7ff0ad4f-2881-4d7c-b886-f880788c1d51",
-                            ConcurrencyStamp = "c00de314-057e-4fb1-b3bc-c1b6ffdaabf4",
+                            Id = "7884087e-d45c-43fb-b912-528b714a2774",
+                            ConcurrencyStamp = "8029d4de-f504-40c5-8b87-f778c5be4cdd",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -222,8 +224,8 @@ namespace WebShop.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "bca30e6e-d0a9-467d-8bc9-b04b642de320",
-                            RoleId = "0ec1fc05-bac5-4f62-a533-86294d89d3da"
+                            UserId = "d3b90471-b12c-4ce8-9e78-13adb7dcd771",
+                            RoleId = "2c611e0a-394e-4e33-b81e-15b23f7c0d28"
                         });
                 });
 
@@ -255,16 +257,16 @@ namespace WebShop.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Date")
                         .HasColumnName("OrderDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("OrderId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("Order");
                 });
@@ -423,18 +425,18 @@ namespace WebShop.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "bca30e6e-d0a9-467d-8bc9-b04b642de320",
+                            Id = "d3b90471-b12c-4ce8-9e78-13adb7dcd771",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "377096fa-a7f9-4869-ba18-7cb0233ecc92",
+                            ConcurrencyStamp = "518f4915-43a0-458d-8aaf-51e527d23050",
                             Email = "admin@admin.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHf/yK+VzyIUjRlc97IU8SNjcUa3JGMya8ON3S3bSskWXFf3zAtFyyO2ojVO0iQJiA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJXz1XyntciE3LcNnfK1lGd179w/+YIPvkFZzUbRF/uLMsSJeK0Y0oLw/jYscu8h6A==",
                             PhoneNumber = "070-123 45 67",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "71463433-8b37-4f30-b393-25406b3dd9a2",
+                            SecurityStamp = "5fa270e9-a214-43b6-9195-3fa3f61557b4",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com",
                             Name = "Admin Adminsson"
@@ -494,9 +496,9 @@ namespace WebShop.Migrations
 
             modelBuilder.Entity("WebShop.Models.OrderModel", b =>
                 {
-                    b.HasOne("WebShop.Models.UserModel", "User")
+                    b.HasOne("WebShop.Models.UserModel", "Customer")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

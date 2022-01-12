@@ -43,6 +43,8 @@
     <Compile Remove="Migrations\20220107092649_FirstMigration.Designer.cs" />
     <Compile Remove="Migrations\20220107094848_FirstMigration.cs" />
     <Compile Remove="Migrations\20220107094848_FirstMigration.Designer.cs" />
+    <Compile Remove="Migrations\20220112092429_Added roles.cs" />
+    <Compile Remove="Migrations\20220112092429_Added roles.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -61,11 +63,15 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.21" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.22" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.21" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.21">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.22">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
+    <PackageReference Include="ModalJS.Mvc" Version="1.0.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>

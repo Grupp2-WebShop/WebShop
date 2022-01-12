@@ -14,7 +14,7 @@ namespace WebShop.Models
         public DbSet<ProductModel> Product { get; set; }
         public DbSet<ProductOrderModel> ProductOrder { get; set; }
         public DbSet<OrderModel> Order { get; set; }
-        public DbSet<CustomerModel> Customer { get; set; }
+        public DbSet<UserModel> User { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -38,6 +38,44 @@ namespace WebShop.Models
                 new ProductModel { ProductId = 3, ProductName = "Pokémon Brilliant Diamond", Price = 300, ImageName = "PokémonBrilliantDiamond.png", Description = "Remake of Pokémon Diamond." });
             modelBuilder.Entity<ProductModel>().HasData(
                 new ProductModel { ProductId = 4, ProductName = "The Elder Scrolls V: Skyrim", Price = 300, ImageName = "Skyrim.png", Description = "An open world, Action RPG from Bethesda." });
+
+
+            string adminRoleId = Guid.NewGuid().ToString();
+            string userRoleId = Guid.NewGuid().ToString();
+            string userId = Guid.NewGuid().ToString();
+            // Create Admin-role
+            modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole
+            {
+                Id = adminRoleId,
+                Name = "Admin",
+                NormalizedName = "ADMIN"
+            });
+            // Creates User-role
+            modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole
+            {
+                Id = userRoleId,
+                Name = "User",
+                NormalizedName = "USER"
+            });
+            // Create Admin user
+            PasswordHasher<ApplicationUser> hasher = new PasswordHasher<ApplicationUser>();
+            modelBuilder.Entity<ApplicationUser>().HasData(new ApplicationUser
+            {
+                Id = userId,
+                Email = "admin@admin.com",
+                NormalizedEmail = "ADMIN@ADMIN.COM",
+                UserName = "admin@admin.com",
+                NormalizedUserName = "ADMIN@ADMIN.COM",
+                PasswordHash = hasher.HashPassword(null, "asdfgh"),
+                PhoneNumber = "070-123 45 67",
+                Name = "Admin Adminsson"
+            });
+            // Assign Admin user an Admin role
+            modelBuilder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
+            {
+                RoleId = adminRoleId,
+                UserId = userId
+            });
         }
     }
 }
