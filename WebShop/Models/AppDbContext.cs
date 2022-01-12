@@ -76,12 +76,6 @@ namespace WebShop.Models
                 RoleId = adminRoleId,
                 UserId = userId
             });
-
-
-
-
-
-
         }
     }
 }
