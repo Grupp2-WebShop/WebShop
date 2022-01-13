@@ -12,8 +12,8 @@ namespace WebShop.Models
         [Key]
         public int OrderId { get; set; }
 
-        public int CustomerId { get; set; }
-        public CustomerModel Customer { get; set; }
+        public int UserId { get; set; }
+        public UserModel User { get; set; }
 
         [Required]
         [Column("OrderDate")]

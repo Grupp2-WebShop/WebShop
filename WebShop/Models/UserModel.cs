@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace WebShop.Models
 {
-    public class CustomerModel
+    public class UserModel
     {
         [Key]
-        public int CustomerId { get; set; }
+        public int UserId { get; set; }
 
         [Required]
         [Column("Name")]
