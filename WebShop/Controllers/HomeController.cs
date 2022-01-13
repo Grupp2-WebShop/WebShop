@@ -16,7 +16,11 @@ namespace WebShop.Controllers
         }
         public IActionResult Index()
         {
-            ProductViewModel listProductViewModel = new ProductViewModel { ListProductView = _context.Product.ToList()};
+            ProductViewModel listProductViewModel = new ProductViewModel
+            {
+                ListProductView = _context.Product.ToList(),
+                ListCart = _context.Product.Where(p => cartProducts.Contains(p.ProductId)).ToList()
+        };
             if (TempData["shortMessage"] != null)
                 ViewBag.Message = TempData["shortMessage"].ToString();
 

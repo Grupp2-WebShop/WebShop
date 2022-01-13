@@ -1,0 +1,30 @@
+﻿@model List<ProductModel>
+
+@foreach (var item in Model)
+{
+   
+        <div class="product-cart__wrapper ">
+            
+            <div class="product-cart__name">
+                @item.ProductName
+            </div>
+            <div class="product-cart__prices">
+                SEK @item.Price
+            </div>
+
+        </div>
+  
+}
+
+<div class="product-cards__prices">
+
+    @if (@Model.Sum(i => i.Price) != 0)
+    {
+        <label>Total SEK </label> @Model.Sum(i => i.Price);
+    }
+</div>
+
+    @*<div>
+            <input type="submit" onclick="location.href = '@Url.Action("BuyClicked","Home", new { productId=Model.})'" class="btn btn-primary" name="btnBuy" value="Buy" />
+
+        </div>*@
