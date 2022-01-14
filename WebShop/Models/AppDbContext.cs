@@ -68,7 +68,11 @@ namespace WebShop.Models
                 NormalizedUserName = "ADMIN@ADMIN.COM",
                 PasswordHash = hasher.HashPassword(null, "asdfgh"),
                 PhoneNumber = "070-123 45 67",
-                Name = "Admin Adminsson"
+                FirstName = "Admin",
+                LastName = "Adminsson",
+                Street = "Storgatan 3",
+                ZipCode = "123 45",
+                City = "Göteborg"
             });
             // Assign Admin user an Admin role
             modelBuilder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>

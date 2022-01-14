@@ -10,6 +10,14 @@ namespace WebShop.Models
     public class ApplicationUser : IdentityUser
     {
         [Required]
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+        [Required]
+        public string LastName { get; set; }
+        [Required]
+        public string Street { get; set; }
+        [Required]
+        public string ZipCode { get; set; }
+        [Required]
+        public string City { get; set; }
     }
 }
