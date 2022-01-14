@@ -16,7 +16,11 @@ namespace WebShop.Controllers
         }
         public IActionResult Index()
         {
-            ProductViewModel listProductViewModel = new ProductViewModel { ListProductView = _context.Product.ToList()};
+            ProductViewModel listProductViewModel = new ProductViewModel
+            {
+                ListProductView = _context.Product.ToList(),
+                ListCart = _context.Product.Where(p => cartProducts.Contains(p.ProductId)).ToList()
+        };
             if (TempData["shortMessage"] != null)
                 ViewBag.Message = TempData["shortMessage"].ToString();
 
@@ -51,12 +55,40 @@ namespace WebShop.Controllers
             return RedirectToAction("Index");
         }
 
+
+        public IActionResult EditClicked(int productId)
+        {
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult GetCarttInfo()
+        {
+            return PartialView("_partialCart", _context.Product.Where(p => cartProducts.Contains(p.ProductId)).ToList());
+        }
+
+        [HttpGet]
+        public IActionResult RemoveFromCart(int productId)
+        {
+            cartProducts.Remove(productId);
+            //update viewmodel
+            ProductViewModel listProductViewModel = new ProductViewModel
+            {
+                ListProductView = _context.Product.ToList(),
+                ListCart = _context.Product.Where(p => cartProducts.Contains(p.ProductId)).ToList()
+            };
+            return PartialView("_partialCart", _context.Product.Where(p => cartProducts.Contains(p.ProductId)).ToList());
+
+        }
+
+
         [HttpGet]
         public IActionResult GetProductInfo(int productId)
         {
             ProductModel product = new ProductModel();
             product = _context.Product.Find(productId);
             return PartialView("_partialProductInfo", product);
+
         }
     }
 }
