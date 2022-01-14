@@ -2,37 +2,31 @@
     font-family: "Lato", sans-serif;
 }
 
-.sidebar {
-    height: 100%;
-    width: 200px;
-    position: fixed;
-    z-index: 1;
-    top: 0px;
-    left: 0px;
+.wrapper {
+    display: flex;
+    align-items: stretch;
+}
+
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    margin-right: 20px;
     background: #eee;
-    overflow-x: hidden;
-    padding: 16px 0;
+    min-height: 100vh;
+    transition: all 0.3s;
 }
 
-.sidebar div {
-    padding-left: 10px;
-    text-decoration: none;
-    font-size: 20px;
-    color: #2196F3;
-    display: block;
+#sidebar.active {
+    margin-left: -250px;
 }
 
-.main {
-    padding: 0px 10px;
-    font-size: 18px;
-}
-
-/* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
-@media screen and (max-height: 450px) {
-    .sidebar {
-        padding-top: 15px;
+/* On smaller screens, where width is less than 768px, change the style of the sidebar */
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -250px;
     }
-    .sidebar div {
-        font-size: 16px;
+
+    #sidebar.active {
+        margin-left: 0;
     }
 }
