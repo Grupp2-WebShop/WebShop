@@ -45,6 +45,8 @@
     <Compile Remove="Migrations\20220107094848_FirstMigration.Designer.cs" />
     <Compile Remove="Migrations\20220112092429_Added roles.cs" />
     <Compile Remove="Migrations\20220112092429_Added roles.Designer.cs" />
+    <Compile Remove="Migrations\20220114172433_Added fields to login.cs" />
+    <Compile Remove="Migrations\20220114172433_Added fields to login.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
