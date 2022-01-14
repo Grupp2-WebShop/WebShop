@@ -1,8 +1,8 @@
 ﻿@model List<ProductModel>
-
 <div class="product-cards">
     @foreach (var item in Model)
     {
+
 
         
             <div class="product-card">
@@ -61,12 +61,29 @@
                             </div>
                         </div>
                         @*<div class="product-cards__edit">
-                <input type="submit" onclick="location.href = '@Url.Action("EditClicked","Home", new { productId=item.ProductId})'" class="btn btn-primary" name="btnBuy" value="Edit" />
+                            <input type="submit" onclick="location.href = '@Url.Action("EditClicked","Home", new { productId=item.ProductId})'" class="btn btn-primary" name="btnBuy" value="Edit" />
 
-            </div>*@
+                          </div>*@
                     }
 
+
+        <div class="product-card">
+            <div class="product-cards__wrapper ">
+                <div>
+                    <img class="product-cards__thumbnail" src="~/Images/@item.ImageName" alt="Img">
+
                 </div>
-           </div>
+                <div class="product-cards__name">
+                    @item.ProductName
+                </div>
+                <div class="product-cards__prices">
+                    SEK @item.Price
+                </div>
+                <div class="product-cards__add-to-cart">
+                    <a href="javascript:void(0);" class="anchorDetail btn btn-primary" data-id="@item.ProductId">Details</a>
+                    <input type="submit" onclick="location.href = '@Url.Action("BuyClicked","Home", new { productId=item.ProductId})'" class="btn btn-primary" name="btnBuy" value="Add to Cart" />
+                </div>
+            </div>
+        </div>
     }
 </div>

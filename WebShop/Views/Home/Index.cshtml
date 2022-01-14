@@ -2,14 +2,42 @@
 @{
     ViewData["Title"] = "Home";
 }
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+<div id="CartModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='CartModalContent'></div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <ul >
+        <li>
+            <a href="javascript:void(1);" class="anchorCartList btn btn-primary cart-pos">
+                Cart
+                @Html.DisplayFor(m => m.ListCart.Count)
+            </a>
+        </li>
+    </ul>
+</div>
 <div class="container">
-    <h2 class="uppercase">
-        Games
-    </h2>
+    <h2 class="text-uppercase">Games</h2>
     <h5>
         <span>
             @if (ViewBag.Message != null)
-            {@ViewBag.Message}
+            {
+                @ViewBag.Message
+            }
         </span>
     </h5>
     <div>
@@ -19,11 +47,9 @@
             <input asp-for="Filter" />
             <input type="submit" class="btn btn-primary" name="btnFilter" value="Go" />
         </form>
-
     </div>
-
-
     <div class="container">
         <partial name="_partialListProduct" model="Model.ListProductView" />
     </div>
 </div>
+
