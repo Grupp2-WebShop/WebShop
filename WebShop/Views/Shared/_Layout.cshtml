@@ -1,11 +1,11 @@
 ﻿<!DOCTYPE html>
-
 <html>
 
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/Sidebar.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="js/ModalBox.js" defer></script>
@@ -13,25 +13,37 @@
     <title>@ViewBag.Title</title>
 </head>
 <body>
-    <header>
-        <h1 class="text-center">Web Shop</h1>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                <partial name="_LoginPartial" />
-            </div>
-        </nav>
-    </header>
-
-    <div>
-        @RenderBody()
+    <div class="sidebar">
+        <div>
+            <h3>Shopping Cart</h3>
+        </div>
+        <div>
+            .....
+        </div>
+        <div>
+            .....
+        </div>
     </div>
 
-    <footer>
-        <p class="text-center">
-            &#9400; @DateTime.Now.ToShortDateString() Group 2
-        </p>
-    </footer>
-    @RenderSection("Scripts", required: false)
+    <div class="main">
+        <header>
+            <h1 class="text-center">Web Shop</h1>
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                <div class="container">
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    <partial name="_LoginPartial" />
+                </div>
+            </nav>
+        </header>
+        <div>
+            @RenderBody()
+        </div>
+        <footer>
+            <p class="text-center">
+                &#9400; @DateTime.Now.ToShortDateString() Group 2
+            </p>
+        </footer>
+        @RenderSection("Scripts", required: false)
+    </div>
 </body>
 </html>

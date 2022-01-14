@@ -1,0 +1,38 @@
+﻿body {
+    font-family: "Lato", sans-serif;
+}
+
+.sidebar {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    z-index: 1;
+    top: 0px;
+    right: 0px;
+    background: #eee;
+    overflow-x: hidden;
+    padding: 16px 0;
+}
+
+.sidebar div {
+    padding-left: 30px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #2196F3;
+    display: block;
+}
+
+.main {
+    padding: 0px 10px;
+    font-size: 18px;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+    .sidebar {
+        padding-top: 15px;
+    }
+    .sidebar div {
+        font-size: 16px;
+    }
+}
