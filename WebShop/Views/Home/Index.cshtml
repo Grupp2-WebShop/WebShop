@@ -12,6 +12,24 @@
     </div>
 </div>
 
+<div id="CartModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='CartModalContent'></div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <ul >
+        <li>
+            <a href="javascript:void(1);" class="anchorCartList btn btn-primary cart-pos">
+                Cart
+                @Html.DisplayFor(m => m.ListCart.Count)
+            </a>
+        </li>
+    </ul>
+</div>
 <div class="container">
     <h2 class="text-uppercase">Games</h2>
     <h5>
@@ -34,3 +52,4 @@
         <partial name="_partialListProduct" model="Model.ListProductView" />
     </div>
 </div>
+
