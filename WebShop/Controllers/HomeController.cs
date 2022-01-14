@@ -54,6 +54,26 @@ namespace WebShop.Controllers
             TempData["shortMessage"]=$"Added to shopping cart";
             return RedirectToAction("Index");
         }
+        [HttpGet]
+        public IActionResult GetCarttInfo()
+        {
+            return PartialView("_partialCart", _context.Product.Where(p => cartProducts.Contains(p.ProductId)).ToList());
+        }
+
+        [HttpGet]
+        public IActionResult RemoveFromCart(int productId)
+        {
+            cartProducts.Remove(productId);
+            //update viewmodel
+            ProductViewModel listProductViewModel = new ProductViewModel
+            {
+                ListProductView = _context.Product.ToList(),
+                ListCart = _context.Product.Where(p => cartProducts.Contains(p.ProductId)).ToList()
+            };
+            return PartialView("_partialCart", _context.Product.Where(p => cartProducts.Contains(p.ProductId)).ToList());
+
+        }
+
 
         [HttpGet]
         public IActionResult GetProductInfo(int productId)
