@@ -50,5 +50,10 @@ namespace WebShop.Controllers
             TempData["shortMessage"]=$"Added to shopping cart";
             return RedirectToAction("Index");
         }
+
+        public IActionResult EditClicked(int productId)
+        {
+            return RedirectToAction("Index");
+        }
     }
 }
