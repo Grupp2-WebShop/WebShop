@@ -54,6 +54,13 @@ namespace WebShop.Controllers
             TempData["shortMessage"]=$"Added to shopping cart";
             return RedirectToAction("Index");
         }
+
+
+        public IActionResult EditClicked(int productId)
+        {
+            return RedirectToAction("Index");
+        }
+
         [HttpGet]
         public IActionResult GetCarttInfo()
         {
@@ -81,6 +88,7 @@ namespace WebShop.Controllers
             ProductModel product = new ProductModel();
             product = _context.Product.Find(productId);
             return PartialView("_partialProductInfo", product);
+
         }
     }
 }
