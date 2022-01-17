@@ -47,6 +47,14 @@
     <Compile Remove="Migrations\20220112092429_Added roles.Designer.cs" />
     <Compile Remove="Migrations\20220114172433_Added fields to login.cs" />
     <Compile Remove="Migrations\20220114172433_Added fields to login.Designer.cs" />
+    <Compile Remove="Migrations\20220117130859_Remove UserId.cs" />
+    <Compile Remove="Migrations\20220117130859_Remove UserId.Designer.cs" />
+    <Compile Remove="Migrations\20220117131410_Added UserId.cs" />
+    <Compile Remove="Migrations\20220117131410_Added UserId.Designer.cs" />
+    <Compile Remove="Migrations\20220117133512_Changed UserId to Id.cs" />
+    <Compile Remove="Migrations\20220117133512_Changed UserId to Id.Designer.cs" />
+    <Compile Remove="Migrations\20220117133921_Corrected UserId in OrderChart.cs" />
+    <Compile Remove="Migrations\20220117133921_Corrected UserId in OrderChart.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

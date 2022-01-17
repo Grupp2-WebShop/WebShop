@@ -12,12 +12,11 @@ namespace WebShop.Models
         [Key]
         public int OrderId { get; set; }
 
-        public int UserId { get; set; }
-        public UserModel User { get; set; }
-
         [Required]
         [Column("OrderDate")]
         public DateTime Date { get; set; }
+
+        public ApplicationUser User { get; set; }
 
         public List<ProductOrderModel> Products { get; set; }
     }
