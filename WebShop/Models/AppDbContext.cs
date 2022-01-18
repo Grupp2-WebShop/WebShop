@@ -14,7 +14,6 @@ namespace WebShop.Models
         public DbSet<ProductModel> Product { get; set; }
         public DbSet<ProductOrderModel> ProductOrder { get; set; }
         public DbSet<OrderModel> Order { get; set; }
-        public DbSet<UserModel> User { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
