@@ -24,6 +24,31 @@ $(function () {
     });
 });
 
+var EditPostBackURL = '/Home/EditClicked';
+$(function () {
+    $(".anchorEdit").click(function () {
+        var $buttonClicked = $(this);
+        var Editid = $buttonClicked.attr('data-id');
+        var options = { backdrop: true, keyboard: true }
+        $.ajax({
+            type: "GET",
+            url: EditPostBackURL,
+            contentType: "application/json; charset=utf-8",
+            data: { "productId": Editid },
+            datatype: "json",
+            success: function (data) {
+                $('#editProductContent').html(data);
+                $('#editProduct').modal(options);
+            },
+            error: function () {
+                alert("Dynamic content load failed.");
+            }
+        });
+    });
+    $("#closbtn").click(function () {
+        $('#editProduct').modal('hide');
+    });
+});
 
 var CartPostBackURL = '/Home/GetCarttInfo';
 $(function () {
