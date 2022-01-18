@@ -37,16 +37,18 @@
 
                     </div>
                 </nav>
-            <header>
-                <h1 class="text-center">Web Shop</h1>
-                <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-                    <div class="container">
-                        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        <partial name="_AdminMenuPartial" />
-                        <partial name="_LoginPartial" />
+                <header>
+                    <h1 class="text-center">Web Shop</h1>
+                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <partial name="_AdminMenuPartial" />
+                            <partial name="_LoginPartial" />
+                        </ul>
                     </div>
-                </nav>
-            </header>
+                </header>
             <main>
                 <div>
                     @RenderSection("Scripts", required: false)

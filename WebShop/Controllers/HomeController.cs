@@ -14,18 +14,21 @@ namespace WebShop.Controllers
         { 
             _context = context; 
         }
+
         public IActionResult Index()
         {
             ProductViewModel listProductViewModel = new ProductViewModel
             {
                 ListProductView = _context.Product.ToList(),
                 ListCart = _context.Product.Where(p => cartProducts.Contains(p.ProductId)).ToList()
-        };
+            };
             if (TempData["shortMessage"] != null)
+            {
                 ViewBag.Message = TempData["shortMessage"].ToString();
-
+            }
             return View(listProductViewModel);
         }
+
         [HttpPost]
         public IActionResult Index(ProductViewModel productModel)
         {
@@ -49,7 +52,6 @@ namespace WebShop.Controllers
 
         public IActionResult BuyClicked(int productId)
         {
-
             cartProducts.Add(productId);
             TempData["shortMessage"]=$"Added to shopping cart";
             return RedirectToAction("Index");
@@ -78,9 +80,7 @@ namespace WebShop.Controllers
                 ListCart = _context.Product.Where(p => cartProducts.Contains(p.ProductId)).ToList()
             };
             return PartialView("_partialCart", _context.Product.Where(p => cartProducts.Contains(p.ProductId)).ToList());
-
         }
-
 
         [HttpGet]
         public IActionResult GetProductInfo(int productId)
@@ -88,7 +88,6 @@ namespace WebShop.Controllers
             ProductModel product = new ProductModel();
             product = _context.Product.Find(productId);
             return PartialView("_partialProductInfo", product);
-
         }
     }
 }
