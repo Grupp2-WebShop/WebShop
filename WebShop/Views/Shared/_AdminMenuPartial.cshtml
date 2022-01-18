@@ -1,13 +1,15 @@
-﻿<li class="nav-item dropdown show">
-    <a class ="dropdown-toggle nav-link text-dark" href="#" data-toggle="dropdown">Admin</a>
-    <div class=dropdown-menu>
+﻿@if (User.IsInRole("Admin"))
+{
+    <li class="nav-item dropdown show">
+        <a class ="dropdown-toggle nav-link text-dark" href="#" data-toggle="dropdown">Admin</a>
+         <div class=dropdown-menu>
         <a class="dropdown-item" asp-area="Admin" asp-controller="ProductModel" asp-action="Index">Product Manager</a>
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" asp-area="Admin" asp-controller="UserModels" asp-action="Index">User Manager</a>
+        </div>
+
+    </li>
+
+}
 
 
-
-
-    </div>
-
-</li>
