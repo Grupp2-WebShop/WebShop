@@ -15,8 +15,6 @@
 </head>
 <body>
     <div class="wrapper">
-        @if (User.Identity.IsAuthenticated)
-        {
             <nav id="sidebar">
                 <div class="sidebar-header">
                     <h3>Shopping Cart</h3>
@@ -28,10 +26,7 @@
                     .....
                 </div>
             </nav>
-        }
         <div id="content">
-            @if (User.Identity.IsAuthenticated)
-            {
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
                     <div class="container-fluid">
 
@@ -42,7 +37,6 @@
 
                     </div>
                 </nav>
-            }
             <header>
                 <h1 class="text-center">Web Shop</h1>
                 <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
