@@ -4,30 +4,6 @@
 @if (@Model.ListCart.Count != 0)
 {
 
-    @*@foreach (var group in Model.ListCart.GroupBy(p => p.ProductId))
-
-    {
-
-        <div class="product-cart__wrapper ">
-            <div>
-                <img class="cart-thumbnail" src="~/Images/@group.First().ImageName" alt="Img">
-                <div class="product-cart__name">
-                    @group.First().ProductName
-                </div>
-            </div>
-            <div class="product-cart__Quantity">Quantity(@group.Count())</div>
-
-            <div class="cart-remove">
-                <a href="@Url.Action("RemoveFromCart","Home", new { productId=group.First().ProductId})">Remove</a>
-            </div>
-            <div class="product-cart__prices">
-                SEK @group.Sum(p => p.Price)
-            </div>
-
-        </div>
-
-    }*@
-
 <table style="width: 100% ,fit-content" class="cart-font"align="center">
     <colgroup>
         <col span="1" style="width: 30%;">

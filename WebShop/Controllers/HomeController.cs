@@ -78,9 +78,14 @@ namespace WebShop.Controllers
         {
             return PartialView("_ProceedOrderPayment", cartProducts);
         }
-        
-        
-        
+        [HttpGet]
+        public IActionResult CartSummary()
+        {
+            return PartialView("_partialCartSummary", cartProducts);
+        }
+
+
+
         public IActionResult RemoveFromCart(int productId)
         {
             
