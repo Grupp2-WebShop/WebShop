@@ -57,15 +57,18 @@ namespace WebShop.Areas.Admin.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductId,ProductName,Price,Description,ImageName")] ProductModel productModel)
+        public async Task<IActionResult> Create([Bind("ProductName,Price,Description")] ProductModel productModel, IFormFile ImageName)
         {
-            if (ModelState.IsValid)
+            var filename = ContentDispositionHeaderValue.Parse(ImageName.ContentDisposition).FileName.Trim('"');
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Images", ImageName.FileName);
+            using (System.IO.Stream stream = new FileStream(path, FileMode.Create))
             {
-                _context.Add(productModel);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                await ImageName.CopyToAsync(stream);
             }
-            return View(productModel);
+            productModel.ImageName = filename;
+            _context.Add(productModel);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
 
         // GET: Admin/ProductModel/Edit/5
@@ -121,7 +124,7 @@ namespace WebShop.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UploadImage([Bind("ProductId,ProductName,Price,Description,ImageName")] ProductModel model, IFormFile ImageName)
+        public async Task<IActionResult> UploadImage([Bind("ProductId,ProductName,Price,Description,ImageName")] ProductModel productModel, IFormFile ImageName)
         {
             if (ModelState.IsValid)
             {
@@ -131,8 +134,8 @@ namespace WebShop.Areas.Admin.Controllers
                 {
                     await ImageName.CopyToAsync(stream);
                 }
-                model.ImageName = filename;
-                _context.Update(model);
+                productModel.ImageName = filename;
+                _context.Update(productModel);
                 _context.SaveChanges();
             }
             return RedirectToAction("Index");

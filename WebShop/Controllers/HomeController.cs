@@ -49,8 +49,7 @@ namespace WebShop.Controllers
                         productModel.ListProductView.Add(p);
                     }
                 }
-            }
-            
+            }            
             return View(productModel);
         }
 
@@ -60,7 +59,6 @@ namespace WebShop.Controllers
             TempData["shortMessage"]=$"Added to shopping cart";
             return RedirectToAction("Index");
         }
-
 
         public IActionResult EditClicked(int productId)
         {
@@ -78,17 +76,15 @@ namespace WebShop.Controllers
         {
             return PartialView("_ProceedOrderPayment", cartProducts);
         }
+
         [HttpGet]
         public IActionResult CartSummary()
         {
             return PartialView("_partialCartSummary", cartProducts);
         }
 
-
-
         public IActionResult RemoveFromCart(int productId)
-        {
-            
+        {            
             foreach (var group in cartProducts.GroupBy(p => p.ProductId))
 
             { 
@@ -112,9 +108,5 @@ namespace WebShop.Controllers
             product = _context.Product.Find(productId);
             return PartialView("_partialProductInfo", product);
         }
-
-
-      
-
     }
 }
