@@ -9,7 +9,8 @@ namespace WebShop.Controllers
     public class HomeController : Controller
     {
         private readonly AppDbContext _context;
-        private static List<int> cartProducts=new List<int>();
+        public static List<ProductModel> cartProducts=new List<ProductModel>();
+        
         public HomeController(AppDbContext context)
         { 
             _context = context; 
@@ -20,8 +21,9 @@ namespace WebShop.Controllers
             ProductViewModel listProductViewModel = new ProductViewModel
             {
                 ListProductView = _context.Product.ToList(),
-                ListCart = _context.Product.Where(p => cartProducts.Contains(p.ProductId)).ToList()
+                ListCart = cartProducts//_context.Product.Where(p => cartProducts.Contains(p.ProductId)).ToList()
             };
+
             if (TempData["shortMessage"] != null)
             {
                 ViewBag.Message = TempData["shortMessage"].ToString();
@@ -34,7 +36,8 @@ namespace WebShop.Controllers
         {
             if (productModel.Filter=="" || productModel.Filter == null)
             { 
-                productModel.ListProductView = _context.Product.ToList(); 
+                productModel.ListProductView = _context.Product.ToList();
+                productModel.ListCart = cartProducts;
             }
             else
             { 
@@ -47,12 +50,13 @@ namespace WebShop.Controllers
                     }
                 }
             }
+            
             return View(productModel);
         }
 
         public IActionResult BuyClicked(int productId)
         {
-            cartProducts.Add(productId);
+            cartProducts.Add(_context.Product.Find(productId));
             TempData["shortMessage"]=$"Added to shopping cart";
             return RedirectToAction("Index");
         }
@@ -66,20 +70,34 @@ namespace WebShop.Controllers
         [HttpGet]
         public IActionResult GetCarttInfo()
         {
-            return PartialView("_partialCart", _context.Product.Where(p => cartProducts.Contains(p.ProductId)).ToList());
+            return PartialView("_partialCart", cartProducts);
         }
 
         [HttpGet]
+        public IActionResult ProceedToPayment()
+        {
+            return PartialView("_ProceedOrderPayment", cartProducts);
+        }
+        
+        
+        
         public IActionResult RemoveFromCart(int productId)
         {
-            cartProducts.Remove(productId);
+            
+            foreach (var group in cartProducts.GroupBy(p => p.ProductId))
+
+            { 
+                if (group.First().ProductId==productId)
+                cartProducts.Remove(group.First()); 
+            }
+                
             //update viewmodel
             ProductViewModel listProductViewModel = new ProductViewModel
             {
                 ListProductView = _context.Product.ToList(),
-                ListCart = _context.Product.Where(p => cartProducts.Contains(p.ProductId)).ToList()
+                ListCart = cartProducts
             };
-            return PartialView("_partialCart", _context.Product.Where(p => cartProducts.Contains(p.ProductId)).ToList());
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -89,5 +107,9 @@ namespace WebShop.Controllers
             product = _context.Product.Find(productId);
             return PartialView("_partialProductInfo", product);
         }
+
+
+      
+
     }
 }
