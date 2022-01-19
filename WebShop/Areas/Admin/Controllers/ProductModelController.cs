@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -92,7 +95,7 @@ namespace WebShop.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
+            
             if (ModelState.IsValid)
             {
                 try
@@ -114,6 +117,25 @@ namespace WebShop.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(productModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UploadImage([Bind("ProductId,ProductName,Price,Description,ImageName")] ProductModel model, IFormFile ImageName)
+        {
+            if (ModelState.IsValid)
+            {
+                var filename = ContentDispositionHeaderValue.Parse(ImageName.ContentDisposition).FileName.Trim('"');
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Images", ImageName.FileName);
+                using (System.IO.Stream stream = new FileStream(path, FileMode.Create))
+                {
+                    await ImageName.CopyToAsync(stream);
+                }
+                model.ImageName = filename;
+                _context.Update(model);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index");
         }
 
         // GET: Admin/ProductModel/Delete/5
