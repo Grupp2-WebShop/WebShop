@@ -4,43 +4,47 @@
 }
 
 <!-- Modal -->
-<div id="myModal" class="modal fade" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div id='myModalContent'></div>
+
+
+    <div id="myModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id='myModalContent'></div>
+            </div>
         </div>
     </div>
-</div>
 
-<div id="CartModal" class="modal fade" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div id='CartModalContent'></div>
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <h3>Shopping Cart</h3>
         </div>
-    </div>
-</div>
+        <div>
+            <partial name="_partialShoppingCart" model="Model" />
 
+        </div>
 
-<div class="container">
-    <h2 class="text-uppercase">Games</h2>
-    <h5>
-        <span>
-            @if (ViewBag.Message != null)
-            {
-                @ViewBag.Message
-            }
-        </span>
-    </h5>
-    <div>
-        <form asp-action="Index" method="post" role="form">
-            @Html.AntiForgeryToken()
-            <label asp-for="Filter"></label>
-            <input asp-for="Filter" />
-            <input type="submit" class="btn btn-primary" name="btnFilter" value="Go" />
-        </form>
-    </div>
+    </nav>
     <div class="container">
-        <partial name="_partialListProduct" model="Model.ListProductView" />
+        <h2 class="text-uppercase">Games</h2>
+        <h5>
+            <span>
+                @if (ViewBag.Message != null)
+                {
+                    @ViewBag.Message
+                }
+            </span>
+        </h5>
+        <div>
+            <form asp-action="Index" method="post" role="form">
+                @Html.AntiForgeryToken()
+                <label asp-for="Filter"></label>
+                <input asp-for="Filter" />
+                <input type="submit" class="btn btn-primary" name="btnFilter" value="Go" />
+            </form>
+        </div>
+        <div class="container">
+            <partial name="_partialListProduct" model="Model.ListProductView" />
+        </div>
     </div>
-</div>
+
 
