@@ -55,7 +55,7 @@
             <div class="modal-footer modal-padding">
                 <input type="button" data-dismiss="modal" class="btn btn-secondary" name="btnBuy" value="Continue Shopping" />
 
-                <input type="submit" @*onclick="location.href = '@Url.Action("BuyClicked","Home", new { productId=Model.})'"*@ class="btn btn-primary" name="btnBuy" value="Proceed to Payment" />
+                <input type="submit" data-dismiss="modal" @*onclick="location.href = '@Url.Action("ProceedToPayment","Home")'"*@ class="anchorProceedToPayment btn btn-primary" value="Proceed to Payment" />
 
             </div>
         }
@@ -68,3 +68,4 @@
 
 </div>
 
+<script src="js/ModalBox.js" defer></script>
