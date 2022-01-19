@@ -68,7 +68,12 @@ namespace WebShop.Controllers
         [HttpGet]
         public IActionResult GetCarttInfo()
         {
-            return PartialView("_partialCart", cartProducts);
+            ProductViewModel listProductViewModel = new ProductViewModel
+            {
+                ListProductView = _context.Product.ToList(),
+                ListCart = cartProducts
+            };
+            return PartialView("_partialCartSummary", listProductViewModel);
         }
 
         [HttpGet]
@@ -80,6 +85,11 @@ namespace WebShop.Controllers
         [HttpGet]
         public IActionResult CartSummary()
         {
+            ProductViewModel listProductViewModel = new ProductViewModel
+            {
+                ListProductView = _context.Product.ToList(),
+                ListCart = cartProducts//_context.Product.Where(p => cartProducts.Contains(p.ProductId)).ToList()
+            };
             return PartialView("_partialCartSummary", cartProducts);
         }
 
@@ -89,15 +99,10 @@ namespace WebShop.Controllers
 
             { 
                 if (group.First().ProductId==productId)
-                cartProducts.Remove(group.First()); 
+                cartProducts.Remove(group.First());
+                break;
             }
                 
-            //update viewmodel
-            ProductViewModel listProductViewModel = new ProductViewModel
-            {
-                ListProductView = _context.Product.ToList(),
-                ListCart = cartProducts
-            };
             return RedirectToAction("Index");
         }
 

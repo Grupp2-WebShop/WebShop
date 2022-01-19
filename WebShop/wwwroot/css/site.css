@@ -152,13 +152,13 @@ li {
     font-weight: bold;
 }
 .cart-remove {
-    align-self:center;
-    vertical-align:central;
-    align-items:center;
-    font-size:small;
+    color: firebrick;
+    font-size: medium;
+    font-weight: bold;
 }
 .cart-font {
     font-size:12px;
     align-self:center;
+    
     
 }

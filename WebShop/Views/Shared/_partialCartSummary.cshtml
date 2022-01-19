@@ -1,10 +1,12 @@
-﻿@model ProductViewModel
+﻿
+@model List<ProductModel>
+
 <ul class="nav navbar-nav navbar-right">
     <li>
-        <a >
+        <a>
             Cart
-            @Html.DisplayFor(m => m.ListCart.Count)
-            
+            @Html.DisplayFor(m => m.Count)
+
         </a>
     </li>
 
