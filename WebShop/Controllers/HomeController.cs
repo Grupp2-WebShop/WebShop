@@ -49,8 +49,7 @@ namespace WebShop.Controllers
                         productModel.ListProductView.Add(p);
                     }
                 }
-            }
-            
+            }            
             return View(productModel);
         }
 
@@ -61,7 +60,6 @@ namespace WebShop.Controllers
             return RedirectToAction("Index");
         }
 
-
         public IActionResult EditClicked(int productId)
         {
             return RedirectToAction("Index");
@@ -70,12 +68,7 @@ namespace WebShop.Controllers
         [HttpGet]
         public IActionResult GetCarttInfo()
         {
-            ProductViewModel listProductViewModel = new ProductViewModel
-            {
-                ListProductView = _context.Product.ToList(),
-                ListCart = cartProducts//_context.Product.Where(p => cartProducts.Contains(p.ProductId)).ToList()
-            };
-            return PartialView("_partialShoppingCart", listProductViewModel);
+            return PartialView("_partialCart", cartProducts);
         }
 
         [HttpGet]
@@ -83,22 +76,15 @@ namespace WebShop.Controllers
         {
             return PartialView("_ProceedOrderPayment", cartProducts);
         }
+
         [HttpGet]
         public IActionResult CartSummary()
         {
-            ProductViewModel listProductViewModel = new ProductViewModel
-            {
-                ListProductView = _context.Product.ToList(),
-                ListCart = cartProducts//_context.Product.Where(p => cartProducts.Contains(p.ProductId)).ToList()
-            };
-            return PartialView("_partialCartSummary", listProductViewModel);
+            return PartialView("_partialCartSummary", cartProducts);
         }
 
-
-
         public IActionResult RemoveFromCart(int productId)
-        {
-            
+        {            
             foreach (var group in cartProducts.GroupBy(p => p.ProductId))
 
             { 
@@ -122,9 +108,5 @@ namespace WebShop.Controllers
             product = _context.Product.Find(productId);
             return PartialView("_partialProductInfo", product);
         }
-
-
-      
-
     }
 }
