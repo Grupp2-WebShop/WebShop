@@ -48,15 +48,15 @@ namespace WebShop.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "35b03246-5eaa-44a9-8dae-15a8e75d06aa",
-                            ConcurrencyStamp = "fcbbe5b3-f1ec-455a-87c7-14584d566b80",
+                            Id = "b8c0c7d4-ef07-4abe-87ae-5460897a3c94",
+                            ConcurrencyStamp = "109c8adb-3e8f-4f5f-9d30-8583042ff067",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "2a7e31b8-19a9-4bdb-82c5-03360906a1a2",
-                            ConcurrencyStamp = "47dfcdff-dd01-4cc4-ab3a-cbf71443c963",
+                            Id = "d88ee500-3844-4589-b0c7-558b0f05c4e6",
+                            ConcurrencyStamp = "d0e9717d-c8ce-4f73-a645-39b043618d5d",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -222,8 +222,8 @@ namespace WebShop.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "6ff3b475-5e19-407b-9108-fd5d3beff3e4",
-                            RoleId = "35b03246-5eaa-44a9-8dae-15a8e75d06aa"
+                            UserId = "9c18847e-edd2-45e4-8f37-059f725f4d73",
+                            RoleId = "b8c0c7d4-ef07-4abe-87ae-5460897a3c94"
                         });
                 });
 
@@ -344,6 +344,9 @@ namespace WebShop.Migrations
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
                     b.HasKey("ProductId", "OrderId");
 
                     b.HasIndex("OrderId");
@@ -380,18 +383,18 @@ namespace WebShop.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6ff3b475-5e19-407b-9108-fd5d3beff3e4",
+                            Id = "9c18847e-edd2-45e4-8f37-059f725f4d73",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f0bf064f-7eb7-46b5-b3e6-7ab702b5442c",
+                            ConcurrencyStamp = "e31c2137-ba70-404c-96db-d7f5123bf6da",
                             Email = "admin@admin.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFVxjNBeWjGhzc2z1g+Nrrs2mAOX51SnhFwJFukoJZ8OVGT738sxVp6qqzPP8othhQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMlGmbmhFQNa6sumrXpQM0emloeqf3tbY83kfZDsXhScxpgKmZOXi1sOQx8IyRJaUA==",
                             PhoneNumber = "070-123 45 67",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a3fb2929-5cfe-4780-8ef0-f3986c4a5c85",
+                            SecurityStamp = "da00f38e-2776-4800-965c-972a642752fc",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com",
                             City = "Göteborg",

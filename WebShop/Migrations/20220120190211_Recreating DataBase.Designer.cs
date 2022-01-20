@@ -10,8 +10,8 @@ using WebShop.Models;
 namespace WebShop.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220110082735_IdentityAdded")]
-    partial class IdentityAdded
+    [Migration("20220120190211_Recreating DataBase")]
+    partial class RecreatingDataBase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,6 +46,22 @@ namespace WebShop.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "46df9ea0-0780-40a5-9bf1-3b091df20cc7",
+                            ConcurrencyStamp = "6242b3d8-ca35-4d52-b482-3eab7ce71ef0",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "3f740d82-ea56-4b61-8448-b92bae853ad8",
+                            ConcurrencyStamp = "27ede000-9e02-4a31-bc5d-e5c31930daf7",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -82,6 +98,10 @@ namespace WebShop.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
@@ -135,6 +155,8 @@ namespace WebShop.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -164,10 +186,12 @@ namespace WebShop.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -196,6 +220,13 @@ namespace WebShop.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "1b5b9264-cdb7-4677-9fba-091591dd4707",
+                            RoleId = "46df9ea0-0780-40a5-9bf1-3b091df20cc7"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -204,10 +235,12 @@ namespace WebShop.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -217,65 +250,6 @@ namespace WebShop.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("WebShop.Models.CustomerModel", b =>
-                {
-                    b.Property<int>("CustomerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnName("City")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnName("Email")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnName("Name")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnName("Password")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnName("Phone")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("Street")
-                        .IsRequired()
-                        .HasColumnName("Street")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnName("UserName")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.Property<int>("ZipCode")
-                        .HasColumnName("ZipCode")
-                        .HasColumnType("int")
-                        .HasMaxLength(50);
-
-                    b.HasKey("CustomerId");
-
-                    b.ToTable("Customer");
-                });
-
             modelBuilder.Entity("WebShop.Models.OrderModel", b =>
                 {
                     b.Property<int>("OrderId")
@@ -283,16 +257,16 @@ namespace WebShop.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Date")
                         .HasColumnName("OrderDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("OrderId");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Order");
                 });
@@ -379,6 +353,57 @@ namespace WebShop.Migrations
                     b.ToTable("ProductOrder");
                 });
 
+            modelBuilder.Entity("WebShop.Models.ApplicationUser", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ZipCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue("ApplicationUser");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1b5b9264-cdb7-4677-9fba-091591dd4707",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "ad22d59f-9502-4b66-98f0-1e0ddf77b5a3",
+                            Email = "admin@admin.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@ADMIN.COM",
+                            NormalizedUserName = "ADMIN@ADMIN.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBaqBWQOd5NJST3OPEk+/WVdSiAU7ELpSlJEOSARA+dZhIqS7HUdDq9+e5aXybJ2yA==",
+                            PhoneNumber = "070-123 45 67",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "af2d3e79-dc34-42c2-96b9-2cf1df506391",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@admin.com",
+                            City = "Göteborg",
+                            FirstName = "Admin",
+                            LastName = "Adminsson",
+                            Street = "Storgatan 3",
+                            ZipCode = "123 45"
+                        });
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -432,11 +457,9 @@ namespace WebShop.Migrations
 
             modelBuilder.Entity("WebShop.Models.OrderModel", b =>
                 {
-                    b.HasOne("WebShop.Models.CustomerModel", "Customer")
+                    b.HasOne("WebShop.Models.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("WebShop.Models.ProductOrderModel", b =>
