@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -57,18 +54,15 @@ namespace WebShop.Areas.Admin.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductName,Price,Description")] ProductModel productModel, IFormFile ImageName)
+        public async Task<IActionResult> Create([Bind("ProductId,ProductName,Price,Description,ImageName")] ProductModel productModel)
         {
-            var filename = ContentDispositionHeaderValue.Parse(ImageName.ContentDisposition).FileName.Trim('"');
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Images", ImageName.FileName);
-            using (System.IO.Stream stream = new FileStream(path, FileMode.Create))
+            if (ModelState.IsValid)
             {
-                await ImageName.CopyToAsync(stream);
+                _context.Add(productModel);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
-            productModel.ImageName = filename;
-            _context.Add(productModel);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return View(productModel);
         }
 
         // GET: Admin/ProductModel/Edit/5
@@ -98,7 +92,7 @@ namespace WebShop.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            
+
             if (ModelState.IsValid)
             {
                 try
@@ -120,25 +114,6 @@ namespace WebShop.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(productModel);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UploadImage([Bind("ProductId,ProductName,Price,Description,ImageName")] ProductModel productModel, IFormFile ImageName)
-        {
-            if (ModelState.IsValid)
-            {
-                var filename = ContentDispositionHeaderValue.Parse(ImageName.ContentDisposition).FileName.Trim('"');
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Images", ImageName.FileName);
-                using (System.IO.Stream stream = new FileStream(path, FileMode.Create))
-                {
-                    await ImageName.CopyToAsync(stream);
-                }
-                productModel.ImageName = filename;
-                _context.Update(productModel);
-                _context.SaveChanges();
-            }
-            return RedirectToAction("Index");
         }
 
         // GET: Admin/ProductModel/Delete/5
