@@ -174,5 +174,8 @@ namespace WebShop.Areas.Admin.Controllers
         {
             return _context.Product.Any(e => e.ProductId == id);
         }
+
+
+
     }
 }
