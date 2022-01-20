@@ -1,53 +1,54 @@
 ﻿body {
     font-family: "Lato", sans-serif;
+    padding-left: 10px;
 }
 
 .wrapper {
     display: flex;
     align-items: stretch;
+    position: relative;
 }
 
 #sidebar {
     min-width: 250px;
     max-width: 250px;
-    margin-right: 20px;
     background: #eee;
     min-height: 100vh;
     transition: all 0.3s;
     position: fixed;
+    top: 0;
+    right: 0;
+    padding: 10px;
 }
 
 #sidebarCollapse.active {
     margin-left: 0px;
 }
 
-#content {
-    margin-left: 260px;
-}
-
-#content.active {
-    margin-left: 0px;
-}
 
 #sidebar.active {
-    margin-left: -250px;
+    margin-right: -250px;
 }
 
 /* On smaller screens, where width is less than 768px, change the style of the sidebar */
 @media (max-width: 768px) {
+    body {
+        padding-left: 0px;
+    }
+
     #sidebar {
-        margin-left: -250px;
+        margin-right: -250px;
     }
 
     #sidebar.active {
-        margin-left: 0px;
+        margin-right: 0px;
     }
 
     #content {
-        margin-left: 0px;
+        margin-right: 0px;
     }
 
     #sidebarCollapse {
-        margin-left: 260px;
+        margin-right: 260px;
     }
 }
