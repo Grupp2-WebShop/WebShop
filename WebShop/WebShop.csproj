@@ -55,16 +55,18 @@
     <Compile Remove="Migrations\20220117133512_Changed UserId to Id.Designer.cs" />
     <Compile Remove="Migrations\20220117133921_Corrected UserId in OrderChart.cs" />
     <Compile Remove="Migrations\20220117133921_Corrected UserId in OrderChart.Designer.cs" />
+    <Compile Remove="Migrations\20220118174507_Added ImageFile to ProductModel.cs" />
+    <Compile Remove="Migrations\20220118174507_Added ImageFile to ProductModel.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Data\" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="wwwroot\Images\DarkSoulsRemastered.png" />
+    <None Include="wwwroot\Images\PokémonBrilliantDiamond.png" />
     <None Include="wwwroot\Images\Skyrim.png" />
     <None Include="wwwroot\Images\SuperMarioGalaxy.png" />
   </ItemGroup>
