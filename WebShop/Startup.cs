@@ -67,9 +67,9 @@ namespace WebShop
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                name: "Admin",
-                pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
-                );
+                    name: "admin",
+                    pattern: "{area:exists}/{controller=}/{action=}/{id?}");
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
