@@ -10,6 +10,8 @@ namespace WebShop.Models
 {
     public class ApplicationUser : IdentityUser
     {
+        [Key]
+        public override string Id { get; set; }
         [Required]
         public string FirstName { get; set; }
         [Required]
@@ -20,5 +22,10 @@ namespace WebShop.Models
         public string ZipCode { get; set; }
         [Required]
         public string City { get; set; }
+
+        public string Discriminator { get; set; }
+
+
+
     }
 }

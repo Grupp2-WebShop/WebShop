@@ -62,7 +62,9 @@ namespace WebShop.Controllers
 
         public IActionResult EditClicked(int productId)
         {
-            return RedirectToAction("Index");
+            ProductModel product = new ProductModel();
+            product = _context.Product.Find(productId);
+            return PartialView("_partialEdit", product);
         }
 
         [HttpGet]
