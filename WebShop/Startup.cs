@@ -31,9 +31,17 @@ namespace WebShop
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddRoles<IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+
+                        options.SignIn.RequireConfirmedAccount = false)
+
+                .AddDefaultUI()
+
+                .AddDefaultTokenProviders()
+
                 .AddEntityFrameworkStores<AppDbContext>();
+
+            services.AddRazorPages();
 
             services.AddRazorPages();
 
