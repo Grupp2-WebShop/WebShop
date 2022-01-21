@@ -49,6 +49,7 @@ namespace WebShop.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult CreateUser(ApplicationUser model)
         {
+            model.Discriminator = "ApplicationUser";
             if (ModelState.IsValid)
             {
                 _context.Users.Add(model);
