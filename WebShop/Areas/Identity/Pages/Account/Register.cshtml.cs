@@ -106,7 +106,9 @@ namespace WebShop.Areas.Identity.Pages.Account
                     Street = Input.Street,
                     ZipCode = Input.ZipCode,
                     City = Input.City,
-                    Email = Input.Email };
+                    Email = Input.Email,
+                    Discriminator = "User"
+                };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
