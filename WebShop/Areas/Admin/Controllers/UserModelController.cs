@@ -59,7 +59,7 @@ namespace WebShop.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Email,Password,FirstName,City")] ApplicationUser userModel)
+        public async Task<IActionResult> Edit(string id, [Bind("FirstName,LastName,Password,City")] ApplicationUser userModel)
         {
             if (id != userModel.Id)
             {
