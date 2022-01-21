@@ -1,10 +1,22 @@
 ﻿
 @model ProductOrderViewModel
+<h2>WEBSHOP</h2>
+<br />
+<h2>Thankyou for purchase!!</h2>
+<br />
 
 <h3>Order Details</h3>
 <br />
+<div style="display:flex;  align-items:stretch">
+    <bre>
+        ID: @Model.NewOrder.OrderId     @Model.NewOrder.Date
+    </bre>
+
+</div>
+<br />
 
 <h4> Personal Details</h4>
+<br />
 <p>
     @Model.UserDetails.FirstName  @Model.UserDetails.LastName<br />
     @Model.UserDetails.Street<br />
@@ -14,6 +26,7 @@
 <br />
 
 <h4> Order</h4>
+<br />
 
 @if (@Model.ListCartProduct.Count != 0)
 {
@@ -67,43 +80,14 @@
 
     </table>
 
-    @if (@Model.ListCartProduct.Sum(i => i.Price) != 0)
-    {
-        <div class="cart-footer">
-            <p class="cart-total">Total </p>
 
-            <div class="product-cards__prices ">
-                SEK  @Model.ListCartProduct.Sum(i => i.Price)
-            </div>
+    <div class="cart-footer">
+        <p class="cart-total">Total </p>
+
+        <div class="product-cards__prices ">
+            SEK  @Model.ListCartProduct.Sum(i => i.Price)
         </div>
-    }
-    else
-    {
-        <div class="cart-footer">
-            <p class="cart-total">Total  </p>
-
-            <div class="product-cards__prices">
-                SEK 0
-            </div>
-        </div>
-    }
-
-
+    </div>
 
 
 }
-else
-{
-    <p>Your cart is empty</p>
-}
-
-@*<div>
-    <button class="btn btn-primary" onclick="GotoCart()">Back To Cart</button>
-</div>*@
-<br />
-<div>
-    <button class="btn btn-primary" onclick="ConfirmOrder()">Confirm Order</button>
-    
-
-</div>    
-

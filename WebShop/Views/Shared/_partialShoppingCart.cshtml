@@ -45,7 +45,7 @@
 
                 </td>
                 <td>
-                    <a href="@Url.Action("RemoveFromCart","Home", new { productId=group.First().ProductId})">X</a>
+                    <a  class="btn btn-danger" href="@Url.Action("RemoveFromCart","Home", new { productId=group.First().ProductId})">X</a>
 
 
                 </td>
@@ -84,12 +84,11 @@
         </div>
     }
 
-    <div>
-        <input type="submit" onclick="location.href = '@Url.Action("ProceedToPayment","Home")'" class="btn btn-primary" value="Proceed to Payment" />
-
-    </div>
+<div>
+    <input type="submit" class="btn btn-primary ProceedOrder" value="Proceed to Payment" />
+</div>
 }
 else
-{
+{ 
     <p>Your cart is empty</p>
 }

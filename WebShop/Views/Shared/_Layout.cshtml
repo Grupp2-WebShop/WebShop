@@ -16,14 +16,21 @@
     <div class="wrapper">
         @if (User.Identity.IsAuthenticated)
          {
-            <nav id="sidebar">
-                <div class="sidebar-header">
-                    <h3>Shopping Cart</h3>
-                </div>
-                <div id="cartInfo">
-                    <partial name="_partialShoppingCart" />
-                </div>
-            </nav>
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>Shopping Cart</h3>
+            </div>
+            <div id="cartDetails">
+                <partial name="_partialShoppingCart" />
+            </div>
+            
+            <div id="proceedOrder">
+
+            </div>
+            <div id="confirmedOrder">
+
+            </div>
+        </nav>
          }
 
         <div id="content">
