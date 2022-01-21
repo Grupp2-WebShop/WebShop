@@ -24,8 +24,5 @@ namespace WebShop.Models
         public string City { get; set; }
 
         public string Discriminator { get; set; }
-
-
-
     }
 }

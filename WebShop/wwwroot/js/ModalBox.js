@@ -1,4 +1,4 @@
-﻿var TeamDetailPostBackURL = '/Home/GetProductInfo';
+﻿var DetailPostBackURL = '/Home/GetProductInfo';
 $(function () {
     $(".anchorDetail").click(function () {
         var $buttonClicked = $(this);
@@ -6,7 +6,7 @@ $(function () {
         var options = { backdrop: true, keyboard: true }
         $.ajax({
             type: "GET",
-            url: TeamDetailPostBackURL,
+            url: DetailPostBackURL,
             contentType: "application/json; charset=utf-8",
             data: { "productId": id },
             datatype: "json",
@@ -28,17 +28,17 @@ var EditPostBackURL = '/Home/EditClicked';
 $(function () {
     $(".anchorEdit").click(function () {
         var $buttonClicked = $(this);
-        var Editid = $buttonClicked.attr('data-id');
+        var id = $buttonClicked.attr('data-id');
         var options = { backdrop: true, keyboard: true }
         $.ajax({
             type: "GET",
             url: EditPostBackURL,
             contentType: "application/json; charset=utf-8",
-            data: { "productId": Editid },
+            data: { "productId": id },
             datatype: "json",
             success: function (data) {
-                $('#editProductContent').html(data);
-                $('#editProduct').modal(options);
+                $('#myModalContent').html(data);
+                $('#myModal').modal(options);
             },
             error: function () {
                 alert("Dynamic content load failed.");
@@ -46,7 +46,7 @@ $(function () {
         });
     });
     $("#closbtn").click(function () {
-        $('#editProduct').modal('hide');
+        $('#myModal').modal('hide');
     });
 });
 
