@@ -58,11 +58,6 @@ namespace WebShop.Controllers
         }
 
 
-        public IActionResult EditClicked(int productId)
-        {
-            return RedirectToAction("Index");
-        }
-
         [HttpGet]
         public IActionResult GetCarttInfo()
         {
@@ -88,6 +83,15 @@ namespace WebShop.Controllers
             ProductModel product = new ProductModel();
             product = _context.Product.Find(productId);
             return PartialView("_partialProductInfo", product);
+        }
+
+
+        [HttpGet]
+        public IActionResult EditClicked(int productId)
+        {
+            ProductModel product = new ProductModel();
+            product = _context.Product.Find(productId);
+            return PartialView("_partialEdit", product);
         }
     }
 }

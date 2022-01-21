@@ -24,6 +24,22 @@ $(function () {
     });
 });
 
+//$('#editProduct').on('show.bs.modal', function (event) {
+//    var button = $(event.relatedTarget)
+//    var product = button.data('id')
+//    var modal = $(this)
+//    modal.find(#productName).text()
+//})
+
+$('#editProduct').on('show.bs.modal', function (e) {
+
+    //get data-id attribute of the clicked element
+    var productId = $(e.relatedTarget).data('id');
+
+    //populate the textbox
+    $(e.currentTarget).find('input[name="productId"]').val(productId);
+});
+
 var EditPostBackURL = '/Home/EditClicked';
 $(function () {
     $(".anchorEdit").click(function () {

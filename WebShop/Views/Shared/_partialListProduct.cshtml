@@ -20,11 +20,12 @@
                 <div class="product-cards__add-to-cart">
                     <a href="javascript:void(0);" class="anchorDetail btn btn-primary" data-id="@item.ProductId">Details</a>
                     <input type="submit" onclick="location.href = '@Url.Action("BuyClicked","Home", new { productId=item.ProductId})'" class="btn btn-primary" name="btnBuy" value="Add to Cart" />
+                    @*<a href="javascript:void(0);" class="anchorEdit btn btn-primary" data-id="@item.ProductId">Edit</a>*@
                 </div>
 
                 @*@if (User.IsInRole("Admin"))
                 {*@
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editProduct">Edit</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editProduct" data-id="@item.ProductId">Edit</button>
 
                     <div class="modal fade" id="editProduct" tabindex="-1" role="dialog" aria-labelledby="editProductLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
@@ -37,15 +38,15 @@
                                 </div>
                                 <div class="modal-body">
                                     <form>
-                                        <div class="form-group">
+                                        <div class="form-group" id="productName">
                                             <label for="product-name" class="col-form-label">Product name:</label>
                                             <input type="text" class="form-control" id="product-name" placeholder="@item.ProductName">
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group" id="productPrice">
                                             <label for="price" class="col-form-label">Price:</label>
                                             <input type="text" class="form-control" id="price" placeholder="@item.Price">
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group" id="productDescription">
                                             <label for="description" class="col-form-label">Description:</label>
                                             <textarea class="form-control" id="description" placeholder="@item.Description"></textarea>
                                         </div>
@@ -58,10 +59,10 @@
                             </div>
                         </div>
                     </div>
-                    @*<div class="product-cards__edit">
+                    <div class="product-cards__edit">
                       <input type="submit" onclick="location.href = '@Url.Action("EditClicked","Home", new { productId=item.ProductId})'" class="btn btn-primary" name="btnBuy" value="Edit" />
 
-                    </div>*@
+                    </div>
                 @*}*@
             </div>
         </div>
