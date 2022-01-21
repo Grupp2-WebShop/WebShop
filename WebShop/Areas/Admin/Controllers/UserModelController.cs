@@ -23,6 +23,24 @@ namespace WebShop.Areas.Admin.Controllers
             return View(list);
         }
 
+        // GET: Admin/ProductModel/Details/5
+        public async Task<IActionResult> Details(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var userModel = await _context.Users
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (userModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(userModel);
+        }
+
         public IActionResult CreateUser()
         {
             return View();
@@ -41,6 +59,7 @@ namespace WebShop.Areas.Admin.Controllers
             return View();
         }
 
+        // GET: Admin/ProductModel/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -56,10 +75,12 @@ namespace WebShop.Areas.Admin.Controllers
             return View(userModel);
         }
 
-
+        // POST: Admin/ProductModel/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("FirstName,LastName,Password,City")] ApplicationUser userModel)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,FirstName, LastName,Street,ZipCode,City,Discriminator ")] ApplicationUser userModel)
         {
             if (id != userModel.Id)
             {
@@ -75,7 +96,7 @@ namespace WebShop.Areas.Admin.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!userModelExists(userModel.Id))
+                    if (!ProductModelExists(userModel.Id))
                     {
                         return NotFound();
                     }
@@ -89,10 +110,7 @@ namespace WebShop.Areas.Admin.Controllers
             return View(userModel);
         }
 
-        private bool userModelExists(string id)
-        {
-            return _context.Users.Any(e => e.Id == id);
-        }
+
 
         public async Task<IActionResult> Delete(string id)
         {
@@ -119,6 +137,11 @@ namespace WebShop.Areas.Admin.Controllers
             _context.Users.Remove(userModel);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        private bool ProductModelExists(string id)
+        {
+            return _context.Users.Any(e => e.Id == id);
         }
 
 
