@@ -118,8 +118,6 @@ namespace WebShop.Controllers
                     productOrder.Quantity = product.Count();
                     productOrder.ProductId = product.First().ProductId;
                     productOrder.OrderId = confirmedOrder.NewOrder.OrderId;
-                    //_context.ProductOrder.Add(newProductOrder(productOrder.Order.OrderId, productOrder.Product.ProductId, productOrder.Quantity));
-                    //_context.ProductOrder.Add(newProductOrder(confirmedOrder.NewOrder, product.First(), productOrder.Quantity));
                     _context.ProductOrder.Add(productOrder);
                     _context.SaveChanges();
                 }
@@ -129,7 +127,6 @@ namespace WebShop.Controllers
             {
                 return NotFound();
             }
-
         }
         public ProductOrderModel newProductOrder(OrderModel order, ProductModel product , int quantity)
         {
