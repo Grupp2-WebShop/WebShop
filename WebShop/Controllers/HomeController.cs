@@ -76,11 +76,9 @@ namespace WebShop.Controllers
 
         private ApplicationUser GetUserDetails()
         {
-            ApplicationUser[]   user = _context.Users.Where(u => u.Email == HttpContext.User.Identity.Name).ToArray();
+            ApplicationUser[] user = _context.Users.Where(u => u.Email == HttpContext.User.Identity.Name).ToArray();
             return user[0];
-
         }
-
 
         [Authorize]
         [HttpGet]
@@ -93,22 +91,20 @@ namespace WebShop.Controllers
                 Date = DateTime.Now,
                 User = GetUserDetails(),
             };
-
             proceedToPayment.UserDetails = GetUserDetails();
             return PartialView("_ProceedOrderPayment", proceedToPayment);
-
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         public IActionResult NewConfirmedOrder()
         {
-            ProductOrderViewModel confirmedOrder = new ProductOrderViewModel
+            ProductOrderViewModel confirmedOrder = new ProductOrderViewModel 
             { ListCartProduct = cartProducts };
             confirmedOrder.NewOrder = new OrderModel()
             {
                 Date = DateTime.Now,
-                User = GetUserDetails(),                
+                User = GetUserDetails()                
             };
             confirmedOrder.UserDetails = GetUserDetails();
             try
@@ -116,9 +112,15 @@ namespace WebShop.Controllers
                 _context.Order.Add(confirmedOrder.NewOrder);
                 _context.SaveChanges();
 
+                ProductOrderModel productOrder = new ProductOrderModel();
                 foreach (var product in confirmedOrder.ListCartProduct.GroupBy(p => p.ProductId))
-                {
-                    _context.ProductOrder.Add(newProductOrder(confirmedOrder.NewOrder, product.First(), product.Count()));
+                {                    
+                    productOrder.Quantity = product.Count();
+                    productOrder.ProductId = product.First().ProductId;
+                    productOrder.OrderId = confirmedOrder.NewOrder.OrderId;
+                    //_context.ProductOrder.Add(newProductOrder(productOrder.Order.OrderId, productOrder.Product.ProductId, productOrder.Quantity));
+                    //_context.ProductOrder.Add(newProductOrder(confirmedOrder.NewOrder, product.First(), productOrder.Quantity));
+                    _context.ProductOrder.Add(productOrder);
                     _context.SaveChanges();
                 }
                 return PartialView("_OrderReceipt", confirmedOrder);
@@ -136,8 +138,7 @@ namespace WebShop.Controllers
                 Order = order,
                 Product = product,
                 Quantity = quantity,
-            };            
-
+            };
             return addProductOrder;
         }
     
@@ -150,15 +151,13 @@ namespace WebShop.Controllers
 
         [HttpGet]
         public IActionResult CartSummary()
-        {
-            
+        {            
             return PartialView("_partialCartSummary", cartProducts);
         }
 
         public IActionResult RemoveFromCart(int productId)
         {            
             foreach (var group in cartProducts.GroupBy(p => p.ProductId))
-
             { 
                 if (group.First().ProductId==productId)
                 cartProducts.Remove(group.First()); 
