@@ -18,7 +18,7 @@
                     SEK @item.Price
                 </div>
                 <div class="product-cards__add-to-cart">
-                    <a href="javascript:void(0);" class="anchorDetail btn btn-primary" data-id="@item.ProductId">Details</a>
+                    @*<a href="javascript:void(0);" class="anchorDetail btn btn-primary" data-id="@item.ProductId">Details</a>*@
                     <input type="submit" onclick="location.href = '@Url.Action("BuyClicked","Home", new { productId=item.ProductId})'" class="btn btn-primary" name="btnBuy" value="Add to Cart" />
                     <a href="javascript:void(0);" class="anchorEdit btn btn-primary" data-id="@item.ProductId">Edit</a>
                 </div>

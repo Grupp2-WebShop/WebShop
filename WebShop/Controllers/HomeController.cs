@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,15 +74,84 @@ namespace WebShop.Controllers
             return PartialView("_partialCart", cartProducts);
         }
 
+        private ApplicationUser GetUserDetails()
+        {
+            ApplicationUser[]   user = _context.Users.Where(u => u.Email == HttpContext.User.Identity.Name).ToArray();
+            return user[0];
+
+        }
+
+
+        [Authorize]
         [HttpGet]
         public IActionResult ProceedToPayment()
         {
-            return PartialView("_ProceedOrderPayment", cartProducts);
+            ProductOrderViewModel proceedToPayment = new ProductOrderViewModel
+            { ListCartProduct = cartProducts };
+            proceedToPayment.NewOrder = new OrderModel()
+            {
+                Date = DateTime.Now,
+                User = GetUserDetails(),
+            };
+
+            proceedToPayment.UserDetails = GetUserDetails();
+            return PartialView("_ProceedOrderPayment", proceedToPayment);
+
+        }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult NewConfirmedOrder()
+        {
+            ProductOrderViewModel confirmedOrder = new ProductOrderViewModel
+            { ListCartProduct = cartProducts };
+            confirmedOrder.NewOrder = new OrderModel()
+            {
+                Date = DateTime.Now,
+                User = GetUserDetails(),                
+            };
+            confirmedOrder.UserDetails = GetUserDetails();
+            try
+            {
+                _context.Order.Add(confirmedOrder.NewOrder);
+                _context.SaveChanges();
+
+                foreach (var product in confirmedOrder.ListCartProduct.GroupBy(p => p.ProductId))
+                {
+                    _context.ProductOrder.Add(newProductOrder(confirmedOrder.NewOrder, product.First(), product.Count()));
+                    _context.SaveChanges();
+                }
+                return PartialView("_OrderReceipt", confirmedOrder);
+            }
+            catch
+            {
+                return NotFound();
+            }
+
+        }
+        public ProductOrderModel newProductOrder(OrderModel order, ProductModel product , int quantity)
+        {
+            ProductOrderModel addProductOrder = new ProductOrderModel
+            {
+                Order = order,
+                Product = product,
+                Quantity = quantity,
+            };            
+
+            return addProductOrder;
+        }
+    
+        [Authorize]
+        [HttpGet]
+        public IActionResult BacktoCart()
+        {
+            return RedirectToAction("GetCarttInfo");
         }
 
         [HttpGet]
         public IActionResult CartSummary()
         {
+            
             return PartialView("_partialCartSummary", cartProducts);
         }
 
