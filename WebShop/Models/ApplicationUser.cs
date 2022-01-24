@@ -23,6 +23,11 @@ namespace WebShop.Models
         [Required]
         public string City { get; set; }
 
+        public override string Email { get; set; }
+
+        public override string PhoneNumber { get; set; }
+
+
         public string Discriminator { get; set; }
     }
 }
