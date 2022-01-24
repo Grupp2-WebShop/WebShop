@@ -107,7 +107,7 @@ namespace WebShop.Areas.Identity.Pages.Account
                     ZipCode = Input.ZipCode,
                     City = Input.City,
                     Email = Input.Email,
-                    Discriminator = "User"
+                    Discriminator = "ApplicationUser"
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)

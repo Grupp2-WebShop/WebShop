@@ -81,7 +81,8 @@ namespace WebShop.Areas.Admin.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,FirstName, LastName,Street,ZipCode,City,Discriminator ")] ApplicationUser userModel)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,City,FirstName, LastName,Street,ZipCode,City,Discriminator,EmailConfirmed,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnabled," +
+            "AccessFailedCoun,UserName,NormalizedUserName,NormalizedEmail,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,LockoutEnd ")] ApplicationUser userModel)
         {
             if (id != userModel.Id)
             {
@@ -90,6 +91,7 @@ namespace WebShop.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
+
                 try
                 {
                     _context.Update(userModel);
