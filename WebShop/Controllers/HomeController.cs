@@ -100,7 +100,7 @@ namespace WebShop.Controllers
             return PartialView("_ProceedOrderPayment", proceedToPayment);
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         public IActionResult NewConfirmedOrder()
         {
@@ -126,6 +126,7 @@ namespace WebShop.Controllers
                     _context.ProductOrder.Add(productOrder);
                     _context.SaveChanges();
                 }
+                cartProducts = new List<ProductModel>();
                 return PartialView("_OrderReceipt", confirmedOrder);
             }
             catch
