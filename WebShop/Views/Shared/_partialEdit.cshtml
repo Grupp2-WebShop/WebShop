@@ -18,6 +18,7 @@
             <input type="hidden" asp-for="ProductName">
             <input type="hidden" asp-for="Price">
             <div class="form-group">
+<<<<<<< HEAD
                 <label asp-for="ProductName" class="col-form-label">Product name:</label>
                 <input type="text" asp-for="ProductName" class="form-control" id="product-name" placeholder="@Model.ProductName">
                 <span asp-validation-for="ProductName" class="text-danger"></span>
@@ -30,9 +31,25 @@
             <div class="form-group">
                 <label asp-for="Description" class="col-form-label">Description:</label>
                 <textarea class="form-control" asp-for="Description" id="description" placeholder="@Model.Description"></textarea>
+=======
+                <label asp-for="ProductName" class="control-label">Product name</label>
+                <input asp-for="ProductName" class="form-control" placeholder="@Model.ProductName"/>
+                <span asp-validation-for="ProductName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label">Price</label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger" placeholder="@Model.Price"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label">Description</label>
+                <input asp-for="Description" class="form-control"  placeholder="@Model.Description"/>
+>>>>>>> EditOrder
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <input type="submit" value="Save changes" class="btn btn-default" />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
         </form>
         <hr />
         <!-- Image -->
