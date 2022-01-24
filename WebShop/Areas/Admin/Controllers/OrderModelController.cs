@@ -6,8 +6,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebShop.Models;
 
-namespace WebShop.Controllers
+namespace WebShop.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class OrderModelController : Controller
     {
         private readonly AppDbContext _context;
