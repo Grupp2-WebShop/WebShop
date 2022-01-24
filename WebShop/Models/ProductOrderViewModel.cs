@@ -7,10 +7,14 @@ namespace WebShop.Models
 {
     public class ProductOrderViewModel
     {
-        public List<ProductModel> ListProduct{ get; set; }
+        public List<ProductModel> ListCartProduct { get; set; }
+        public OrderModel NewOrder { get; set; }
+        public ProductOrderModel NewProductOrder { get; set; }
+        public ApplicationUser UserDetails { get; set; }
+
         public ProductOrderViewModel()
         {
-            ListProduct = new List<ProductModel>();
+            ListCartProduct = new List<ProductModel>();
         }
     }
 }

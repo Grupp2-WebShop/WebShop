@@ -1,7 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using WebShop.Models;
 
 namespace WebShop.Controllers
@@ -73,22 +79,87 @@ namespace WebShop.Controllers
             return PartialView("_partialCart", cartProducts);
         }
 
+        private ApplicationUser GetUserDetails()
+        {
+            ApplicationUser[] user = _context.Users.Where(u => u.Email == HttpContext.User.Identity.Name).ToArray();
+            return user[0];
+        }
+
+        [Authorize]
         [HttpGet]
         public IActionResult ProceedToPayment()
         {
-            return PartialView("_ProceedOrderPayment", cartProducts);
+            ProductOrderViewModel proceedToPayment = new ProductOrderViewModel
+            { ListCartProduct = cartProducts };
+            proceedToPayment.NewOrder = new OrderModel()
+            {
+                Date = DateTime.Now,
+                User = GetUserDetails(),
+            };
+            proceedToPayment.UserDetails = GetUserDetails();
+            return PartialView("_ProceedOrderPayment", proceedToPayment);
+        }
+
+        //[Authorize]
+        [HttpGet]
+        public IActionResult NewConfirmedOrder()
+        {
+            ProductOrderViewModel confirmedOrder = new ProductOrderViewModel 
+            { ListCartProduct = cartProducts };
+            confirmedOrder.NewOrder = new OrderModel()
+            {
+                Date = DateTime.Now,
+                User = GetUserDetails()                
+            };
+            confirmedOrder.UserDetails = GetUserDetails();
+            try
+            {
+                _context.Order.Add(confirmedOrder.NewOrder);
+                _context.SaveChanges();
+
+                ProductOrderModel productOrder = new ProductOrderModel();
+                foreach (var product in confirmedOrder.ListCartProduct.GroupBy(p => p.ProductId))
+                {                    
+                    productOrder.Quantity = product.Count();
+                    productOrder.ProductId = product.First().ProductId;
+                    productOrder.OrderId = confirmedOrder.NewOrder.OrderId;
+                    _context.ProductOrder.Add(productOrder);
+                    _context.SaveChanges();
+                }
+                return PartialView("_OrderReceipt", confirmedOrder);
+            }
+            catch
+            {
+                return NotFound();
+            }
+        }
+        public ProductOrderModel newProductOrder(OrderModel order, ProductModel product , int quantity)
+        {
+            ProductOrderModel addProductOrder = new ProductOrderModel
+            {
+                Order = order,
+                Product = product,
+                Quantity = quantity,
+            };
+            return addProductOrder;
+        }
+    
+        [Authorize]
+        [HttpGet]
+        public IActionResult BacktoCart()
+        {
+            return RedirectToAction("GetCarttInfo");
         }
 
         [HttpGet]
         public IActionResult CartSummary()
-        {
+        {            
             return PartialView("_partialCartSummary", cartProducts);
         }
 
         public IActionResult RemoveFromCart(int productId)
         {            
             foreach (var group in cartProducts.GroupBy(p => p.ProductId))
-
             { 
                 if (group.First().ProductId==productId)
                 cartProducts.Remove(group.First()); 
@@ -109,6 +180,80 @@ namespace WebShop.Controllers
             ProductModel product = new ProductModel();
             product = _context.Product.Find(productId);
             return PartialView("_partialProductInfo", product);
+        }
+
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var productModel = await _context.Product.FindAsync(id);
+            if (productModel == null)
+            {
+                return NotFound();
+            }
+            return RedirectToAction("Index");
+        }
+
+        // POST: Admin/ProductModel/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpGet]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,Price,Description,ImageName")] ProductModel productModel)
+        {
+            if (id != productModel.ProductId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(productModel);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ProductModelExists(productModel.ProductId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UploadImage([Bind("ProductId,ProductName,Price,Description,ImageName")] ProductModel productModel, IFormFile ImageName)
+        {
+            if (ModelState.IsValid)
+            {
+                var filename = ContentDispositionHeaderValue.Parse(ImageName.ContentDisposition).FileName.Trim('"');
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Images", ImageName.FileName);
+                using (System.IO.Stream stream = new FileStream(path, FileMode.Create))
+                {
+                    await ImageName.CopyToAsync(stream);
+                }
+                productModel.ImageName = filename;
+                _context.Update(productModel);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
+
+        private bool ProductModelExists(int id)
+        {
+            return _context.Product.Any(e => e.ProductId == id);
         }
     }
 }

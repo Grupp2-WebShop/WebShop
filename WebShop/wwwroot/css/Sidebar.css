@@ -17,14 +17,15 @@
     transition: all 0.3s;
     position: fixed;
     top: 0;
+    bottom: 0;
     right: 0;
     padding: 10px;
+    overflow-y: scroll;
 }
 
 #sidebarCollapse.active {
     margin-left: 0px;
 }
-
 
 #sidebar.active {
     margin-right: -250px;
