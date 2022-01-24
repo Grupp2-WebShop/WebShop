@@ -182,33 +182,13 @@ namespace WebShop.Controllers
             return PartialView("_partialProductInfo", product);
         }
 
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var productModel = await _context.Product.FindAsync(id);
-            if (productModel == null)
-            {
-                return NotFound();
-            }
-            return RedirectToAction("Index");
-        }
-
         // POST: Admin/ProductModel/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpGet]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,Price,Description,ImageName")] ProductModel productModel)
+        public async Task<IActionResult> Edit([Bind("ProductId,ProductName,Price,Description,ImageName")] ProductModel productModel)
         {
-            if (id != productModel.ProductId)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
