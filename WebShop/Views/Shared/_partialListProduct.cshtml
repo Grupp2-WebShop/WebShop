@@ -25,7 +25,7 @@
 
                 @*@if (User.IsInRole("Admin"))
                 {*@
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editProduct">Edit</button>
+                    @*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editProduct">Edit</button>
 
                     <div class="modal fade" id="editProduct" tabindex="-1" role="dialog" aria-labelledby="editProductLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
@@ -62,7 +62,7 @@
                     <div class="product-cards__edit">
                       <input type="submit" onclick="location.href = '@Url.Action("EditClicked","Home", new { productId=item.ProductId})'" class="btn btn-primary" name="btnEdit" value="ProtoEdit" />
 
-                    </div>
+                    </div>*@
                 @*}*@
             </div>
         </div>
