@@ -1,8 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using WebShop.Models;
 
 namespace WebShop.Controllers
@@ -176,6 +181,80 @@ namespace WebShop.Controllers
             ProductModel product = new ProductModel();
             product = _context.Product.Find(productId);
             return PartialView("_partialProductInfo", product);
+        }
+
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var productModel = await _context.Product.FindAsync(id);
+            if (productModel == null)
+            {
+                return NotFound();
+            }
+            return RedirectToAction("Index");
+        }
+
+        // POST: Admin/ProductModel/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpGet]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,Price,Description,ImageName")] ProductModel productModel)
+        {
+            if (id != productModel.ProductId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(productModel);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ProductModelExists(productModel.ProductId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UploadImage([Bind("ProductId,ProductName,Price,Description,ImageName")] ProductModel productModel, IFormFile ImageName)
+        {
+            if (ModelState.IsValid)
+            {
+                var filename = ContentDispositionHeaderValue.Parse(ImageName.ContentDisposition).FileName.Trim('"');
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Images", ImageName.FileName);
+                using (System.IO.Stream stream = new FileStream(path, FileMode.Create))
+                {
+                    await ImageName.CopyToAsync(stream);
+                }
+                productModel.ImageName = filename;
+                _context.Update(productModel);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
+
+        private bool ProductModelExists(int id)
+        {
+            return _context.Product.Any(e => e.ProductId == id);
         }
     }
 }
