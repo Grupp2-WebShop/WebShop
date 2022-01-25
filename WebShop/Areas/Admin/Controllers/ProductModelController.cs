@@ -16,7 +16,6 @@ namespace WebShop.Areas.Admin.Controllers
     public class ProductModelController : Controller
     {
         private readonly AppDbContext _context;
-
         public ProductModelController(AppDbContext context)
         {
             _context = context;
@@ -174,8 +173,5 @@ namespace WebShop.Areas.Admin.Controllers
         {
             return _context.Product.Any(e => e.ProductId == id);
         }
-
-
-
     }
 }

@@ -81,8 +81,8 @@ namespace WebShop.Areas.Admin.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,City,FirstName, LastName,Street,ZipCode,City,Discriminator,EmailConfirmed,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnabled," +
-            "AccessFailedCoun,UserName,NormalizedUserName,NormalizedEmail,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,LockoutEnd ")] ApplicationUser userModel)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,City,FirstName,LastName,Street,ZipCode,City,Discriminator,Email,EmailConfirmed,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnabled," +
+            "AccessFailedCoun,UserName,NormalizedUserName,NormalizedEmail,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,LockoutEnd")] ApplicationUser userModel)
         {
             if (id != userModel.Id)
             {
@@ -91,7 +91,6 @@ namespace WebShop.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-
                 try
                 {
                     _context.Update(userModel);
@@ -112,8 +111,6 @@ namespace WebShop.Areas.Admin.Controllers
             }
             return View(userModel);
         }
-
-
 
         public async Task<IActionResult> Delete(string id)
         {
@@ -146,7 +143,5 @@ namespace WebShop.Areas.Admin.Controllers
         {
             return _context.Users.Any(e => e.Id == id);
         }
-
-
     }
 }
