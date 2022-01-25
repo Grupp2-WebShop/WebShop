@@ -72,3 +72,23 @@ function ConfirmOrder() {
 //        }
 //    });
 //}
+
+
+var CartCountPostBackURL = '/Home/CartSummary';
+$(function () {
+        $.ajax({
+            type: "GET",
+            url: CartCountPostBackURL,
+            contentType: "application/json; charset=utf-8",
+
+            datatype: "json",
+            success: function (data) {
+                $('#idCartCount').html(data);
+            },
+            error: function () {
+                alert("Dynamic content load failed.");
+            }
+        });
+    
+
+});

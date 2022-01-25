@@ -9,15 +9,14 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using WebShop.Models;
-
 namespace WebShop.Controllers
 {
     public class HomeController : Controller
     {
+        
         private readonly AppDbContext _context;
         public static List<ProductModel> cartProducts=new List<ProductModel>();
-        
-        public HomeController(AppDbContext context)
+         public HomeController(AppDbContext context)
         { 
             _context = context; 
         }
@@ -27,7 +26,7 @@ namespace WebShop.Controllers
             ProductViewModel listProductViewModel = new ProductViewModel
             {
                 ListProductView = _context.Product.ToList(),
-                ListCart = cartProducts//_context.Product.Where(p => cartProducts.Contains(p.ProductId)).ToList()
+                ListCart = cartProducts
             };
 
             if (TempData["shortMessage"] != null)
@@ -61,10 +60,29 @@ namespace WebShop.Controllers
 
         public IActionResult BuyClicked(int productId)
         {
+            List<string> listCart = new List<string>();
+            if (HttpContext.Session.Get("cart") == null)
+            {
+                
+                listCart.Add(productId.ToString());
+                HttpContext.Session.SetString("cart", listCart.ToString());
+                ViewBag.cart = listCart.Count();
+                HttpContext.Session.SetString("cartCount", listCart.Count().ToString());
+            }
+            else
+            {
+                listCart  = (List<string>)HttpContext.Session.GetString("cart").Split("").ToList();
+                listCart.Add(productId.ToString());
+                HttpContext.Session.SetString("cart", listCart.ToString());
+                ViewBag.cart = listCart.Count();
+                HttpContext.Session.SetString("cartCount", (Convert.ToInt32(HttpContext.Session.GetString("cartCount") + 1)).ToString());
+
+            }
+       
             cartProducts.Add(_context.Product.Find(productId));
             TempData["shortMessage"]=$"Added to shopping cart";
             return RedirectToAction("Index");
-        }
+    }
 
         public IActionResult EditClicked(int productId)
         {
@@ -154,8 +172,11 @@ namespace WebShop.Controllers
 
         [HttpGet]
         public IActionResult CartSummary()
-        {            
-            return PartialView("_partialCartSummary", cartProducts);
+        {
+            if (HttpContext.Session.GetString("cartCount") != null)
+                ViewData["CartCount"] = HttpContext.Session.GetString("cartCount");
+         
+            return PartialView("_partialCartSummary");
         }
 
         public IActionResult RemoveFromCart(int productId)
