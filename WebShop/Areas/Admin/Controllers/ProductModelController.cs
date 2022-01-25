@@ -25,6 +25,7 @@ namespace WebShop.Areas.Admin.Controllers
         // GET: Admin/ProductModel
         public async Task<IActionResult> Index()
         {
+            List<ApplicationUser> list = _context.Users.ToList();
             return View(await _context.Product.ToListAsync());
         }
 
@@ -71,34 +72,13 @@ namespace WebShop.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        // GET: Admin/ProductModel/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var productModel = await _context.Product.FindAsync(id);
-            if (productModel == null)
-            {
-                return NotFound();
-            }
-            return View(productModel);
-        }
-
         // POST: Admin/ProductModel/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,Price,Description,ImageName")] ProductModel productModel)
+        public async Task<IActionResult> Edit([Bind("ProductId,ProductName,Price,Description,ImageName")] ProductModel productModel)
         {
-            if (id != productModel.ProductId)
-            {
-                return NotFound();
-            }
-            
             if (ModelState.IsValid)
             {
                 try

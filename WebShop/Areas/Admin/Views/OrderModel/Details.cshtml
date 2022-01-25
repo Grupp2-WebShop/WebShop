@@ -1,0 +1,48 @@
+﻿@model WebShop.Models.ProductOrderModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>OrderModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OrderId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Product.ProductName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Product.ProductName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Product.Price)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Product.Price)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Order.User.UserName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Order.User.UserName)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ProductId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
