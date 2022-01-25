@@ -75,7 +75,7 @@ namespace WebShop.Controllers
                 listCart.Add(productId.ToString());
                 HttpContext.Session.SetString("cart", listCart.ToString());
                 ViewBag.cart = listCart.Count();
-                HttpContext.Session.SetString("cartCount", (Convert.ToInt32(HttpContext.Session.GetString("cartCount") + 1)).ToString());
+                HttpContext.Session.SetString("cartCount", (Convert.ToInt32(HttpContext.Session.GetString("cartCount")) + 1).ToString());
 
             }
        
@@ -145,6 +145,8 @@ namespace WebShop.Controllers
                     _context.SaveChanges();
                 }
                 cartProducts = new List<ProductModel>();
+                HttpContext.Session.Remove("cart");
+                HttpContext.Session.Remove("cartCount");
                 return PartialView("_OrderReceipt", confirmedOrder);
             }
             catch
