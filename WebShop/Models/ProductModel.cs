@@ -15,8 +15,7 @@ namespace WebShop.Models
         public string ProductName { get; set; }
 
         [Required]
-        [Column("Price")]
-        
+        [Column("Price")]        
         public int Price { get; set; }
 
         [Required]

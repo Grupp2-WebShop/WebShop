@@ -91,7 +91,6 @@ namespace WebShop.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-
                 try
                 {
                     _context.Update(userModel);
@@ -112,8 +111,6 @@ namespace WebShop.Areas.Admin.Controllers
             }
             return View(userModel);
         }
-
-
 
         public async Task<IActionResult> Delete(string id)
         {
@@ -146,7 +143,5 @@ namespace WebShop.Areas.Admin.Controllers
         {
             return _context.Users.Any(e => e.Id == id);
         }
-
-
     }
 }

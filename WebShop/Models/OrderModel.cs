@@ -17,7 +17,6 @@ namespace WebShop.Models
         public DateTime Date { get; set; }
 
         public ApplicationUser User { get; set; }
-
         public List<ProductOrderModel> Products { get; set; }
     }
 }
