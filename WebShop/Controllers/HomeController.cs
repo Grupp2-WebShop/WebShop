@@ -18,7 +18,7 @@ namespace WebShop.Controllers
         public static List<ProductModel> cartProducts=new List<ProductModel>();
          public HomeController(AppDbContext context)
         { 
-            _context = context; 
+            _context = context;     
         }
 
         public IActionResult Index()
