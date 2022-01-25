@@ -1,4 +1,4 @@
-﻿@model WebShop.Models.ProductOrderModel
+﻿@model IEnumerable<WebShop.Models.ProductOrderModel>
 
 @{
     ViewData["Title"] = "Details";
@@ -6,43 +6,62 @@
 
 <h2>Details</h2>
 
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order.User.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Order.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Order.User.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.OrderId">Edit</a> |
+                <input type="hidden" asp-for="@item.ProductId" />
+                <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
 <div>
-    <h4>OrderModel</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.OrderId)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.OrderId)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Product.ProductName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Product.ProductName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Product.Price)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Product.Price)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Quantity)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Quantity)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Order.User.UserName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Order.User.UserName)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.ProductId">Edit</a> |
+    @*<a asp-action="Edit" asp-route-id="@Model.ProductId">Edit</a>*@
     <a asp-action="Index">Back to List</a>
 </div>
