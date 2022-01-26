@@ -1,5 +1,5 @@
-﻿@if (User.IsInRole("Admin"))
-{
+﻿@*@if (User.IsInRole("Admin"))
+{*@
     <li class="nav-item dropdown show">
         <a class ="dropdown-toggle nav-link text-dark" href="#" data-toggle="dropdown">Admin Tools</a>
         <div class=dropdown-menu>
@@ -10,4 +10,4 @@
             <a class="dropdown-item" asp-area="Admin" asp-controller="OrderModel" asp-action="Index">Order Manager</a>
         </div>
     </li>
-}
+@*}*@

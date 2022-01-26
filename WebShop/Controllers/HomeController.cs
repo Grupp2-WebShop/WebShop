@@ -16,9 +16,12 @@ namespace WebShop.Controllers
 
         private readonly AppDbContext _context;
         public static List<ProductModel> cartProducts=new List<ProductModel>();
-        public HomeController(AppDbContext context)
-        {
-            _context = context;
+
+
+
+         public HomeController(AppDbContext context)
+        { 
+            _context = context;     
 
         }
 
