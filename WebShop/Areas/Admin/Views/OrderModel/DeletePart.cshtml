@@ -48,11 +48,18 @@
             @Html.DisplayFor(model => model.Quantity)
         </dd>
     </dl>
+    <div>
+        <a href="#" onclick="location.href = '@Url.Action("DeletePartConfirmed", "OrderModel", new {
+                                                     OrderId=Model.OrderId,
+                                                     ProductId=Model.ProductId,
+                                                     Quantity=Model.Quantity})'">Delete</a> |
+        <a asp-action="Details" asp-route-id="@Model.OrderId">Back to OrderDetails</a>
 
-    <form asp-action="Delete">
-        @*<input type="hidden" asp-for="ProductId" />*@
+    </div>
+
+    @*<form asp-action="DeletePartConfirmed">
         <input type="hidden" asp-for="OrderId" />
         <input type="submit" value="Delete" class="btn btn-default" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+
+    </form>*@
 </div>

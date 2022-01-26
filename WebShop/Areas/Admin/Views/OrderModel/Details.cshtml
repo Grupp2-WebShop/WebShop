@@ -53,10 +53,21 @@
                 @Html.DisplayFor(modelItem => item.Quantity)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.OrderId">Edit</a> |
-                <input type="hidden" asp-for="@item.ProductId" />
-                <input type="hidden" asp-for="@item.OrderId" />
-                <a asp-action="Delete">Delete</a>
+                <a href="#" onclick="location.href = '@Url.Action("EditPart", "OrderModel", new {
+                                                     OrderId=item.OrderId,
+                                                     ProductId=item.ProductId,
+                                                     Quantity=item.Quantity})'">Edit</a> |
+                <a href="#" onclick="location.href = '@Url.Action("DeletePart", "OrderModel", new {
+                                                     OrderId=item.OrderId,
+                                                     ProductId=item.ProductId,
+                                                     Quantity=item.Quantity})'">Delete</a>
+            </td>
+            <td>
+                @*<input type="hidden" asp-for="@item.Product" />
+        <input type="hidden" asp-for="@item.ProductId" />
+        <input type="hidden" asp-for="@item.OrderId" />
+        <a asp-action="Edit" asp-route-id="@item.OrderId">Edit</a> |
+            <a asp-action="DeletePart" asp-route-id="@item.ProductId">Delete</a>*@
             </td>
         </tr>
         }
@@ -64,5 +75,4 @@
 </table>
 <div>
     <a asp-action="Index">Back to Orderlist</a>
-    @*  <a asp-action="Details">Back to Details</a>*@
 </div>

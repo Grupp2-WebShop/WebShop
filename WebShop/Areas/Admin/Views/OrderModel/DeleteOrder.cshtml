@@ -37,9 +37,13 @@
     </tbody>
 </table>
 <div>
-    <input type="hidden" asp-for="OrderId" />
-    @*<input type="submit" asp-for="OrderId" value="Delete" class="btn btn-default" /> |*@
+    @*<input type="hidden" asp-for="OrderId" />*@
     <a asp-action="DeleteOrderConfirmed" asp-route-id="@Model.OrderId">Delete</a> |
     <a asp-action="Details" asp-route-id="@Model.OrderId">Details</a> |
     <a asp-action="Index">Back to Orderlist</a>
+
+    @*<a href="#" onclick="location.href = '@Url.Action("DeletePart", "OrderModel", new {
+                                                     OrderId=item.OrderId,
+                                                     ProductId=item.ProductId,
+                                                     Quantity=item.Quantity})'">Delete</a>*@
 </div>
