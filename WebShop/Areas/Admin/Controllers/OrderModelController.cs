@@ -42,39 +42,16 @@ namespace WebShop.Areas.Admin.Controllers
        
         public async Task<IActionResult> EditOrderConfirmed(ProductOrderModel productOrder)
         {
-            if (productOrder == null)
+            if (productOrder == null || !ModelState.IsValid)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(productOrder);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    //if (!ProductModelExists(userModel.Id))
-                    //{
-                    //    return NotFound();
-                    //}
-                    //else
-                    //{
-                    //    throw;
-                    //}
-                }
-                return RedirectToAction(nameof(Index));
-            }
+            var user = productOrder.Order.User;
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();                
             return RedirectToAction(nameof(Index));
         }
-
-
-
-
-
-
 
         public async Task<IActionResult> Details(int? id)
         {

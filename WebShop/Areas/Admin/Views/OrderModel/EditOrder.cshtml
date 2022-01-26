@@ -12,7 +12,25 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="ProductId" />
+            @*<input type="hidden" asp-for="ProductId" />*@
+            <input type="hidden" asp-for="Order.User.Id" />
+            <input type="hidden" asp-for="Order.User.UserName" />
+            <input type="hidden" asp-for="Order.User.NormalizedUserName" />
+            <input type="hidden" asp-for="Order.User.Email" />
+            <input type="hidden" asp-for="Order.User.NormalizedEmail" />
+            <input type="hidden" asp-for="Order.User.EmailConfirmed" />
+            <input type="hidden" asp-for="Order.User.PasswordHash" />
+            <input type="hidden" asp-for="Order.User.SecurityStamp" />
+            <input type="hidden" asp-for="Order.User.ConcurrencyStamp" />
+            <input type="hidden" asp-for="Order.User.PhoneNumber" />
+            <input type="hidden" asp-for="Order.User.PhoneNumberConfirmed" />
+            <input type="hidden" asp-for="Order.User.TwoFactorEnabled" />
+            <input type="hidden" asp-for="Order.User.LockoutEnd" />
+            <input type="hidden" asp-for="Order.User.LockoutEnabled" />
+            <input type="hidden" asp-for="Order.User.AccessFailedCount" />
+            <input type="hidden" asp-for="Order.User.Discriminator" />
+            <input type="hidden" asp-for="Order.User.FirstName" />
+            <input type="hidden" asp-for="Order.User.LastName" />
             <div class="form-group">
                 <label asp-for="Order.User.UserName" class="control-label"></label>
                 <input asp-for="Order.User.UserName" class="form-control" readonly style="width:auto" />
