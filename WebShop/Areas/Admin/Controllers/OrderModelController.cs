@@ -70,7 +70,6 @@ namespace WebShop.Areas.Admin.Controllers
             List<ApplicationUser> users = _context.Users.ToList();
             List<OrderModel> orders = _context.Order.Where(p => p.OrderId == id).ToList();
             List<ProductOrderModel> choosenOrders = _context.ProductOrder.Where(p => p.OrderId == id).ToList();
-
             return View(choosenOrders);
         }
 
@@ -87,7 +86,6 @@ namespace WebShop.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
             return View(choosenOrder);
         }
 
@@ -117,7 +115,6 @@ namespace WebShop.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
             return View(choosenPartOrder);
         }
 
@@ -148,11 +145,6 @@ namespace WebShop.Areas.Admin.Controllers
             return RedirectToAction("Details", new { id = productOrder.OrderId });
         }
 
-
-
-
-
-
         public async Task<IActionResult> EditPart(ProductOrderModel productOrder)
         {
             if (productOrder == null)
@@ -171,45 +163,29 @@ namespace WebShop.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
             return View(choosenPartOrder);
         }
 
-
         [HttpPost]
-        public async Task<IActionResult> EditPartConfirmed(string id, ApplicationUser userModel)
+        public async Task<IActionResult> EditPartConfirmed(ProductOrderModel productOrder)
         {
-            if (id != userModel.Id)
+            if (productOrder == null)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(userModel);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    //if (!ProductModelExists(userModel.Id))
-                    //{
-                    //    return NotFound();
-                    //}
-                    //else
-                    //{
-                    //    throw;
-                    //}
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(userModel);
+            List<ProductModel> products = _context.Product.ToList();
+            List<OrderModel> orders = _context.Order.ToList();
+            var choosenPartOrder = await _context.ProductOrder.FirstOrDefaultAsync(m =>
+                m.ProductId == productOrder.ProductId &&
+                m.OrderId == productOrder.OrderId);
+            choosenPartOrder.Quantity = productOrder.Quantity;
+            choosenPartOrder.Product.Price = productOrder.Product.Price;
+
+            _context.ProductOrder.Update(choosenPartOrder);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Details", new { id = productOrder.OrderId });
         }
-
-
-
-
-
     }
 }

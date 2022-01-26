@@ -12,7 +12,6 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @*<input type="hidden" asp-for="ProductId" />*@
             <input type="hidden" asp-for="Order.User.Id" />
             <input type="hidden" asp-for="Order.User.UserName" />
             <input type="hidden" asp-for="Order.User.NormalizedUserName" />
