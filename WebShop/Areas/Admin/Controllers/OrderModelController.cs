@@ -22,6 +22,59 @@ namespace WebShop.Areas.Admin.Controllers
             List<ApplicationUser> users = _context.Users.ToList();
             return View(await _context.Order.ToListAsync());
         }
+        
+        public async Task<IActionResult> EditOrder(OrderModel Order)
+        {   
+            if (Order == null)
+            {
+                return NotFound();
+            }
+
+            List<ApplicationUser> users = _context.Users.ToList();
+            var orderModel = await _context.Order.FindAsync(Order.OrderId);
+            var productOrder = await _context.ProductOrder.FirstOrDefaultAsync(p => p.OrderId == Order.OrderId);
+            if (productOrder == null)
+            {
+                return NotFound();
+            }
+            return View(productOrder);
+        }
+       
+        public async Task<IActionResult> EditOrderConfirmed(ProductOrderModel productOrder)
+        {
+            if (productOrder == null)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(productOrder);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    //if (!ProductModelExists(userModel.Id))
+                    //{
+                    //    return NotFound();
+                    //}
+                    //else
+                    //{
+                    //    throw;
+                    //}
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+
+
+
+
+
 
         public async Task<IActionResult> Details(int? id)
         {
@@ -117,5 +170,69 @@ namespace WebShop.Areas.Admin.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("Details", new { id = productOrder.OrderId });
         }
+
+
+
+
+
+
+        public async Task<IActionResult> EditPart(ProductOrderModel productOrder)
+        {
+            if (productOrder == null)
+            {
+                return NotFound();
+            }
+
+            List<ProductModel> products = _context.Product.ToList();
+            List<OrderModel> orders = _context.Order.ToList();
+            List<ApplicationUser> users = _context.Users.ToList();
+            var choosenPartOrder = await _context.ProductOrder.FirstOrDefaultAsync(m =>
+                m.ProductId == productOrder.ProductId &&
+                m.OrderId == productOrder.OrderId);
+
+            if (choosenPartOrder == null)
+            {
+                return NotFound();
+            }
+
+            return View(choosenPartOrder);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> EditPartConfirmed(string id, ApplicationUser userModel)
+        {
+            if (id != userModel.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(userModel);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    //if (!ProductModelExists(userModel.Id))
+                    //{
+                    //    return NotFound();
+                    //}
+                    //else
+                    //{
+                    //    throw;
+                    //}
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(userModel);
+        }
+
+
+
+
+
     }
 }

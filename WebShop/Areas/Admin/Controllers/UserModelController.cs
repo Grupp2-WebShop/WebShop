@@ -111,8 +111,6 @@ namespace WebShop.Areas.Admin.Controllers
             return View(userModel);
         }
 
-
-
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -139,12 +137,9 @@ namespace WebShop.Areas.Admin.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
         private bool ProductModelExists(string id)
         {
             return _context.Users.Any(e => e.Id == id);
         }
-
-
     }
 }
