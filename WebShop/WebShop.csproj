@@ -69,6 +69,24 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Areas\User\Views\OrderHistory\Index.cshtml" />
+    <None Include="Areas\User\Views\_ViewImports.cshtml" />
+    <None Include="Views\Home\Index.cshtml" />
+    <None Include="Views\Shared\Error.cshtml" />
+    <None Include="Views\Shared\_AdminMenuPartial.cshtml" />
+    <None Include="Views\Shared\_Layout.cshtml" />
+    <None Include="Views\Shared\_LoginPartial.cshtml" />
+    <None Include="Views\Shared\_OrderReceipt.cshtml" />
+    <None Include="Views\Shared\_partialCart.cshtml" />
+    <None Include="Views\Shared\_partialCartSummary.cshtml" />
+    <None Include="Views\Shared\_partialEdit.cshtml" />
+    <None Include="Views\Shared\_partialListProduct.cshtml" />
+    <None Include="Views\Shared\_partialProductInfo.cshtml" />
+    <None Include="Views\Shared\_partialShoppingCart.cshtml" />
+    <None Include="Views\Shared\_ProceedOrderPayment.cshtml" />
+    <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
+    <None Include="Views\_ViewImports.cshtml" />
+    <None Include="Views\_ViewStart.cshtml" />
     <None Include="wwwroot\Images\DarkSoulsRemastered.png" />
     <None Include="wwwroot\Images\PokémonBrilliantDiamond.png" />
     <None Include="wwwroot\Images\Skyrim.png" />
@@ -93,6 +111,14 @@
 
   <ItemGroup>
     <Content Update="Areas\Admin\Views\Shared\_Layout.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Areas\User\Views\_ViewImports.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\_ViewStart.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
