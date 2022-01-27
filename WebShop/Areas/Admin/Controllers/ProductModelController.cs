@@ -71,6 +71,22 @@ namespace WebShop.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        public IActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var productModel = _context.Product.FirstOrDefault(m => m.ProductId == id);
+            if (productModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(productModel);
+        }
+
         // POST: Admin/ProductModel/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.

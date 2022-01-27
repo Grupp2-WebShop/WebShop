@@ -102,10 +102,21 @@ namespace WebShop.Controllers
             return PartialView("_partialEdit", product);
         }
 
+        public IActionResult CreateClicked()
+        {
+            ProductModel product = new ProductModel();
+            return PartialView("_partialCreateProduct", product);
+        }
+
         [HttpGet]
         public IActionResult GetCarttInfo()
         {
-            return PartialView("_partialCart", cartProducts);
+            ProductViewModel listProductViewModel = new ProductViewModel
+            {
+                ListProductView = _context.Product.ToList(),
+                ListCart = cartProducts
+            };
+            return PartialView("_partialShoppingCart", listProductViewModel);
         }
 
         private ApplicationUser GetUserDetails()
@@ -182,7 +193,12 @@ namespace WebShop.Controllers
         {
             return RedirectToAction("GetCarttInfo");
         }
-
+        [Authorize]
+        [HttpGet]
+        public IActionResult Proceed()
+        {
+            return RedirectToAction("Index");
+        }
         [HttpGet]
         public IActionResult CartSummary()
         {
@@ -271,6 +287,25 @@ namespace WebShop.Controllers
         private bool ProductModelExists(int id)
         {
             return _context.Product.Any(e => e.ProductId == id);
+        }
+
+        // POST: Admin/ProductModel/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("ProductName,Price,Description")] ProductModel productModel, IFormFile ImageName)
+        {
+            var filename = ContentDispositionHeaderValue.Parse(ImageName.ContentDisposition).FileName.Trim('"');
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Images", ImageName.FileName);
+            using (System.IO.Stream stream = new FileStream(path, FileMode.Create))
+            {
+                await ImageName.CopyToAsync(stream);
+            }
+            productModel.ImageName = filename;
+            _context.Add(productModel);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
     }
 }

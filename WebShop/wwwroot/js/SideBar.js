@@ -6,12 +6,9 @@
 });
 
 var OrderPostBackURL = '/Home/ProceedToPayment';
-$(function () {
-  
-    $(".ProceedOrder").click(function () {
-        
+function ProceedOrder() {
         var x = document.getElementById("cartDetails");
-        x.style.display = "none";
+    x.style.display = "none";
         $.ajax({
             type: "GET",
             url: OrderPostBackURL,
@@ -25,10 +22,8 @@ $(function () {
                 alert("Dynamic content load failed.");
             }
         });
-    });
-    
-});
-
+   
+}
 
 var ConfirmPostBackURL = '/Home/NewConfirmedOrder';
 function ConfirmOrder() {
@@ -85,3 +80,24 @@ $(function () {
     
 
 });
+
+
+var CartDetailsPostBackURL = '/Home/GetCarttInfo';
+$(function () {
+   
+        var x = document.getElementById("cartDetails");
+        x.style.display = "block";
+        $.ajax({
+            type: "GET",
+            url: CartDetailsPostBackURL,
+            contentType: "application/json; charset=utf-8",
+
+            datatype: "json",
+            success: function (data) {
+                $('#cartDetails').html(data);
+            },
+            error: function () {
+                alert("Dynamic content load failed.");
+            }
+        });
+  });
