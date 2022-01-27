@@ -18,15 +18,17 @@
                     SEK @item.Price
                 </div>
                 <div class="product-cards__add-to-cart">
-                    <a id="btn_add" href="@Url.Action("BuyClicked","Home", new { productId=item.ProductId})" class="btn btn-primary   ">
-                        <span class="glyphicon glyphicon-shopping-cart"></span> Add To Cart
+
+                    <a href="javascript:void(0);" class="anchorDetail btn btn-primary" data-id="@item.ProductId">Details</a>
+                    <a id="btn_add" href="@Url.Action("BuyClicked","Home", new { productId=item.ProductId})" class="btn btn-primary">
+                         <span class="glyphicon glyphicon-shopping-cart"></span> Add To Cart
                     </a>
-                     <a href="javascript:void(0);" class="anchorEdit btn btn-primary" data-id="@item.ProductId">Edit</a>
+                    <a href="javascript:void(0);" class="anchorEdit btn btn-primary" data-id="@item.ProductId">Edit</a>
                 </div>
 
-                @*@if (User.IsInRole("Admin"))
-                {*@
-                    @*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editProduct">Edit</button>
+                @if (User.IsInRole("Admin"))
+                {
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editProduct">Edit</button>
 
                     <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editProductLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
@@ -61,10 +63,10 @@
                         </div>
                     </div>
                     <div class="product-cards__edit">
-                      <input type="submit" onclick="location.href = '@Url.Action("EditClicked","Home", new { productId=item.ProductId})'" class="btn btn-primary" name="btnEdit" value="ProtoEdit" />
+                        <input type="submit" onclick="location.href = '@Url.Action("EditClicked","Home", new { productId=item.ProductId})'" class="btn btn-primary" name="btnEdit" value="ProtoEdit" />
 
-                    </div>*@
-                @*}*@
+                    </div>
+                }
             </div>
         </div>
     }
