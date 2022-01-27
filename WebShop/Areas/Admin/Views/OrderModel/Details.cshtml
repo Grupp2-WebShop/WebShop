@@ -54,18 +54,20 @@
                 </td>
                 <td>
                     <a href="#" onclick="location.href = '@Url.Action("EditPart", "OrderModel", new {
-                                                         OrderId=item.OrderId,
-                                                         ProductId=item.ProductId,
-                                                         Quantity=item.Quantity})'">Edit</a> |
+                                                         OrderId = item.OrderId,
+                                                         ProductId = item.ProductId,
+                                                         Quantity = item.Quantity })'">Edit</a> |
                     <a href="#" onclick="location.href = '@Url.Action("DeletePart", "OrderModel", new {
-                                                         OrderId=item.OrderId,
-                                                         ProductId=item.ProductId,
-                                                         Quantity=item.Quantity})'">Delete</a>
+                                                         OrderId = item.OrderId,
+                                                         ProductId = item.ProductId,
+                                                         Quantity = item.Quantity })'">Delete</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
 <div>
+    <a href="#" onclick="location.href = '@Url.Action("AddToOrder", "OrderModel", new {id=Model.ToList()[0].OrderId})'">Add product</a> |
+    @*<a asp-action="AddToOrder" asp-route-id="@Model.ToList()[0].OrderId">Add product</a> |*@
     <a asp-action="Index">Back to Orderlist</a>
 </div>

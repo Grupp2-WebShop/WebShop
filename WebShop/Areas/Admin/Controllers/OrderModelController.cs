@@ -187,5 +187,27 @@ namespace WebShop.Areas.Admin.Controllers
 
             return RedirectToAction("Details", new { id = productOrder.OrderId });
         }
+
+
+
+
+        public async Task<IActionResult> AddToOrder(int id)
+        {
+            List<ProductOrderModel> choosenOrders = _context.ProductOrder.Where(p => p.OrderId == id).ToList();
+
+
+            //_context.ProductOrder.Update(choosenPartOrder);
+            //await _context.SaveChangesAsync();
+
+            return View(choosenOrders);
+        }   
+
+        [HttpPost]
+        public async Task<IActionResult> AddToOrderConfirmed(ProductOrderModel productOrder)
+        {
+
+            return RedirectToAction("Details", new { id = productOrder.OrderId });
+        }
+
     }
 }
