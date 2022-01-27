@@ -52,12 +52,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Quantity)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.OrderId">Edit</a> |
-                <input type="hidden" asp-for="@item.ProductId" />
-                <input type="hidden" asp-for="@item.OrderId" />
-                <a asp-action="Delete">Delete</a>
-            </td>
+
         </tr>
         }
     </tbody>
