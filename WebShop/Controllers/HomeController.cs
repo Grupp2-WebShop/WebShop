@@ -105,7 +105,12 @@ namespace WebShop.Controllers
         [HttpGet]
         public IActionResult GetCarttInfo()
         {
-            return PartialView("_partialCart", cartProducts);
+            ProductViewModel listProductViewModel = new ProductViewModel
+            {
+                ListProductView = _context.Product.ToList(),
+                ListCart = cartProducts
+            };
+            return PartialView("_partialShoppingCart", listProductViewModel);
         }
 
         private ApplicationUser GetUserDetails()
@@ -182,7 +187,12 @@ namespace WebShop.Controllers
         {
             return RedirectToAction("GetCarttInfo");
         }
-
+        [Authorize]
+        [HttpGet]
+        public IActionResult Proceed()
+        {
+            return RedirectToAction("Index");
+        }
         [HttpGet]
         public IActionResult CartSummary()
         {
