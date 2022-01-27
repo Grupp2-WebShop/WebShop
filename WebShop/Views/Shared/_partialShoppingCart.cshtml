@@ -83,9 +83,19 @@
             </div>
         </div>
     }
-
 <div>
-    <input type="submit" class="btn btn-primary ProceedOrder" value="Proceed to Payment" />
+   
+    @if (User.Identity.IsAuthenticated)
+    {
+        <button class="btn btn-primary " onclick="ProceedOrder()">Proceed to Payment</button>
+    }
+
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <button class="btn btn-primary " onclick="location.href = '@Url.Action("Proceed","Home")'">Proceed to Payment</button>
+        
+    }
+
 </div>
 }
 else

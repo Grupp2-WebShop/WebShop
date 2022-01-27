@@ -9,17 +9,20 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using WebShop.Models;
-
 namespace WebShop.Controllers
 {
     public class HomeController : Controller
     {
+
         private readonly AppDbContext _context;
         public static List<ProductModel> cartProducts=new List<ProductModel>();
-        
-        public HomeController(AppDbContext context)
+
+
+
+         public HomeController(AppDbContext context)
         { 
-            _context = context; 
+            _context = context;     
+
         }
 
         public IActionResult Index()
@@ -27,7 +30,7 @@ namespace WebShop.Controllers
             ProductViewModel listProductViewModel = new ProductViewModel
             {
                 ListProductView = _context.Product.ToList(),
-                ListCart = cartProducts//_context.Product.Where(p => cartProducts.Contains(p.ProductId)).ToList()
+                ListCart = cartProducts
             };
 
             if (TempData["shortMessage"] != null)
@@ -40,13 +43,13 @@ namespace WebShop.Controllers
         [HttpPost]
         public IActionResult Index(ProductViewModel productModel)
         {
-            if (productModel.Filter=="" || productModel.Filter == null)
-            { 
+            if (productModel.Filter == "" || productModel.Filter == null)
+            {
                 productModel.ListProductView = _context.Product.ToList();
                 productModel.ListCart = cartProducts;
             }
             else
-            { 
+            {
                 productModel.ListProductView.Clear();
                 foreach (var p in _context.Product.ToList())
                 {
@@ -55,17 +58,43 @@ namespace WebShop.Controllers
                         productModel.ListProductView.Add(p);
                     }
                 }
-            }            
+            }
             return View(productModel);
         }
 
         public IActionResult BuyClicked(int productId)
         {
+            List<string> listCart = new List<string>();
+            if (HttpContext.Session.Get("cart") == null)
+            {
+
+                listCart.Add(productId.ToString());
+                HttpContext.Session.SetString("cart", listCart.ToString());
+                ViewBag.cart = listCart.Count();
+                HttpContext.Session.SetString("cartCount", listCart.Count().ToString());
+            }
+            else
+            {
+                listCart = (List<string>)HttpContext.Session.GetString("cart").Split("").ToList();
+                listCart.Add(productId.ToString());
+                HttpContext.Session.SetString("cart", listCart.ToString());
+                ViewBag.cart = listCart.Count();
+                HttpContext.Session.SetString("cartCount", (Convert.ToInt32(HttpContext.Session.GetString("cartCount")) + 1).ToString());
+
+            }
+
             cartProducts.Add(_context.Product.Find(productId));
-            TempData["shortMessage"]=$"Added to shopping cart";
+            TempData["shortMessage"] = $"Added to shopping cart";
             return RedirectToAction("Index");
         }
-
+        [HttpGet]
+        public IActionResult ResetCartProducts()
+        {
+            HttpContext.Session.Remove("cart");
+            HttpContext.Session.Remove("cartCount");
+            cartProducts = new List<ProductModel>();
+            return RedirectToAction("Index");
+        }
         public IActionResult EditClicked(int productId)
         {
             ProductModel product = new ProductModel();
@@ -82,7 +111,12 @@ namespace WebShop.Controllers
         [HttpGet]
         public IActionResult GetCarttInfo()
         {
-            return PartialView("_partialCart", cartProducts);
+            ProductViewModel listProductViewModel = new ProductViewModel
+            {
+                ListProductView = _context.Product.ToList(),
+                ListCart = cartProducts
+            };
+            return PartialView("_partialShoppingCart", listProductViewModel);
         }
 
         private ApplicationUser GetUserDetails()
@@ -110,12 +144,12 @@ namespace WebShop.Controllers
         [HttpGet]
         public IActionResult NewConfirmedOrder()
         {
-            ProductOrderViewModel confirmedOrder = new ProductOrderViewModel 
+            ProductOrderViewModel confirmedOrder = new ProductOrderViewModel
             { ListCartProduct = cartProducts };
             confirmedOrder.NewOrder = new OrderModel()
             {
                 Date = DateTime.Now,
-                User = GetUserDetails()                
+                User = GetUserDetails()
             };
             confirmedOrder.UserDetails = GetUserDetails();
             try
@@ -125,14 +159,16 @@ namespace WebShop.Controllers
 
                 ProductOrderModel productOrder = new ProductOrderModel();
                 foreach (var product in confirmedOrder.ListCartProduct.GroupBy(p => p.ProductId))
-                {                    
+                {
                     productOrder.Quantity = product.Count();
                     productOrder.ProductId = product.First().ProductId;
                     productOrder.OrderId = confirmedOrder.NewOrder.OrderId;
                     _context.ProductOrder.Add(productOrder);
                     _context.SaveChanges();
                 }
-                cartProducts = new List<ProductModel>();
+
+
+                IActionResult actionResult = ResetCartProducts();
                 return PartialView("_OrderReceipt", confirmedOrder);
             }
             catch
@@ -140,7 +176,7 @@ namespace WebShop.Controllers
                 return NotFound();
             }
         }
-        public ProductOrderModel newProductOrder(OrderModel order, ProductModel product , int quantity)
+        public ProductOrderModel newProductOrder(OrderModel order, ProductModel product, int quantity)
         {
             ProductOrderModel addProductOrder = new ProductOrderModel
             {
@@ -150,28 +186,38 @@ namespace WebShop.Controllers
             };
             return addProductOrder;
         }
-    
+
         [Authorize]
         [HttpGet]
         public IActionResult BacktoCart()
         {
             return RedirectToAction("GetCarttInfo");
         }
-
+        [Authorize]
+        [HttpGet]
+        public IActionResult Proceed()
+        {
+            return RedirectToAction("Index");
+        }
         [HttpGet]
         public IActionResult CartSummary()
-        {            
-            return PartialView("_partialCartSummary", cartProducts);
+        {
+            if (HttpContext.Session.GetString("cartCount") != null)
+                ViewData["CartCount"] = HttpContext.Session.GetString("cartCount");
+
+            return PartialView("_partialCartSummary");
         }
 
+
+
         public IActionResult RemoveFromCart(int productId)
-        {            
+        {
             foreach (var group in cartProducts.GroupBy(p => p.ProductId))
-            { 
-                if (group.First().ProductId==productId)
-                cartProducts.Remove(group.First()); 
+            {
+                if (group.First().ProductId == productId)
+                        cartProducts.Remove(group.First());
             }
-                
+
             //update viewmodel
             ProductViewModel listProductViewModel = new ProductViewModel
             {
