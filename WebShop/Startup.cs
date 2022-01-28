@@ -87,6 +87,10 @@ namespace WebShop
                     pattern: "{area:exists}/{controller=}/{action=}/{id?}");
 
                 endpoints.MapControllerRoute(
+                name: "User",
+                pattern: "{area:exists}/{controller=}/{action=}/{id?}");
+
+                endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
