@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using iTextSharp.text.pdf;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,10 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using WebShop.Models;
+using iTextSharp.text;
+using iTextSharp.text.html.simpleparser;
+using iTextSharp.tool.xml;
+
 namespace WebShop.Controllers
 {
     public class HomeController : Controller
@@ -147,6 +152,25 @@ namespace WebShop.Controllers
             };
             proceedToPayment.UserDetails = GetUserDetails();
             return PartialView("_ProceedOrderPayment", proceedToPayment);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public FileResult Export(string ReceiptHtml)
+        {
+            MemoryStream memoryStream = new MemoryStream();
+            
+             using (MemoryStream stream = new System.IO.MemoryStream())
+                {
+                    StringReader sr = new StringReader(ReceiptHtml);
+                    Document pdfDoc = new Document(PageSize.A4, 10f, 10f, 100f, 0f);
+                    PdfWriter writer = PdfWriter.GetInstance(pdfDoc, stream);
+                    pdfDoc.Open();
+                    XMLWorkerHelper.GetInstance().ParseXHtml(writer, pdfDoc, sr);
+                    pdfDoc.Close();
+                    return File(stream.ToArray(), "application/pdf", "Receipt.pdf");
+                }
+            
         }
 
         [Authorize]

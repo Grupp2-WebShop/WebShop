@@ -87,8 +87,7 @@
     <div>
         <form asp-action="Index" method="post" role="form">
             @Html.AntiForgeryToken()
-            <label asp-for="Filter"></label>
-            <input asp-for="Filter" />
+            <input type="search" asp-for="Filter"  placeholder="Search" style="width:max-content;height:30px; "/>
             <input type="submit" class="btn btn-primary" name="btnFilter" value="Go" />
         </form>
     </div>
