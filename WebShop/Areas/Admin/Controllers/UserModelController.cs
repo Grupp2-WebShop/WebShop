@@ -81,7 +81,7 @@ namespace WebShop.Areas.Admin.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,FirstName, LastName,Street,ZipCode,City,Discriminator ")] ApplicationUser userModel)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,FirstName, LastName,Street,ZipCode,City,Discriminator,Email,EmailConfirmed,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnabled,AccessFailedCount,UserName,NormalizedUserName,NormalizedEmail,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,LockoutEnd ")] ApplicationUser userModel)
         {
             if (id != userModel.Id)
             {
