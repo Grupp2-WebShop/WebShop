@@ -62,6 +62,7 @@ namespace WebShop.Controllers
             return View(productModel);
         }
 
+        [Authorize]
         public IActionResult BuyClicked(int productId)
         {
             List<string> listCart = new List<string>();
@@ -87,6 +88,7 @@ namespace WebShop.Controllers
             TempData["shortMessage"] = $"Added to shopping cart";
             return RedirectToAction("Index");
         }
+
         [HttpGet]
         public IActionResult ResetCartProducts()
         {
@@ -106,6 +108,13 @@ namespace WebShop.Controllers
         {
             ProductModel product = new ProductModel();
             return PartialView("_partialCreateProduct", product);
+        }
+
+        public IActionResult DeleteClicked(int productId)
+        {
+            ProductModel product = new ProductModel();
+            product = _context.Product.Find(productId);
+            return PartialView("_partialDeleteProduct", product);
         }
 
         [HttpGet]
@@ -306,6 +315,35 @@ namespace WebShop.Controllers
             _context.Add(productModel);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        // GET: Admin/ProductModel/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var productModel = await _context.Product
+                .FirstOrDefaultAsync(m => m.ProductId == id);
+            if (productModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(productModel);
+        }
+
+        // POST: Admin/ProductModel/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var productModel = await _context.Product.FindAsync(id);
+            _context.Product.Remove(productModel);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
     }
 }

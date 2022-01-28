@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<WebShop.Models.ProductOrderModel>
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "OrderHistory";
 }
 
-<h2>Details</h2>
+<h2>Order History</h2>
 
 <table class="table">
     <thead>
@@ -43,6 +43,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Order.User.UserName)
             </td>
+
             <td>
                 @Html.DisplayFor(modelItem => item.Product.ProductName)
             </td>
@@ -52,18 +53,15 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Quantity)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.OrderId">Edit</a> |
-                <input type="hidden" asp-for="@item.ProductId" />
-                <input type="hidden" asp-for="@item.OrderId" />
-                <a asp-action="Delete">Delete</a>
-            </td>
+
         </tr>
         }
     </tbody>
 </table>
 
 
-<p>
+
+
+@*<p>
     @ViewBag.userId
-</p>
+</p>*@
