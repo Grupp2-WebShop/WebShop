@@ -20,7 +20,10 @@
     </div>
 </div>
 
-<button type="button" class="btn btn-primary createButton" data-toggle="modal" data-target="#createProduct">Create game</button>
+@if (User.IsInRole("Admin"))
+{
+    <button type="button" class="btn btn-primary createButton" data-toggle="modal" data-target="#createProduct">Create game</button>
+}
 
 <div class="modal fade" id="createProduct" tabindex="-1" role="dialog" aria-labelledby="createProductLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -78,7 +81,7 @@
         </span>
     </h5>
     <div>
-        
+
     </div>
     <br />
     <div>
