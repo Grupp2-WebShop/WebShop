@@ -1,1 +1,5 @@
-﻿<a class="dropdown-item" asp-area="User" asp-controller="OrderHistory" asp-action="Index">OrderHistory</a>
+﻿@if (User.IsInRole("User"))
+{
+  <a class="" asp-area="User" asp-controller="OrderHistory" asp-action="Index">OrderHistory</a>
+  
+}
