@@ -104,38 +104,44 @@
 }
 
 <div id="Receipt" hidden>
-    <h4>WEBSHOP</h4>
-    @string.Concat("\n")
-    <h5>Thankyou for purchase!!</h5>
-    @string.Concat("\n")
+    <h3 style="font-weight:bold">WEBSHOP</h3>
 
-    <h5>Order Details</h5>
+    <h5>Thankyou for purchase!!</h5>
+
+
+    <h4 style="font-weight:bold">Order Details</h4>
 
     <div style="display:flex;  align-items:stretch">
 
-        ID:       @Model.NewOrder.OrderId
-        Date:     @Model.NewOrder.Date
+        <p>ID:       @Model.NewOrder.OrderId</p>
+        <p>Date:     @Model.NewOrder.Date</p>
 
 
     </div>
+    <div>
 
+    </div>
 
-    <h5> Personal Details</h5>
+    <h4 style="font-weight:bold"> Personal Details</h4>
 
     <p>
-        @Model.UserDetails.FirstName  @Model.UserDetails.LastName@string.Concat("\n")
-        @Model.UserDetails.Street@string.Concat("\n")
-        @Model.UserDetails.ZipCode, @Model.UserDetails.City@string.Concat("\n")
+        @Model.UserDetails.FirstName  @Model.UserDetails.LastName
+    </p>
+    <p>
+        @Model.UserDetails.Street
+    </p>
+    <p>
+        @Model.UserDetails.ZipCode, @Model.UserDetails.City
 
     </p>
 
 
-    <h5> Order</h5>
+    <h4 style="font-weight:bold"> Order</h4>
 
     @if (@Model.ListCartProduct.Count != 0)
     {
 
-        <table style="width: 100% ,fit-content" class="cart-font" align="center">
+        <table style="width: 65%;border:solid" class="cart-font" >
 
             <thead>
                 <tr>
@@ -174,34 +180,27 @@
                         </td>
                     </tr>
                 }
+                <tr>
+                    <td style="font-weight:bold">
+                        Total
+                    </td>
+                    <td>
+                        <p> </p>
+                    </td>
+                    <td style="font-weight:bold">
+                        SEK  @Model.ListCartProduct.Sum(i => i.Price)
 
+                    </td>
+                </tr>
             </tbody>
 
         </table>
 
 
-        <table style="width: 88% ; font-weight:bolder" align="left"  >
-            <tbody>
-                <tr>
-                    <td align="left" style="font-weight:bold">
-                        Total
+       
 
-                    </td>
-                    <td >
-                        
-
-                    </td>
-                    <td align="right" style="font-weight:bold">
-                        SEK  @Model.ListCartProduct.Sum(i => i.Price)
-
-
-                    </td>
-                </tr>
-              </tbody>
-         </table>
-
-            }
-    </div>
+    }
+</div>
 <script>
 
     $(function () {
