@@ -1,15 +1,11 @@
 ﻿@model List<ProductModel>
 <div class="product-cards">
     @foreach (var item in Model)
-    {
-
-
-        
+    {        
         <div class="product-card">
             <div class="product-cards__wrapper ">
                 <div>
                     <img class="product-cards__thumbnail" src="~/Images/@item.ImageName" alt="Img">
-
                 </div>
                 <div class="product-cards__name">
                     @item.ProductName
@@ -18,7 +14,6 @@
                     SEK @item.Price
                 </div>
                 <div class="product-cards__add-to-cart">
-
                     <a href="javascript:void(0);" class="anchorDetail btn btn-primary" data-id="@item.ProductId">Details</a>
                     <a id="btn_add" href="@Url.Action("BuyClicked","Home", new { productId=item.ProductId})" class="btn btn-primary">
                         <span class="glyphicon glyphicon-shopping-cart"></span> Add To Cart

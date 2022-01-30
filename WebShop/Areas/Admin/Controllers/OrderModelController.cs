@@ -17,14 +17,45 @@ namespace WebShop.Areas.Admin.Controllers
             _context = context;
         }
 
+
         public async Task<IActionResult> Index()
         {
             List<ApplicationUser> users = _context.Users.ToList();
-            //List<OrderModel> orders = _context.Order.ToList();
-            //List<ProductModel> products = _context.Product.ToList();
-            //List<ProductOrderModel> productOrder = _context.ProductOrder.ToList();
             return View(await _context.Order.ToListAsync());
         }
+
+        
+        public async Task<IActionResult> EditOrder(OrderModel Order)
+        {   
+            if (Order == null)
+            {
+                return NotFound();
+            }
+
+            List<ApplicationUser> users = _context.Users.ToList();
+            var orderModel = await _context.Order.FindAsync(Order.OrderId);
+            var productOrder = await _context.ProductOrder.FirstOrDefaultAsync(p => p.OrderId == Order.OrderId);
+            if (productOrder == null)
+            {
+                return NotFound();
+            }
+            return View(productOrder);
+        }
+
+       
+        public async Task<IActionResult> EditOrderConfirmed(ProductOrderModel productOrder)
+        {
+            if (productOrder == null || !ModelState.IsValid)
+            {
+                return NotFound();
+            }
+
+            var user = productOrder.Order.User;
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();                
+            return RedirectToAction(nameof(Index));
+        }
+
 
         public async Task<IActionResult> Details(int? id)
         {
@@ -43,9 +74,9 @@ namespace WebShop.Areas.Admin.Controllers
             List<ApplicationUser> users = _context.Users.ToList();
             List<OrderModel> orders = _context.Order.Where(p => p.OrderId == id).ToList();
             List<ProductOrderModel> choosenOrders = _context.ProductOrder.Where(p => p.OrderId == id).ToList();
-
-            return View(choosenOrders);
+            return View(new OrderEditModel() { ProductOrderModel = choosenOrders, ProductModel = products, OrderModel = orders, ApplicationUser = users });
         }
+
 
         public async Task<IActionResult> DeleteOrder(int? id)
         {
@@ -60,9 +91,9 @@ namespace WebShop.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
             return View(choosenOrder);
         }
+
 
         public async Task<IActionResult> DeleteOrderConfirmed(int id)
         {
@@ -72,39 +103,130 @@ namespace WebShop.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> DeletePart(int? orderId, int productId)
+        
+        public async Task<IActionResult> DeletePart(ProductOrderModel productOrder)
         {
-            if (orderId == null)
+            if (productOrder == null)
             {
                 return NotFound();
             }
 
             List<ProductModel> products = _context.Product.ToList();
+            List<OrderModel> orders = _context.Order.ToList();
             List<ApplicationUser> users = _context.Users.ToList();
-            List<OrderModel> orders = _context.Order.Where(p => p.OrderId == orderId).ToList();
-            List<ProductOrderModel> choosenOrders = _context.ProductOrder.Where(p => p.OrderId == orderId).ToList();
+            var choosenPartOrder = await _context.ProductOrder.FirstOrDefaultAsync(m => 
+                m.ProductId == productOrder.ProductId && 
+                m.OrderId == productOrder.OrderId);
 
-            //var choosenOrder = choosenOrders.Where(p => p.ProductId == orderId);
+            if (choosenPartOrder == null)
+            {
+                return NotFound();
+            }
+            return View(choosenPartOrder);
+        }
 
-            var choosenOrder = await _context.ProductOrder.FirstOrDefaultAsync(m => m.ProductId == productId);
-            //choosenOrder.Order = choosenOrders.Where(p => p.ProductId == id);
 
-            if (choosenOrder == null)
+        public async Task<IActionResult> DeletePartConfirmed(ProductOrderModel productOrder)
+        {
+            var choosenPartOrder = await _context.ProductOrder.FirstOrDefaultAsync(m =>
+                m.ProductId == productOrder.ProductId &&
+                m.OrderId == productOrder.OrderId);
+
+            List<ProductOrderModel> choosenOrders = _context.ProductOrder.Where(p => p.OrderId == productOrder.OrderId).ToList();
+            var order = await _context.Order.FirstOrDefaultAsync(m => m.OrderId == productOrder.OrderId);
+            if (choosenPartOrder.Quantity > 1)
+            {
+                choosenPartOrder.Quantity -= 1;
+                _context.ProductOrder.Update(choosenPartOrder);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Details", new { id = productOrder.OrderId });
+            }
+            if (choosenOrders.Count() <= 1)
+            {
+                _context.Order.Remove(order);
+                _context.ProductOrder.Remove(choosenPartOrder);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            _context.ProductOrder.Remove(choosenPartOrder);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Details", new { id = productOrder.OrderId });
+        }
+
+
+        public async Task<IActionResult> EditPart(ProductOrderModel productOrder)
+        {
+            if (productOrder == null)
             {
                 return NotFound();
             }
 
-            return View(choosenOrder);
+            List<ProductModel> products = _context.Product.ToList();
+            List<OrderModel> orders = _context.Order.ToList();
+            List<ApplicationUser> users = _context.Users.ToList();
+            var choosenPartOrder = await _context.ProductOrder.FirstOrDefaultAsync(m =>
+                m.ProductId == productOrder.ProductId &&
+                m.OrderId == productOrder.OrderId);
+
+            if (choosenPartOrder == null)
+            {
+                return NotFound();
+            }
+            return View(choosenPartOrder);
         }
 
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeletePartConfirmed(int id)
+
+        [HttpPost]
+        public async Task<IActionResult> EditPartConfirmed(ProductOrderModel productOrder)
         {
-            var order = await _context.ProductOrder.FindAsync(id);
-            _context.ProductOrder.Remove(order);
+            if (productOrder == null)
+            {
+                return NotFound();
+            }
+
+            List<ProductModel> products = _context.Product.ToList();
+            List<OrderModel> orders = _context.Order.ToList();
+            var choosenPartOrder = await _context.ProductOrder.FirstOrDefaultAsync(m =>
+                m.ProductId == productOrder.ProductId &&
+                m.OrderId == productOrder.OrderId);
+            choosenPartOrder.Quantity = productOrder.Quantity;
+            choosenPartOrder.Product.Price = productOrder.Product.Price;
+
+            _context.ProductOrder.Update(choosenPartOrder);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            return RedirectToAction("Details", new { id = productOrder.OrderId });
+        }
+
+
+        public async Task<IActionResult> AddToOrder(ProductOrderModel productOrder)
+        {
+            List<ProductOrderModel> choosenOrders = _context.ProductOrder.Where(p => p.OrderId == productOrder.OrderId).ToList();
+            int count = 0;
+            foreach(var p in choosenOrders)
+            {
+                count++;
+                if (p.ProductId == productOrder.ProductId)
+                {
+                    List<ProductModel> products = _context.Product.ToList();
+                    List<OrderModel> orders = _context.Order.ToList();
+                    var choosenPartOrder = await _context.ProductOrder.FirstOrDefaultAsync(m =>
+                        m.ProductId == productOrder.ProductId &&
+                        m.OrderId == productOrder.OrderId);
+                    choosenPartOrder.Quantity = p.Quantity + 1;
+
+                    _context.ProductOrder.Update(choosenPartOrder);
+                    await _context.SaveChangesAsync();
+                    break;
+                }
+                else if(choosenOrders.Count() == count)
+                {
+                    productOrder.Quantity = 1;
+                    _context.ProductOrder.Add(productOrder);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            return RedirectToAction("Details", new { id = productOrder.OrderId });
         }
     }
 }

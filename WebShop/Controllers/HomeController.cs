@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using iTextSharp.text.pdf;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,10 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using WebShop.Models;
+using iTextSharp.text;
+using iTextSharp.text.html.simpleparser;
+using iTextSharp.tool.xml;
+
 namespace WebShop.Controllers
 {
     public class HomeController : Controller
@@ -17,12 +22,9 @@ namespace WebShop.Controllers
         private readonly AppDbContext _context;
         public static List<ProductModel> cartProducts=new List<ProductModel>();
 
-
-
-         public HomeController(AppDbContext context)
+        public HomeController(AppDbContext context)
         { 
-            _context = context;     
-
+            _context = context;
         }
 
         public IActionResult Index()
@@ -68,7 +70,6 @@ namespace WebShop.Controllers
             List<string> listCart = new List<string>();
             if (HttpContext.Session.Get("cart") == null)
             {
-
                 listCart.Add(productId.ToString());
                 HttpContext.Session.SetString("cart", listCart.ToString());
                 ViewBag.cart = listCart.Count();
@@ -81,7 +82,6 @@ namespace WebShop.Controllers
                 HttpContext.Session.SetString("cart", listCart.ToString());
                 ViewBag.cart = listCart.Count();
                 HttpContext.Session.SetString("cartCount", (Convert.ToInt32(HttpContext.Session.GetString("cartCount")) + 1).ToString());
-
             }
 
             cartProducts.Add(_context.Product.Find(productId));
@@ -150,6 +150,23 @@ namespace WebShop.Controllers
         }
 
         [Authorize]
+        [HttpPost]
+        public FileResult Export(string ReceiptHtml)
+        {
+            MemoryStream memoryStream = new MemoryStream();            
+            using (MemoryStream stream = new System.IO.MemoryStream())
+            {
+                StringReader sr = new StringReader(ReceiptHtml);
+                Document pdfDoc = new Document(PageSize.A4, 10f, 10f, 100f, 0f);
+                PdfWriter writer = PdfWriter.GetInstance(pdfDoc, stream);
+                pdfDoc.Open();
+                XMLWorkerHelper.GetInstance().ParseXHtml(writer, pdfDoc, sr);
+                pdfDoc.Close();
+                return File(stream.ToArray(), "application/pdf", "Receipt.pdf");
+            }            
+        }
+
+        [Authorize]
         [HttpGet]
         public IActionResult NewConfirmedOrder()
         {
@@ -175,7 +192,6 @@ namespace WebShop.Controllers
                     _context.ProductOrder.Add(productOrder);
                     _context.SaveChanges();
                 }
-
 
                 IActionResult actionResult = ResetCartProducts();
                 return PartialView("_OrderReceipt", confirmedOrder);
@@ -217,14 +233,11 @@ namespace WebShop.Controllers
             return PartialView("_partialCartSummary");
         }
 
-
-
         public IActionResult RemoveFromCart(int productId)
         {
             foreach (var group in cartProducts.GroupBy(p => p.ProductId))
             {
-                if (group.First().ProductId == productId)
-                        cartProducts.Remove(group.First());
+                if (group.First().ProductId == productId)cartProducts.Remove(group.First());
             }
 
             //update viewmodel
