@@ -72,8 +72,12 @@ namespace WebShop.Controllers
         {
             List<string> listCart = new List<string>();
             if (HttpContext.Session.Get("cart") == null)
+<<<<<<< HEAD
             {
 
+=======
+            {                
+>>>>>>> EditOrder
                 listCart.Add(productId.ToString());
                 HttpContext.Session.SetString("cart", listCart.ToString());
                 ViewBag.cart = listCart.Count();
@@ -86,7 +90,6 @@ namespace WebShop.Controllers
                 HttpContext.Session.SetString("cart", listCart.ToString());
                 ViewBag.cart = listCart.Count();
                 HttpContext.Session.SetString("cartCount", (Convert.ToInt32(HttpContext.Session.GetString("cartCount")) + 1).ToString());
-
             }
 
             cartProducts.Add(_context.Product.Find(productId));
