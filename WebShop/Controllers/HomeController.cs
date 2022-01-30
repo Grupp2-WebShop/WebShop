@@ -22,12 +22,9 @@ namespace WebShop.Controllers
         private readonly AppDbContext _context;
         public static List<ProductModel> cartProducts=new List<ProductModel>();
 
-
-
-         public HomeController(AppDbContext context)
+        public HomeController(AppDbContext context)
         { 
-            _context = context;     
-
+            _context = context;
         }
 
         public IActionResult Index()
@@ -72,12 +69,7 @@ namespace WebShop.Controllers
         {
             List<string> listCart = new List<string>();
             if (HttpContext.Session.Get("cart") == null)
-<<<<<<< HEAD
             {
-
-=======
-            {                
->>>>>>> EditOrder
                 listCart.Add(productId.ToString());
                 HttpContext.Session.SetString("cart", listCart.ToString());
                 ViewBag.cart = listCart.Count();
@@ -161,19 +153,17 @@ namespace WebShop.Controllers
         [HttpPost]
         public FileResult Export(string ReceiptHtml)
         {
-            MemoryStream memoryStream = new MemoryStream();
-            
-             using (MemoryStream stream = new System.IO.MemoryStream())
-                {
-                    StringReader sr = new StringReader(ReceiptHtml);
-                    Document pdfDoc = new Document(PageSize.A4, 10f, 10f, 100f, 0f);
-                    PdfWriter writer = PdfWriter.GetInstance(pdfDoc, stream);
-                    pdfDoc.Open();
-                    XMLWorkerHelper.GetInstance().ParseXHtml(writer, pdfDoc, sr);
-                    pdfDoc.Close();
-                    return File(stream.ToArray(), "application/pdf", "Receipt.pdf");
-                }
-            
+            MemoryStream memoryStream = new MemoryStream();            
+            using (MemoryStream stream = new System.IO.MemoryStream())
+            {
+                StringReader sr = new StringReader(ReceiptHtml);
+                Document pdfDoc = new Document(PageSize.A4, 10f, 10f, 100f, 0f);
+                PdfWriter writer = PdfWriter.GetInstance(pdfDoc, stream);
+                pdfDoc.Open();
+                XMLWorkerHelper.GetInstance().ParseXHtml(writer, pdfDoc, sr);
+                pdfDoc.Close();
+                return File(stream.ToArray(), "application/pdf", "Receipt.pdf");
+            }            
         }
 
         [Authorize]
@@ -202,7 +192,6 @@ namespace WebShop.Controllers
                     _context.ProductOrder.Add(productOrder);
                     _context.SaveChanges();
                 }
-
 
                 IActionResult actionResult = ResetCartProducts();
                 return PartialView("_OrderReceipt", confirmedOrder);
@@ -244,14 +233,11 @@ namespace WebShop.Controllers
             return PartialView("_partialCartSummary");
         }
 
-
-
         public IActionResult RemoveFromCart(int productId)
         {
             foreach (var group in cartProducts.GroupBy(p => p.ProductId))
             {
-                if (group.First().ProductId == productId)
-                        cartProducts.Remove(group.First());
+                if (group.First().ProductId == productId)cartProducts.Remove(group.First());
             }
 
             //update viewmodel

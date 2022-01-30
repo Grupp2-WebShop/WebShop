@@ -16,11 +16,9 @@
             </th>
             <th>
                 @Html.DisplayName("User Name")
-                @*@Html.DisplayFor(model => model.Order.User.UserName)*@
             </th>
             <th>
                 @Html.DisplayName("Product Name")
-                @*@Html.DisplayFor(model => model.Product.ProductName)*@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Product.Price)
@@ -75,7 +73,6 @@
         <tr>
             <th>
                 @Html.DisplayName("Product Name")
-                @*@Html.DisplayFor(model => model.Product.ProductName)*@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Product.Price)
@@ -99,7 +96,7 @@
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
                 <td>
-                    <a href="#" onclick="location.href='@Url.Action("AddToOrder", "OrderModel", new {orderId=Model.ProductOrderModel[0].OrderId, productId=item.ProductId})'">Add to Order</a>
+                    <a href="#/" onclick="location.href='@Url.Action("AddToOrder", "OrderModel", new {orderId=Model.ProductOrderModel[0].OrderId, productId=item.ProductId})'">Add to Order</a>
                 </td>
             </tr>
         }
