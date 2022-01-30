@@ -50,14 +50,11 @@
             <header>
                 <h1 class="text-center">Web Shop</h1>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
+                    <ul class="nav navbar-nav navbar-left">
                         <li class="nav-item">
                             <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                            <partial name="_AdminMenuPartial" />
-                        
-                            <partial name="_LoginPartial" />
-                        
+                        <partial name="_LoginPartial" />
                     </ul>
                     <ul class="nav navbar-nav navbar-left">
                         <li>
@@ -65,8 +62,10 @@
                                 Cart
                                 <span id="idCartCount" class="glyphicon glyphicon-shopping-cart CartCount badge"></span>
                             </a>
-
                         </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <partial name="_AdminMenuPartial" />
                     </ul>
                 </div>
             </header>

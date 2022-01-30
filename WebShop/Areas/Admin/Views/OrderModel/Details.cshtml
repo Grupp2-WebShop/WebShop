@@ -1,37 +1,38 @@
-﻿@model IEnumerable<WebShop.Models.ProductOrderModel>
+﻿@model OrderEditModel
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
-
+<h2>Order Details</h2>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.OrderId)
+                @Html.DisplayNameFor(model => model.Order.OrderId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Order.Date)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Order.User.UserName)
+                @Html.DisplayName("User Name")
+                @*@Html.DisplayFor(model => model.Order.User.UserName)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Product.ProductName)
+                @Html.DisplayName("Product Name")
+                @*@Html.DisplayFor(model => model.Product.ProductName)*@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Product.Price)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Quantity)
+                @Html.DisplayNameFor(model => model.ProductOrder.Quantity)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.ProductOrderModel)
         {
             <tr>
                 <td>
@@ -66,8 +67,46 @@
         }
     </tbody>
 </table>
+<hr />
+
+<h2>Add to Order</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayName("Product Name")
+                @*@Html.DisplayFor(model => model.Product.ProductName)*@
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product.Description)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ProductModel)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    <a href="#" onclick="location.href='@Url.Action("AddToOrder", "OrderModel", new {orderId=Model.ProductOrderModel[0].OrderId, productId=item.ProductId})'">Add to Order</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<hr />
 <div>
-    <a href="#" onclick="location.href = '@Url.Action("AddToOrder", "OrderModel", new {id=Model.ToList()[0].OrderId})'">Add product</a> |
-    @*<a asp-action="AddToOrder" asp-route-id="@Model.ToList()[0].OrderId">Add product</a> |*@
     <a asp-action="Index">Back to Orderlist</a>
 </div>
+<br>

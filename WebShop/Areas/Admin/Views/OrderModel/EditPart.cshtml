@@ -15,7 +15,7 @@
             <input type="hidden" asp-for="ProductId" />
             <input type="hidden" asp-for="OrderId" />
             <div class="form-group">
-                <label asp-for="Order.User.UserName" class="control-label"></label>
+                <label asp-for="Order.User.UserName" class="control-label">User Name</label>
                 <input asp-for="Order.User.UserName" class="form-control" readonly style="width:auto" />
                 <span asp-validation-for="Order.User.UserName" class="text-danger"></span>
             </div>

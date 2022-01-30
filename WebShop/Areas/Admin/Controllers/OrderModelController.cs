@@ -17,11 +17,13 @@ namespace WebShop.Areas.Admin.Controllers
             _context = context;
         }
 
+
         public async Task<IActionResult> Index()
         {
             List<ApplicationUser> users = _context.Users.ToList();
             return View(await _context.Order.ToListAsync());
         }
+
         
         public async Task<IActionResult> EditOrder(OrderModel Order)
         {   
@@ -39,6 +41,7 @@ namespace WebShop.Areas.Admin.Controllers
             }
             return View(productOrder);
         }
+
        
         public async Task<IActionResult> EditOrderConfirmed(ProductOrderModel productOrder)
         {
@@ -52,6 +55,7 @@ namespace WebShop.Areas.Admin.Controllers
             await _context.SaveChangesAsync();                
             return RedirectToAction(nameof(Index));
         }
+
 
         public async Task<IActionResult> Details(int? id)
         {
@@ -70,8 +74,9 @@ namespace WebShop.Areas.Admin.Controllers
             List<ApplicationUser> users = _context.Users.ToList();
             List<OrderModel> orders = _context.Order.Where(p => p.OrderId == id).ToList();
             List<ProductOrderModel> choosenOrders = _context.ProductOrder.Where(p => p.OrderId == id).ToList();
-            return View(choosenOrders);
+            return View(new OrderEditModel() { ProductOrderModel = choosenOrders, ProductModel = products, OrderModel = orders, ApplicationUser = users });
         }
+
 
         public async Task<IActionResult> DeleteOrder(int? id)
         {
@@ -89,6 +94,7 @@ namespace WebShop.Areas.Admin.Controllers
             return View(choosenOrder);
         }
 
+
         public async Task<IActionResult> DeleteOrderConfirmed(int id)
         {
             var order = await _context.Order.FirstOrDefaultAsync(m => m.OrderId == id);
@@ -96,6 +102,7 @@ namespace WebShop.Areas.Admin.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
         
         public async Task<IActionResult> DeletePart(ProductOrderModel productOrder)
         {
@@ -117,6 +124,7 @@ namespace WebShop.Areas.Admin.Controllers
             }
             return View(choosenPartOrder);
         }
+
 
         public async Task<IActionResult> DeletePartConfirmed(ProductOrderModel productOrder)
         {
@@ -145,6 +153,7 @@ namespace WebShop.Areas.Admin.Controllers
             return RedirectToAction("Details", new { id = productOrder.OrderId });
         }
 
+
         public async Task<IActionResult> EditPart(ProductOrderModel productOrder)
         {
             if (productOrder == null)
@@ -165,6 +174,7 @@ namespace WebShop.Areas.Admin.Controllers
             }
             return View(choosenPartOrder);
         }
+
 
         [HttpPost]
         public async Task<IActionResult> EditPartConfirmed(ProductOrderModel productOrder)
@@ -189,25 +199,34 @@ namespace WebShop.Areas.Admin.Controllers
         }
 
 
-
-
-        public async Task<IActionResult> AddToOrder(int id)
+        public async Task<IActionResult> AddToOrder(ProductOrderModel productOrder)
         {
-            List<ProductOrderModel> choosenOrders = _context.ProductOrder.Where(p => p.OrderId == id).ToList();
+            List<ProductOrderModel> choosenOrders = _context.ProductOrder.Where(p => p.OrderId == productOrder.OrderId).ToList();
+            int count = 0;
+            foreach(var p in choosenOrders)
+            {
+                count++;
+                if (p.ProductId == productOrder.ProductId)
+                {
+                    List<ProductModel> products = _context.Product.ToList();
+                    List<OrderModel> orders = _context.Order.ToList();
+                    var choosenPartOrder = await _context.ProductOrder.FirstOrDefaultAsync(m =>
+                        m.ProductId == productOrder.ProductId &&
+                        m.OrderId == productOrder.OrderId);
+                    choosenPartOrder.Quantity = p.Quantity + 1;
 
-
-            //_context.ProductOrder.Update(choosenPartOrder);
-            //await _context.SaveChangesAsync();
-
-            return View(choosenOrders);
-        }   
-
-        [HttpPost]
-        public async Task<IActionResult> AddToOrderConfirmed(ProductOrderModel productOrder)
-        {
-
+                    _context.ProductOrder.Update(choosenPartOrder);
+                    await _context.SaveChangesAsync();
+                    break;
+                }
+                else if(choosenOrders.Count() == count)
+                {
+                    productOrder.Quantity = 1;
+                    _context.ProductOrder.Add(productOrder);
+                    await _context.SaveChangesAsync();
+                }
+            }
             return RedirectToAction("Details", new { id = productOrder.OrderId });
         }
-
     }
 }
