@@ -20,7 +20,7 @@ namespace WebShop.Controllers
     {
 
         private readonly AppDbContext _context;
-        public static List<ProductModel> cartProducts=new List<ProductModel>();
+        //public static List<ProductModel> cartProducts=new List<ProductModel>();
 
         public HomeController(AppDbContext context)
         { 
@@ -32,7 +32,7 @@ namespace WebShop.Controllers
             ProductViewModel listProductViewModel = new ProductViewModel
             {
                 ListProductView = _context.Product.ToList(),
-                ListCart = cartProducts
+                ListCart = GetCartProducts()
             };
 
             if (TempData["shortMessage"] != null)
@@ -48,7 +48,7 @@ namespace WebShop.Controllers
             if (productModel.Filter == "" || productModel.Filter == null)
             {
                 productModel.ListProductView = _context.Product.ToList();
-                productModel.ListCart = cartProducts;
+                productModel.ListCart = GetCartProducts();
             }
             else
             {
@@ -63,28 +63,51 @@ namespace WebShop.Controllers
             }
             return View(productModel);
         }
+        private List<ProductModel> GetCartProducts()
+        {
+            List<ProductModel> cartProducts = new List<ProductModel>();
+            if (HttpContext.Session.Get("cart") != null)
+            {
+                List<CartDetail> cartProductIds = HttpContext.Session.GetObjectFromJson<List<CartDetail>>("cart");
+               // string listIds = HttpContext.Session.GetString("cart");
+                foreach (var id in cartProductIds)//(List<string>)HttpContext.Session.GetString("cart").Split(",").ToList())
+                {
+                    cartProducts.Add(_context.Product.Find(Convert.ToInt32(id.ProductId)));
+                }
+                return cartProducts;
+
+            }
+            else
+            {
+
+                return cartProducts;
+            }
+
+        }
 
         [Authorize]
         public IActionResult BuyClicked(int productId)
         {
-            List<string> listCart = new List<string>();
+            List<CartDetail> cartProductIds = new List<CartDetail>();
             if (HttpContext.Session.Get("cart") == null)
             {
-                listCart.Add(productId.ToString());
-                HttpContext.Session.SetString("cart", listCart.ToString());
-                ViewBag.cart = listCart.Count();
-                HttpContext.Session.SetString("cartCount", listCart.Count().ToString());
+                CartDetail product = new CartDetail(productId.ToString());
+                cartProductIds.Add(product);
+
+                HttpContext.Session.SetObjectAsJson("cart", cartProductIds);
+                ViewBag.cart = cartProductIds.Count();
+                HttpContext.Session.SetString("cartCount", cartProductIds.Count().ToString());
             }
             else
             {
-                listCart = (List<string>)HttpContext.Session.GetString("cart").Split("").ToList();
-                listCart.Add(productId.ToString());
-                HttpContext.Session.SetString("cart", listCart.ToString());
-                ViewBag.cart = listCart.Count();
-                HttpContext.Session.SetString("cartCount", (Convert.ToInt32(HttpContext.Session.GetString("cartCount")) + 1).ToString());
+                cartProductIds = HttpContext.Session.GetObjectFromJson<List<CartDetail>>("cart");
+                CartDetail product = new CartDetail(productId.ToString());
+                cartProductIds.Add(product);
+                HttpContext.Session.SetObjectAsJson("cart", cartProductIds);
+                ViewBag.cart = cartProductIds.Count();
+                HttpContext.Session.SetString("cartCount", cartProductIds.Count().ToString());
             }
 
-            cartProducts.Add(_context.Product.Find(productId));
             TempData["shortMessage"] = $"Added to shopping cart";
             return RedirectToAction("Index");
         }
@@ -94,7 +117,6 @@ namespace WebShop.Controllers
         {
             HttpContext.Session.Remove("cart");
             HttpContext.Session.Remove("cartCount");
-            cartProducts = new List<ProductModel>();
             return RedirectToAction("Index");
         }
         public IActionResult EditClicked(int productId)
@@ -123,7 +145,7 @@ namespace WebShop.Controllers
             ProductViewModel listProductViewModel = new ProductViewModel
             {
                 ListProductView = _context.Product.ToList(),
-                ListCart = cartProducts
+                ListCart = GetCartProducts()
             };
             return PartialView("_partialShoppingCart", listProductViewModel);
         }
@@ -139,7 +161,7 @@ namespace WebShop.Controllers
         public IActionResult ProceedToPayment()
         {
             ProductOrderViewModel proceedToPayment = new ProductOrderViewModel
-            { ListCartProduct = cartProducts };
+            { ListCartProduct = GetCartProducts() };
             proceedToPayment.NewOrder = new OrderModel()
             {
                 Date = DateTime.Now,
@@ -171,7 +193,7 @@ namespace WebShop.Controllers
         public IActionResult NewConfirmedOrder()
         {
             ProductOrderViewModel confirmedOrder = new ProductOrderViewModel
-            { ListCartProduct = cartProducts };
+            { ListCartProduct = GetCartProducts() };
             confirmedOrder.NewOrder = new OrderModel()
             {
                 Date = DateTime.Now,
@@ -234,17 +256,23 @@ namespace WebShop.Controllers
         }
 
         public IActionResult RemoveFromCart(int productId)
-        {
-            foreach (var group in cartProducts.GroupBy(p => p.ProductId))
+        {  
+            List<CartDetail> cartProductIds = HttpContext.Session.GetObjectFromJson<List<CartDetail>>("cart");
+
+            foreach (var group in cartProductIds.GroupBy(p=>p.ProductId))
             {
-                if (group.First().ProductId == productId)cartProducts.Remove(group.First());
+                if (group.First().ProductId== productId.ToString())
+                    cartProductIds.Remove(group.First());
             }
 
+            HttpContext.Session.SetObjectAsJson("cart", cartProductIds);
+            ViewBag.cart = cartProductIds.Count();
+            HttpContext.Session.SetString("cartCount", cartProductIds.Count().ToString());
             //update viewmodel
             ProductViewModel listProductViewModel = new ProductViewModel
             {
                 ListProductView = _context.Product.ToList(),
-                ListCart = cartProducts
+                ListCart = GetCartProducts()
             };
             return RedirectToAction("Index");
         }
