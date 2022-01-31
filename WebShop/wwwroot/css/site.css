@@ -163,6 +163,6 @@ li {
     
 }
 
-#account {
-    width:max-content;
+#account, #createAccount {
+    width: max-content;
 }
