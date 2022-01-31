@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using WebShop.Models;
 
 namespace WebShop.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Area("Admin")]
     public class OrderModelController : Controller
     {
@@ -17,13 +19,11 @@ namespace WebShop.Areas.Admin.Controllers
             _context = context;
         }
 
-
         public async Task<IActionResult> Index()
         {
             List<ApplicationUser> users = _context.Users.ToList();
             return View(await _context.Order.ToListAsync());
         }
-
         
         public async Task<IActionResult> EditOrder(OrderModel Order)
         {   
@@ -41,7 +41,6 @@ namespace WebShop.Areas.Admin.Controllers
             }
             return View(productOrder);
         }
-
        
         public async Task<IActionResult> EditOrderConfirmed(ProductOrderModel productOrder)
         {
@@ -55,7 +54,6 @@ namespace WebShop.Areas.Admin.Controllers
             await _context.SaveChangesAsync();                
             return RedirectToAction(nameof(Index));
         }
-
 
         public async Task<IActionResult> Details(int? id)
         {
@@ -77,7 +75,6 @@ namespace WebShop.Areas.Admin.Controllers
             return View(new OrderEditModel() { ProductOrderModel = choosenOrders, ProductModel = products, OrderModel = orders, ApplicationUser = users });
         }
 
-
         public async Task<IActionResult> DeleteOrder(int? id)
         {
             if (id == null)
@@ -94,7 +91,6 @@ namespace WebShop.Areas.Admin.Controllers
             return View(choosenOrder);
         }
 
-
         public async Task<IActionResult> DeleteOrderConfirmed(int id)
         {
             var order = await _context.Order.FirstOrDefaultAsync(m => m.OrderId == id);
@@ -102,7 +98,6 @@ namespace WebShop.Areas.Admin.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
         
         public async Task<IActionResult> DeletePart(ProductOrderModel productOrder)
         {
@@ -124,7 +119,6 @@ namespace WebShop.Areas.Admin.Controllers
             }
             return View(choosenPartOrder);
         }
-
 
         public async Task<IActionResult> DeletePartConfirmed(ProductOrderModel productOrder)
         {
@@ -153,7 +147,6 @@ namespace WebShop.Areas.Admin.Controllers
             return RedirectToAction("Details", new { id = productOrder.OrderId });
         }
 
-
         public async Task<IActionResult> EditPart(ProductOrderModel productOrder)
         {
             if (productOrder == null)
@@ -174,7 +167,6 @@ namespace WebShop.Areas.Admin.Controllers
             }
             return View(choosenPartOrder);
         }
-
 
         [HttpPost]
         public async Task<IActionResult> EditPartConfirmed(ProductOrderModel productOrder)
@@ -197,7 +189,6 @@ namespace WebShop.Areas.Admin.Controllers
 
             return RedirectToAction("Details", new { id = productOrder.OrderId });
         }
-
 
         public async Task<IActionResult> AddToOrder(ProductOrderModel productOrder)
         {
