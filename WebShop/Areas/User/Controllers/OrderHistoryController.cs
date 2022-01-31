@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebShop.Areas.User
 {
-   [Area("User")]
+    [Authorize(Roles = "User")]
+    [Area("User")]
     public class OrderHistoryController : Controller
     {
-
         private readonly AppDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         public OrderHistoryController(AppDbContext context, UserManager<ApplicationUser> userManager)
@@ -34,5 +35,4 @@ namespace WebShop.Areas.User
             return View(UserOrders);
         }
     }
-
 }
