@@ -16,27 +16,19 @@
 </head>
 <body>
     <div class="wrapper">
-        @*@if (User.Identity.IsAuthenticated)
-         {*@
-        <nav id="sidebar">
-            <div class="sidebar-header">
-                <h3>Shopping Cart</h3>
-            </div>
-            <div id="cartDetails">
-                @*<partial name="_partialShoppingCart" />*@
-            </div>
-            
-            <div id="proceedOrder">
+        @*@if (User.Identity.IsAuthenticated)*@
+         {
+            <nav id="sidebar">
+                <div class="sidebar-header">
+                    <h3>Shopping Cart</h3>
+                </div>
+                <div id="cartDetails"></div>            
+                <div id="proceedOrder"></div>
+                <div id="confirmedOrder"></div>
+            </nav>
+         }
 
-            </div>
-            <div id="confirmedOrder">
-
-            </div>
-        </nav>
-         @*}*@
-
-        <div id="content">
-                     
+        <div id="content">                     
             <header>
                 <h1 class="text-center">Web Shop</h1>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
@@ -54,7 +46,7 @@
                     <ul class="nav navbar-nav navbar-left">
                         <li>
                             <a id="sidebarCollapse">
-                                Cart
+                                Cartssss
                                 <span id="idCartCount" class=" glyphicon glyphicon-shopping-cart badge"></span>
                             </a>
                         </li>
@@ -76,6 +68,6 @@
                 </p>
             </footer>
         </div>
-        </div>
+    </div>
 </body>
 </html>
