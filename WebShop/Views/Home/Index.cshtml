@@ -87,10 +87,22 @@
     <div>
         <form asp-action="Index" method="post" role="form">
             @Html.AntiForgeryToken()
-            <input type="search" asp-for="Filter"  placeholder="Search" style="width:max-content;height:30px; "/>
+            <input type="search" asp-for="Filter" placeholder="Search" style="width:max-content;height:30px; " />
             <input type="submit" class="btn btn-primary" name="btnFilter" value="Go" />
         </form>
     </div>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <script>
+            var userAuthorized = true;
+        </script>
+    }
+    else
+    {
+        <script>
+            var userAuthorized = false;
+        </script>
+    }
     <div class="container">
         <partial name="_partialListProduct" model="Model.ListProductView" />
     </div>
