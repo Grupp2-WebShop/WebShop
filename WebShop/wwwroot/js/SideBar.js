@@ -21,8 +21,7 @@ function ProceedOrder() {
         error: function () {
             alert("Dynamic content load failed.");
         }
-    });
-   
+    });   
 }
 
 var ConfirmPostBackURL = '/Home/NewConfirmedOrder';
