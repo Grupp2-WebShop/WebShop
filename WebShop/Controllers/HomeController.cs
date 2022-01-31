@@ -256,12 +256,15 @@ namespace WebShop.Controllers
         }
 
         public IActionResult RemoveFromCart(int productId)
-        {            
-            CartDetail product = new CartDetail(productId.ToString());
+        {  
             List<CartDetail> cartProductIds = HttpContext.Session.GetObjectFromJson<List<CartDetail>>("cart");
 
-            int removeIndex = cartProductIds.IndexOf(product);
-            cartProductIds.RemoveAt(removeIndex);
+            foreach (var group in cartProductIds.GroupBy(p=>p.ProductId))
+            {
+                if (group.First().ProductId== productId.ToString())
+                    cartProductIds.Remove(group.First());
+            }
+
             HttpContext.Session.SetObjectAsJson("cart", cartProductIds);
             ViewBag.cart = cartProductIds.Count();
             HttpContext.Session.SetString("cartCount", cartProductIds.Count().ToString());
