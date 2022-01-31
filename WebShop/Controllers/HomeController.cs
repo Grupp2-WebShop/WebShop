@@ -68,11 +68,11 @@ namespace WebShop.Controllers
             List<ProductModel> cartProducts = new List<ProductModel>();
             if (HttpContext.Session.Get("cart") != null)
             {
-                CartDetail cartProductIds = HttpContext.Session.GetObjectFromJson<CartDetail>("cart");
+                List<CartDetail> cartProductIds = HttpContext.Session.GetObjectFromJson<List<CartDetail>>("cart");
                // string listIds = HttpContext.Session.GetString("cart");
-                foreach (var id in cartProductIds.ProductIds)//(List<string>)HttpContext.Session.GetString("cart").Split(",").ToList())
+                foreach (var id in cartProductIds)//(List<string>)HttpContext.Session.GetString("cart").Split(",").ToList())
                 {
-                    cartProducts.Add(_context.Product.Find(Convert.ToInt32(id)));
+                    cartProducts.Add(_context.Product.Find(Convert.ToInt32(id.ProductId)));
                 }
                 return cartProducts;
 
@@ -88,22 +88,24 @@ namespace WebShop.Controllers
         [Authorize]
         public IActionResult BuyClicked(int productId)
         {
-            CartDetail cartProductIds = new CartDetail();
+            List<CartDetail> cartProductIds = new List<CartDetail>();
             if (HttpContext.Session.Get("cart") == null)
             {
-                cartProductIds.ProductIds.Add(productId.ToString());
+                CartDetail product = new CartDetail(productId.ToString());
+                cartProductIds.Add(product);
 
                 HttpContext.Session.SetObjectAsJson("cart", cartProductIds);
-                ViewBag.cart = cartProductIds.ProductIds.Count();
-                HttpContext.Session.SetString("cartCount", cartProductIds.ProductIds.Count().ToString());
+                ViewBag.cart = cartProductIds.Count();
+                HttpContext.Session.SetString("cartCount", cartProductIds.Count().ToString());
             }
             else
             {
-                cartProductIds = HttpContext.Session.GetObjectFromJson<CartDetail>("cart");
-                cartProductIds.ProductIds.Add(productId.ToString());
+                cartProductIds = HttpContext.Session.GetObjectFromJson<List<CartDetail>>("cart");
+                CartDetail product = new CartDetail(productId.ToString());
+                cartProductIds.Add(product);
                 HttpContext.Session.SetObjectAsJson("cart", cartProductIds);
-                ViewBag.cart = cartProductIds.ProductIds.Count();
-                HttpContext.Session.SetString("cartCount", cartProductIds.ProductIds.Count().ToString());
+                ViewBag.cart = cartProductIds.Count();
+                HttpContext.Session.SetString("cartCount", cartProductIds.Count().ToString());
             }
 
             TempData["shortMessage"] = $"Added to shopping cart";
@@ -254,15 +256,15 @@ namespace WebShop.Controllers
         }
 
         public IActionResult RemoveFromCart(int productId)
-        {
-            string id = productId.ToString();
-            CartDetail cartProductIds = HttpContext.Session.GetObjectFromJson<CartDetail>("cart");
+        {            
+            CartDetail product = new CartDetail(productId.ToString());
+            List<CartDetail> cartProductIds = HttpContext.Session.GetObjectFromJson<List<CartDetail>>("cart");
 
-            int removeIndex = cartProductIds.ProductIds.IndexOf(id);
-            cartProductIds.ProductIds.RemoveAt(removeIndex);
+            int removeIndex = cartProductIds.IndexOf(product);
+            cartProductIds.RemoveAt(removeIndex);
             HttpContext.Session.SetObjectAsJson("cart", cartProductIds);
-            ViewBag.cart = cartProductIds.ProductIds.Count();
-            HttpContext.Session.SetString("cartCount", cartProductIds.ProductIds.Count().ToString());
+            ViewBag.cart = cartProductIds.Count();
+            HttpContext.Session.SetString("cartCount", cartProductIds.Count().ToString());
             //update viewmodel
             ProductViewModel listProductViewModel = new ProductViewModel
             {

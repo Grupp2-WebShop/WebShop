@@ -7,11 +7,11 @@ namespace WebShop.Models
 {
     public class CartDetail
     {
-        public List<string> ProductIds { get; set; }
+        public string ProductId { get; set; }
 
-        public CartDetail()
+        public CartDetail( string ? productId)
         {
-            List<string> ProductIds = new List<string>();
+            ProductId = productId;
         }
     }
 }
