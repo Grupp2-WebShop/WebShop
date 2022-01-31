@@ -128,15 +128,19 @@ namespace WebShop.Areas.Admin.Controllers
             return View(userModel);
         }
 
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var userModel = await _context.Users.FindAsync(id);
+            List<OrderModel> userOrders = _context.Order.Where(p => p.User.Id == id).ToList();
+            foreach(var order in userOrders)
+            {
+                _context.Order.Remove(order);
+            }
             _context.Users.Remove(userModel);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
         private bool ProductModelExists(string id)
         {
             return _context.Users.Any(e => e.Id == id);
