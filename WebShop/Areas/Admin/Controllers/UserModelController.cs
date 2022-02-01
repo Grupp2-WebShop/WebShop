@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,11 +9,11 @@ using WebShop.Models;
 
 namespace WebShop.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Area("Admin")]
     public class UserModelController : Controller
     {
         private readonly AppDbContext _context;
-
         public UserModelController(AppDbContext context)
         {
             _context = context;
@@ -39,25 +40,6 @@ namespace WebShop.Areas.Admin.Controllers
             }
 
             return View(userModel);
-        }
-
-        public IActionResult CreateUser()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult CreateUser(ApplicationUser model)
-        {
-            model.Discriminator = "ApplicationUser";
-            if (ModelState.IsValid)
-            {
-                _context.Users.Add(model);
-                _context.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View();
         }
 
         // GET: Admin/ProductModel/Edit/5
@@ -128,15 +110,19 @@ namespace WebShop.Areas.Admin.Controllers
             return View(userModel);
         }
 
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var userModel = await _context.Users.FindAsync(id);
+            List<OrderModel> userOrders = _context.Order.Where(p => p.User.Id == id).ToList();
+            foreach(var order in userOrders)
+            {
+                _context.Order.Remove(order);
+            }
             _context.Users.Remove(userModel);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
         private bool ProductModelExists(string id)
         {
             return _context.Users.Any(e => e.Id == id);

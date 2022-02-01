@@ -18,10 +18,7 @@ namespace WebShop.Controllers
 {
     public class HomeController : Controller
     {
-
         private readonly AppDbContext _context;
-        //public static List<ProductModel> cartProducts=new List<ProductModel>();
-
         public HomeController(AppDbContext context)
         { 
             _context = context;
@@ -63,6 +60,7 @@ namespace WebShop.Controllers
             }
             return View(productModel);
         }
+
         private List<ProductModel> GetCartProducts()
         {
             List<ProductModel> cartProducts = new List<ProductModel>();
@@ -75,17 +73,14 @@ namespace WebShop.Controllers
                     cartProducts.Add(_context.Product.Find(Convert.ToInt32(id.ProductId)));
                 }
                 return cartProducts;
-
             }
             else
             {
-
                 return cartProducts;
             }
-
         }
 
-        [Authorize]
+        //[Authorize]
         public IActionResult BuyClicked(int productId)
         {
             List<CartDetail> cartProductIds = new List<CartDetail>();
@@ -130,13 +125,6 @@ namespace WebShop.Controllers
         {
             ProductModel product = new ProductModel();
             return PartialView("_partialCreateProduct", product);
-        }
-
-        public IActionResult DeleteClicked(int productId)
-        {
-            ProductModel product = new ProductModel();
-            product = _context.Product.Find(productId);
-            return PartialView("_partialDeleteProduct", product);
         }
 
         [HttpGet]
@@ -240,12 +228,14 @@ namespace WebShop.Controllers
         {
             return RedirectToAction("GetCarttInfo");
         }
+
         [Authorize]
         [HttpGet]
         public IActionResult Proceed()
         {
             return RedirectToAction("Index");
         }
+
         [HttpGet]
         public IActionResult CartSummary()
         {
@@ -358,30 +348,16 @@ namespace WebShop.Controllers
             return RedirectToAction("Index");
         }
 
-        // GET: Admin/ProductModel/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int productId)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var productModel = await _context.Product
-                .FirstOrDefaultAsync(m => m.ProductId == id);
-            if (productModel == null)
-            {
-                return NotFound();
-            }
-
-            return View(productModel);
+            ProductModel product = new ProductModel();
+            product = _context.Product.Find(productId);
+            return PartialView("_partialDeleteProduct", product);
         }
 
-        // POST: Admin/ProductModel/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int ProductId)
         {
-            var productModel = await _context.Product.FindAsync(id);
+            var productModel = await _context.Product.FindAsync(ProductId);
             _context.Product.Remove(productModel);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
