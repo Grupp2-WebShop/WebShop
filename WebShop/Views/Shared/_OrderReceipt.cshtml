@@ -1,36 +1,33 @@
-﻿
-@model ProductOrderViewModel
+﻿@model ProductOrderViewModel
 <div>
     <h4>WEBSHOP</h4>
-    <br />
-    <h5>Thankyou for purchase!!</h5>
-    <br />
-
-    <h5>Order Details</h5>
-
-    <div style="display:flex;  align-items:stretch">
-        <bre>
-            ID: @Model.NewOrder.OrderId     @Model.NewOrder.Date
-        </bre>
-
+    <div>
+        <b>Thank you for purchase!!</b>
     </div>
     <br />
 
-    <h5> Personal Details</h5>
-
-    <p>
-        @Model.UserDetails.FirstName  @Model.UserDetails.LastName<br />
-        @Model.UserDetails.Street<br />
-        @Model.UserDetails.ZipCode, @Model.UserDetails.City<br />
-
-    </p>
+    <b>Order Details</b>
+    <div style="display:flex;  align-items:stretch">
+        <bre>
+            ID:     @Model.NewOrder.OrderId<br />
+            DATE:   @Model.NewOrder.Date
+        </bre>
+    </div>
     <br />
 
-    <h5> Order</h5>
+    <b>Personal Details</b>
+    <div>
+        <p>
+            @Model.UserDetails.FirstName  @Model.UserDetails.LastName<br />
+            @Model.UserDetails.Street<br />
+            @Model.UserDetails.ZipCode, @Model.UserDetails.City<br />
+        </p>
+    </div>
+    <br />
 
+    <b> Order</b>
     @if (@Model.ListCartProduct.Count != 0)
     {
-
         <table style="width: 100% ,fit-content" class="cart-font" align="center">
             <colgroup>
                 <col span="1" style="width: 50%;">
@@ -39,57 +36,35 @@
             </colgroup>
             <thead>
                 <tr>
-                    <th>
-                        Product
-                    </th>
-                    <th>
-                        Quantity
-                    </th>
-
-                    <th>
-                        Price
-                    </th>
-
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
                 </tr>
-
             </thead>
             <tbody>
-
                 @foreach (var group in Model.ListCartProduct.GroupBy(p => p.ProductId))
                 {
                     <tr>
                         <td>
                             <img class="cart-thumbnail" src="~/Images/@group.First().ImageName" alt="Img">
                             <br />@group.First().ProductName
-
                         </td>
                         <td>
                             @group.Count()
-
-
                         </td>
-
                         <td>
                             SEK @group.Sum(p => p.Price)
-
                         </td>
                     </tr>
                 }
-
             </tbody>
-
         </table>
-
-
         <div class="cart-footer">
-            <p class="cart-total">Total </p>
-
+            <p class="cart-total">Total</p>
             <div class="product-cards__prices ">
                 SEK  @Model.ListCartProduct.Sum(i => i.Price)
             </div>
         </div>
-
-
     }
 </div>
 @if (User.Identity.IsAuthenticated)
@@ -98,130 +73,71 @@
     {
         <input type="hidden" name="ReceiptHtml" />
         <input type="submit" id="btnSubmit" class="btn btn-primary " value="Save Receipt" />
-   
-    }
 
+    }
 }
 
+@*Save receipt*@
 <div id="Receipt" hidden>
     <h3 style="font-weight:bold">WEBSHOP</h3>
-
-    <h5>Thankyou for purchase!!</h5>
-
-
-    <h4 style="font-weight:bold">Order Details</h4>
-
-    <div style="display:flex;  align-items:stretch">
-
+    <h4>Thank you for purchase!!</h4>
+    <p style="font-weight:bold">Order Details</p>
+    <div>
         <p>ID:       @Model.NewOrder.OrderId</p>
         <p>Date:     @Model.NewOrder.Date</p>
-
-
     </div>
+    <p>&nbsp</p>
+
+    <p style="font-weight:bold">Personal Details</p>
     <div>
-
+        <p>@Model.UserDetails.FirstName  @Model.UserDetails.LastName</p>
+        <p>@Model.UserDetails.Street</p>
+        <p>@Model.UserDetails.ZipCode, @Model.UserDetails.City</p>
     </div>
+    <p>&nbsp</p>
 
-    <h4 style="font-weight:bold"> Personal Details</h4>
-
-    <p>
-        @Model.UserDetails.FirstName  @Model.UserDetails.LastName
-    </p>
-    <p>
-        @Model.UserDetails.Street
-    </p>
-    <p>
-        @Model.UserDetails.ZipCode, @Model.UserDetails.City
-
-    </p>
-
-
-    <h4 style="font-weight:bold"> Order</h4>
-
+    <p style="font-weight:bold">Order</p>
+    <p>&nbsp</p>
     @if (@Model.ListCartProduct.Count != 0)
     {
-
-        <table style="width: 65%;border:solid" class="cart-font" >
-
+        <table style="width: 65%;border:solid" class="cart-font">
             <thead>
                 <tr>
-                    <th>
-                        Product
-                    </th>
-                    <th>
-                        Quantity
-                    </th>
-
-                    <th>
-                        Price
-                    </th>
-
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
                 </tr>
-
             </thead>
             <tbody>
-
                 @foreach (var group in Model.ListCartProduct.GroupBy(p => p.ProductId))
                 {
                     <tr>
                         <td>
                             @group.First().ProductName
-
                         </td>
                         <td>
                             @group.Count()
-
-
                         </td>
-
                         <td>
                             SEK @group.Sum(p => p.Price)
-
                         </td>
                     </tr>
                 }
+
                 <tr>
                     <td style="font-weight:bold">
                         Total
                     </td>
-                    <td>
-                        <p> </p>
-                    </td>
+                    <td></td>
                     <td style="font-weight:bold">
                         SEK  @Model.ListCartProduct.Sum(i => i.Price)
-
                     </td>
                 </tr>
             </tbody>
-
         </table>
-
-
-       
-
     }
 </div>
-<script>
 
-    $(function () {
-        $.ajax({
-            type: "GET",
-            url: CartCountPostBackURL,
-            contentType: "application/json; charset=utf-8",
-
-            datatype: "json",
-            success: function (data) {
-                $('#idCartCount').html(data);
-            },
-            error: function () {
-                alert("Dynamic content load failed.");
-            }
-        });
-
-
-    });
-</script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script type="text/javascript">
     $(function () {
         $("#btnSubmit").click(function () {

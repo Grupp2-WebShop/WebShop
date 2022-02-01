@@ -14,7 +14,6 @@ namespace WebShop.Areas.Admin.Controllers
     public class UserModelController : Controller
     {
         private readonly AppDbContext _context;
-
         public UserModelController(AppDbContext context)
         {
             _context = context;

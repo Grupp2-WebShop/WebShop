@@ -1,23 +1,17 @@
-﻿
-@model ProductOrderViewModel
+﻿@model ProductOrderViewModel
 
 <h3>Order Details</h3>
 <br />
-
 <h4> Personal Details</h4>
 <p>
     @Model.UserDetails.FirstName  @Model.UserDetails.LastName<br />
     @Model.UserDetails.Street<br />
     @Model.UserDetails.ZipCode, @Model.UserDetails.City<br />
-
 </p>
-<br />
 
 <h4> Order</h4>
-
 @if (@Model.ListCartProduct.Count != 0)
 {
-
     <table style="width: 100% ,fit-content" class="cart-font" align="center">
         <colgroup>
             <col span="1" style="width: 50%;">
@@ -26,52 +20,34 @@
         </colgroup>
         <thead>
             <tr>
-                <th>
-                    Product
-                </th>
-                <th>
-                    Quantity
-                </th>
-
-                <th>
-                    Price
-                </th>
-
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
             </tr>
-
         </thead>
         <tbody>
-
             @foreach (var group in Model.ListCartProduct.GroupBy(p => p.ProductId))
             {
                 <tr>
                     <td>
                         <img class="cart-thumbnail" src="~/Images/@group.First().ImageName" alt="Img">
                         <br />@group.First().ProductName
-
                     </td>
                     <td>
                         @group.Count()
-
-
                     </td>
-
                     <td>
                         SEK @group.Sum(p => p.Price)
-
                     </td>
                 </tr>
             }
-
         </tbody>
-
     </table>
 
     @if (@Model.ListCartProduct.Sum(i => i.Price) != 0)
     {
         <div class="cart-footer">
-            <p class="cart-total">Total </p>
-
+            <p class="cart-total">Total</p>
             <div class="product-cards__prices ">
                 SEK  @Model.ListCartProduct.Sum(i => i.Price)
             </div>
@@ -80,29 +56,17 @@
     else
     {
         <div class="cart-footer">
-            <p class="cart-total">Total  </p>
-
+            <p class="cart-total">Total</p>
             <div class="product-cards__prices">
                 SEK 0
             </div>
         </div>
     }
-
-
-
-
 }
 else
 {
     <p>Your cart is empty</p>
 }
-
-@*<div>
-    <button class="btn btn-primary" onclick="GotoCart()">Back To Cart</button>
-</div>*@
-<br />
 <div>
     <button class="btn btn-primary " onclick="ConfirmOrder()">Confirm Order</button>
-    
-
 </div>    

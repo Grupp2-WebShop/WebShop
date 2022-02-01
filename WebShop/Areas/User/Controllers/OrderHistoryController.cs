@@ -25,8 +25,6 @@ namespace WebShop.Areas.User
         public IActionResult Index()
         {
             var userId = _userManager.GetUserId(HttpContext.User);
-            //ViewBag.userId = _userManager.GetUserId(HttpContext.User);
-
             List<ApplicationUser> users = _context.Users.ToList();
             List<OrderModel> orders = _context.Order.ToList();
             List<ProductModel> products = _context.Product.ToList();

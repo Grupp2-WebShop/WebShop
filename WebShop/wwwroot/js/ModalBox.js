@@ -126,4 +126,3 @@ $(function () {
             $('#myModal').modal('hide');
         });
     });
-

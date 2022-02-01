@@ -77,7 +77,6 @@
     <None Include="Views\Shared\_Layout.cshtml" />
     <None Include="Views\Shared\_LoginPartial.cshtml" />
     <None Include="Views\Shared\_OrderReceipt.cshtml" />
-    <None Include="Views\Shared\_partialCart.cshtml" />
     <None Include="Views\Shared\_partialCartSummary.cshtml" />
     <None Include="Views\Shared\_partialEdit.cshtml" />
     <None Include="Views\Shared\_partialListProduct.cshtml" />
