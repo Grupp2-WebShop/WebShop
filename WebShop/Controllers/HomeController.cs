@@ -348,25 +348,7 @@ namespace WebShop.Controllers
             return RedirectToAction("Index");
         }
 
-        // GET: Admin/ProductModel/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var productModel = await _context.Product
-        //        .FirstOrDefaultAsync(m => m.ProductId == id);
-        //    if (productModel == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(productModel);
-        //}
-
-        public IActionResult DeleteClicked(int productId)
+        public IActionResult Delete(int productId)
         {
             ProductModel product = new ProductModel();
             product = _context.Product.Find(productId);

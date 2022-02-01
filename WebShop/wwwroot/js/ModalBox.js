@@ -50,7 +50,7 @@ $(function () {
     });
 });
 
-var DeletePostBackURL = '/Home/DeleteClicked';
+var DeletePostBackURL = '/Home/Delete';
 $(function () {
     $(".anchorDelete").click(function () {
         var $buttonClicked = $(this);
