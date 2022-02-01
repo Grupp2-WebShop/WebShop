@@ -166,3 +166,7 @@ li {
 #account, #createAccount {
     width: max-content;
 }
+
+.editProduct {
+    width: 600px;
+}
