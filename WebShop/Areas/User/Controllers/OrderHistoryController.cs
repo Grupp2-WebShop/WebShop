@@ -28,7 +28,6 @@ namespace WebShop.Areas.User
             List<ApplicationUser> users = _context.Users.ToList();
             List<OrderModel> orders = _context.Order.ToList();
             List<ProductModel> products = _context.Product.ToList();
-            //List<ProductOrderModel> productOrder = _context.ProductOrder.ToList();
             List<ProductOrderModel> UserOrders = _context.ProductOrder.Where(o => o.Order.User.Id == userId).ToList();
             return View(UserOrders);
         }
