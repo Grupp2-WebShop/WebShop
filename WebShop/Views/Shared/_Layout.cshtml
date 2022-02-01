@@ -16,7 +16,7 @@
 </head>
 <body>
     <div class="wrapper">
-        @if (User.IsInRole("User"))
+        @if (!User.IsInRole("Admin"))
          {
             <nav id="sidebar">
                 <div class="sidebar-header">
@@ -46,7 +46,7 @@
                             <partial name="_LoginPartial" />
                         </li>
                     </ul>
-                    @if (User.IsInRole("User"))
+                    @if (!User.IsInRole("Admin"))
                     {
                         <ul class="nav navbar-nav navbar-left">
                             <li>

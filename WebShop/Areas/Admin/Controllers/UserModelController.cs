@@ -42,24 +42,24 @@ namespace WebShop.Areas.Admin.Controllers
             return View(userModel);
         }
 
-        public IActionResult CreateUser()
-        {
-            return View();
-        }
+        //public IActionResult CreateUser()
+        //{
+        //    return View();
+        //}
 
-        [HttpPost]
-        public IActionResult CreateUser(ApplicationUser model)
-        {
-            model.Discriminator = "ApplicationUser";
-            if (ModelState.IsValid)
-            {
-                _context.Users.Add(model);
-                _context.SaveChanges();
-                return RedirectToAction("Index");
-            }
+        //[HttpPost]
+        //public IActionResult CreateUser(ApplicationUser model)
+        //{
+        //    model.Discriminator = "ApplicationUser";
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Users.Add(model);
+        //        _context.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
 
-            return View();
-        }
+        //    return View();
+        //}
 
         // GET: Admin/ProductModel/Edit/5
         public async Task<IActionResult> Edit(string id)
