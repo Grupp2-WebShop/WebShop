@@ -42,16 +42,14 @@ input[type="checkbox"].input-validation-error {
     display: none;
 }
 
-
-
 li {
     list-style: none;
     padding: 0 20px 0 20px;
 }
 
-    li:hover {
-        font-weight: bold;
-    }
+li:hover {
+    font-weight: bold;
+}
 
 .product-cards__wrapper {
     align-items: center;
@@ -62,7 +60,6 @@ li {
 }
 
 .product-card {
-
     border-bottom: 1px solid rgba(0,0,0,.04);
     display: inline-block;
     padding: 18px 0 36px;
@@ -70,11 +67,19 @@ li {
     vertical-align: top;
     width: 50%;
 }
+
 .product-cards {
     display: flex;
     flex-wrap: wrap;
     line-height: 1;
     position: relative;
+}
+
+@media (max-width: 1200px) {    
+    .product-card {
+        padding: 0px;
+        width: 40%;
+    }
 }
 
 .product-cards__thumbnail {
@@ -83,11 +88,12 @@ li {
     object-fit: cover;
     padding:15px 15px 15px 15px;
 }
-    .product-cards__thumbnail:hover {
-        width: 215px;
-        height: 265px;
-        object-fit: cover;
-    }
+
+.product-cards__thumbnail:hover {
+    width: 215px;
+    height: 265px;
+    object-fit: cover;
+}
 
 .product-cards__prices {
     font-size:medium;
@@ -99,9 +105,11 @@ li {
     font-weight: bold;
     font-size: large;
 }
+
 .product-cards__add-to-cart {
     padding: 15px 15px 15px 15px;
 }
+
 .product-cart__name {
     font-size:small;
     font-weight:bold;
@@ -109,11 +117,11 @@ li {
 
 .product-cart__Quantity {
     font-size: x-small;
-    font-weight: bold;
-    
+    font-weight: bold;    
     vertical-align: central;
     align-self: center;
 }
+
 .product-cart__prices {
     font-size: small;
     font-weight: bold;
@@ -131,13 +139,13 @@ li {
     position: relative;
 }
 
-
 .cart-thumbnail {
     width: 30px;
     height: 40px;
     object-fit:cover;
     padding: 2px 2px 2px 2px;
 }
+
 .cart-footer {
     margin-top: 15px;
     background-color: lightgray;
@@ -147,20 +155,22 @@ li {
     display: flex;
     flex-direction: row;
 }
+
 .cart-total {
     font-size: medium;
     font-weight: bold;
 }
+
 .cart-remove {
     align-self:center;
     vertical-align:central;
     align-items:center;
     font-size:small;
 }
+
 .cart-font {
     font-size:12px;
-    align-self:center;
-    
+    align-self:center;    
 }
 
 #account, #createAccount {
